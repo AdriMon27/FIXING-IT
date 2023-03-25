@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class VolumeSettings : MonoBehaviour
+public class UIAudioSettings : MonoBehaviour
 {
     private const string GENERAL_VOLUME = "GeneralVolume";
     private const string MUSIC_VOLUME = "MusicVolume";

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenSettings : MonoBehaviour
+public class UIScreenSettings : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown resolutionsDropdown;
     [SerializeField] private Toggle fullscreenToggle;
