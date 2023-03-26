@@ -14,9 +14,9 @@ public class UIMainMenuManager : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _optionsPanelEvent;
     [SerializeField]
-    private VoidEventChannelSO _screenSettingsEvent;
+    private VoidEventChannelSO _screenSettingsPanelEvent;
     [SerializeField]
-    private VoidEventChannelSO _audioSettingsEvent;
+    private VoidEventChannelSO _audioSettingsPanelEvent;
     [SerializeField]
     private VoidEventChannelSO _mainMenuPanelEvent;
 
@@ -24,8 +24,8 @@ public class UIMainMenuManager : MonoBehaviour
     {
         _optionsPanelEvent.OnEventRaised += ShowOptionsPanel;
 
-        _screenSettingsEvent.OnEventRaised += ShowScreenSettingsPanel;
-        _audioSettingsEvent.OnEventRaised += ShowAudioSettingsPanel;
+        _screenSettingsPanelEvent.OnEventRaised += ShowScreenSettingsPanel;
+        _audioSettingsPanelEvent.OnEventRaised += ShowAudioSettingsPanel;
         _mainMenuPanelEvent.OnEventRaised += ShowMainMenuPanel;
     }
 
@@ -33,8 +33,8 @@ public class UIMainMenuManager : MonoBehaviour
     {
         _optionsPanelEvent.OnEventRaised -= ShowOptionsPanel;
 
-        _screenSettingsEvent.OnEventRaised -= ShowScreenSettingsPanel;
-        _audioSettingsEvent.OnEventRaised -= ShowAudioSettingsPanel;
+        _screenSettingsPanelEvent.OnEventRaised -= ShowScreenSettingsPanel;
+        _audioSettingsPanelEvent.OnEventRaised -= ShowAudioSettingsPanel;
         _mainMenuPanelEvent.OnEventRaised -= ShowMainMenuPanel;
     }
 

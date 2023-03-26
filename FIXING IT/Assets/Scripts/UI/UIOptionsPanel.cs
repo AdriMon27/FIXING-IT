@@ -10,9 +10,9 @@ public class UIOptionsPanel : MonoBehaviour
 
     [Header("Broadcasting To")]
     [SerializeField]
-    private VoidEventChannelSO _screenSettingsEvent;
+    private VoidEventChannelSO _screenSettingsPanelEvent;
     [SerializeField]
-    private VoidEventChannelSO _audioSettingsEvent;
+    private VoidEventChannelSO _audioSettingsPanelEvent;
     [SerializeField]
     private VoidEventChannelSO _mainMenuPanelEvent;
 
@@ -25,12 +25,12 @@ public class UIOptionsPanel : MonoBehaviour
 
     private void ScreenSettingsButtonAction()
     {
-        _screenSettingsEvent.RaiseEvent();
+        _screenSettingsPanelEvent.RaiseEvent();
     }
 
     private void AudioSettingsButtonAction()
     {
-        _audioSettingsEvent.RaiseEvent();
+        _audioSettingsPanelEvent.RaiseEvent();
     }
 
     private void BackButtonAction()

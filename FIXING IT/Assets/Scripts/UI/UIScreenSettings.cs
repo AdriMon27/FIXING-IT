@@ -6,32 +6,54 @@ using UnityEngine.UI;
 
 public class UIScreenSettings : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown resolutionsDropdown;
-    [SerializeField] private Toggle fullscreenToggle;
+    private int MAX_INDEX_RESOLUTION => Screen.resolutions.Length - 1;   //is upsidedown
+
+    [SerializeField] private TMP_Dropdown _resolutionsDropdown;
+    [SerializeField] private Toggle _fullscreenToggle;
+    [SerializeField] private Button _applyButton;
+    [SerializeField] private Button _resetButton;
+
+    [Header("Listening To")]
+    [SerializeField]
+    private ScreenSettingsChannelSO _screenSettingsChanged;
+
+    [Header("Broadcasting To")]
+    [SerializeField]
+    private ScreenSettingsChannelSO _screenSettingsChannel;
+
+    private void OnEnable()
+    {
+        _screenSettingsChanged.OnEventRaised += SetVisuals;
+    }
+    private void OnDisable()
+    {
+        _screenSettingsChanged.OnEventRaised -= SetVisuals;
+    }
 
     private void Start()
     {
-        resolutionsDropdown.onValueChanged.AddListener((resolutionIndex) => SetScreenResolution(resolutionIndex));
-        fullscreenToggle.onValueChanged.AddListener((fullscreenSwitch) => SetFullScreen(fullscreenSwitch));
-
-        SetDropdownResolutions();
-        fullscreenToggle.isOn = Screen.fullScreen;
+        GetDropdownResolutions();
+        
+        _applyButton.onClick.AddListener(ApplyButtonAction);
+        _resetButton.onClick.AddListener(ResetButtonAction);
     }
 
-    private void SetFullScreen(bool fullscreenSwitch)
+    private void ApplyButtonAction()
     {
-        Screen.fullScreen = fullscreenSwitch;
+        int indexResolution = MAX_INDEX_RESOLUTION - _resolutionsDropdown.value;   //because the dropdown is upsidedown
+        _screenSettingsChannel.RaiseEvent(indexResolution, _fullscreenToggle.isOn);
     }
 
-    private void SetScreenResolution(int resolutionIndex)
+    private void ResetButtonAction()
     {
-        Resolution resolution = Screen.resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        // maxResolution index
+        // true is fullscreen enabled
+        _screenSettingsChannel.RaiseEvent(MAX_INDEX_RESOLUTION, true);
     }
 
-    private void SetDropdownResolutions()
+    private void GetDropdownResolutions()
     {
-        resolutionsDropdown.options.Clear();
+        _resolutionsDropdown.options.Clear();
 
         Resolution[] resolutions = Screen.resolutions;
 
@@ -52,9 +74,18 @@ public class UIScreenSettings : MonoBehaviour
         options.Reverse();  //para mostrar de mayor resolución a menor
         foreach (string option in options)
         {
-            resolutionsDropdown.options.Add(new TMP_Dropdown.OptionData(option));
+            _resolutionsDropdown.options.Add(new TMP_Dropdown.OptionData(option));
         }
-        resolutionsDropdown.value = currentResolutionIndex;
-        resolutionsDropdown.RefreshShownValue();
+        //_resolutionsDropdown.value = MAX_INDEX_RESOLUTION - currentResolutionIndex;
+        //_resolutionsDropdown.RefreshShownValue();
+        SetVisuals(currentResolutionIndex, Screen.fullScreen);
+    }
+
+    private void SetVisuals(int indexResolution, bool fullScreen)
+    {
+        _resolutionsDropdown.value = MAX_INDEX_RESOLUTION - indexResolution;
+        _resolutionsDropdown.RefreshShownValue();
+
+        _fullscreenToggle.isOn = fullScreen;
     }
 }
