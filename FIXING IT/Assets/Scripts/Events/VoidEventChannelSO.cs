@@ -14,7 +14,7 @@ public class VoidEventChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke();
         }
         else {
-            Debug.LogError($"Someone Raise the event {name} but nobody was Listening");
+            Debug.LogError(errorMessage);
         }
     }
 }

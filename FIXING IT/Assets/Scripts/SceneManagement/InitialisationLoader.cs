@@ -1,0 +1,27 @@
+using System;
+using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
+
+public class InitialisationLoader : MonoBehaviour
+{
+    [SerializeField] GameSceneSO _managersScene;
+    [SerializeField] GameSceneSO _mainMenuScene;
+
+    [Header("Broadcasting To")]
+    [SerializeField]
+    private LoadSceneChannelSO _loadSceneChannel;
+
+    private void Start()
+    {
+        _managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive).Completed += LoadMainMenu;
+    }
+
+    private void LoadMainMenu(AsyncOperationHandle<SceneInstance> obj)
+    {
+        _loadSceneChannel.RaiseEvent(_mainMenuScene);
+
+        SceneManager.UnloadSceneAsync(0);   //delete itself after
+    }
+}

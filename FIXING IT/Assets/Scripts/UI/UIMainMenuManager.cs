@@ -14,8 +14,6 @@ public class UIMainMenuManager : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _optionsPanelEvent;
     [SerializeField]
-    private VoidEventChannelSO _exitGameEvent;      //EN EL FUTURO CAMBIAR A QUE LO MANEJE EL SCENELOADER
-    [SerializeField]
     private VoidEventChannelSO _screenSettingsEvent;
     [SerializeField]
     private VoidEventChannelSO _audioSettingsEvent;
@@ -25,7 +23,6 @@ public class UIMainMenuManager : MonoBehaviour
     private void OnEnable()
     {
         _optionsPanelEvent.OnEventRaised += ShowOptionsPanel;
-        _exitGameEvent.OnEventRaised += ExitGame;
 
         _screenSettingsEvent.OnEventRaised += ShowScreenSettingsPanel;
         _audioSettingsEvent.OnEventRaised += ShowAudioSettingsPanel;
@@ -35,7 +32,6 @@ public class UIMainMenuManager : MonoBehaviour
     private void OnDisable()
     {
         _optionsPanelEvent.OnEventRaised -= ShowOptionsPanel;
-        _exitGameEvent.OnEventRaised -= ExitGame;
 
         _screenSettingsEvent.OnEventRaised -= ShowScreenSettingsPanel;
         _audioSettingsEvent.OnEventRaised -= ShowAudioSettingsPanel;
@@ -47,11 +43,6 @@ public class UIMainMenuManager : MonoBehaviour
     {
         _menuPanel.gameObject.SetActive(false);
         _optionsPanel.gameObject.SetActive(true);
-    }
-    private void ExitGame()
-    {
-        Debug.Log("Quitting Application!");
-        Application.Quit();
     }
     #endregion
 
