@@ -1969,6 +1969,8 @@ MonoBehaviour:
   _fullscreenToggle: {fileID: 4592340432985864202}
   _applyButton: {fileID: 6746764157667780953}
   _resetButton: {fileID: 3329597185189636816}
+  _screenSettingsChanged: {fileID: 11400000, guid: b06ef2c7dc3711a4380486bb13150056,
+    type: 2}
   _screenSettingsChannel: {fileID: 11400000, guid: 8ad0f5c09cfab85468a880996f7ca195,
     type: 2}
 --- !u!1 &4592340431823039637
