@@ -9,15 +9,18 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoaderManager : MonoBehaviour
 {
+    // filled after loaded one scene
+    private GameSceneSO _sceneToLoad;
+    private GameSceneSO _currentSceneLoaded;
+
     [Header("Listening To")]
     [SerializeField]
     private LoadSceneChannelSO _loadSceneChannel;
     [SerializeField]
     private VoidEventChannelSO _exitGameEvent;
 
-    // filled after loaded one scene
-    private GameSceneSO _sceneToLoad;
-    private GameSceneSO _currentSceneLoaded;
+    [Header("Broadcasting To")]
+    [SerializeField] VoidEventChannelSO _sceneLoadedEvent;
 
     private void OnEnable()
     {
@@ -63,8 +66,10 @@ public class SceneLoaderManager : MonoBehaviour
 
         Scene s = obj.Result.Scene;
         SceneManager.SetActiveScene(s);
-        
+
         //LightProbes.TetrahedralizeAsync(); //not necessary
+
+        _sceneLoadedEvent.RaiseEvent();
     }
 
     private void ExitGame()

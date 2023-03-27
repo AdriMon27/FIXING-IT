@@ -38,6 +38,20 @@ public class UIMainMenuManager : MonoBehaviour
         _mainMenuPanelEvent.OnEventRaised -= ShowMainMenuPanel;
     }
 
+    private void Start()
+    {
+        StartCoroutine(WaitOneFramesAndHide());
+    }
+
+    private IEnumerator WaitOneFramesAndHide()
+    {
+        yield return null;
+        
+        _optionsPanel.gameObject.SetActive(false);
+        _screenSettingsPanel.gameObject.SetActive(false);
+        _audioSettingsPanel.gameObject.SetActive(false);
+    }
+
     #region MainMenuPanel events
     private void ShowOptionsPanel()
     {

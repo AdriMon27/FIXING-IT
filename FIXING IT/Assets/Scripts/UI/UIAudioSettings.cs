@@ -1,36 +1,74 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
+/// <summary>
+/// Its gameobject should be enabled when start scene
+/// </summary>
 public class UIAudioSettings : MonoBehaviour
 {
-    private const string GENERAL_VOLUME = "GeneralVolume";
-    private const string MUSIC_VOLUME = "MusicVolume";
-    private const string SOUND_VOLUME = "SoundVolume";
+    [SerializeField] private Slider _generalVolumeSlider;
+    [SerializeField] private Slider _musicVolumeSlider;
+    [SerializeField] private Slider _sfxVolumeSlider;
 
-    [SerializeField] private AudioMixer audioMixer;
+    [Header("Listening To")]
+    [SerializeField]
+    private AudioVolumeChannelSO _allNormalVolumeChannel;
 
-    [Header("Volume sliders")]
-    [SerializeField] private Slider generalVolumeSlider;
-    [SerializeField] private Slider musicVolumeSlider;
-    [SerializeField] private Slider soundVolumeSlider;
+    [Header("Broadcasting To")]
+    [SerializeField]
+    private FloatEventChannelSO _generalNormalVolumeChannel;
+    [SerializeField]
+    private FloatEventChannelSO _musicNormalVolumeChannel;
+    [SerializeField]
+    private FloatEventChannelSO _sfxNormalVolumeChannel;
+
+    private void OnEnable()
+    {
+        _generalVolumeSlider.onValueChanged.AddListener(GeneralSliderChanged);
+        _musicVolumeSlider.onValueChanged.AddListener(MusicSliderChanged);
+        _sfxVolumeSlider.onValueChanged.AddListener(SFXSliderChanged);
+    }
+
+    private void OnDisable()
+    {
+        _generalVolumeSlider.onValueChanged.RemoveListener(GeneralSliderChanged);
+        _musicVolumeSlider.onValueChanged.RemoveListener(MusicSliderChanged);
+        _sfxVolumeSlider.onValueChanged.RemoveListener(SFXSliderChanged);
+    }
 
     private void Start()
     {
-        generalVolumeSlider.onValueChanged.AddListener( (volumeNormalized) => SetVolume(volumeNormalized, GENERAL_VOLUME));
-        musicVolumeSlider.onValueChanged.AddListener( (volumeNormalized) => SetVolume(volumeNormalized, MUSIC_VOLUME));
-        soundVolumeSlider.onValueChanged.AddListener( (volumeNormalized) => SetVolume(volumeNormalized, SOUND_VOLUME));
-
-        SetVolume(generalVolumeSlider.value, GENERAL_VOLUME);
-        SetVolume(musicVolumeSlider.value, MUSIC_VOLUME);
-        SetVolume(soundVolumeSlider.value, SOUND_VOLUME);
+        _allNormalVolumeChannel.OnEventRaised += SetVisuals;
     }
 
-    private void SetVolume(float volumeNormalized, string type)
+    private void OnDestroy()
     {
-        float volume = volumeNormalized * 100 - 80;
-        audioMixer.SetFloat(type, volume);
+        _allNormalVolumeChannel.OnEventRaised -= SetVisuals;
+    }
+
+    private void GeneralSliderChanged(float normalizedVolume)
+    {
+        _generalNormalVolumeChannel.RaiseEvent(normalizedVolume);
+    }
+
+    private void MusicSliderChanged(float normalizedVolume)
+    {
+        _musicNormalVolumeChannel.RaiseEvent(normalizedVolume);
+    }
+
+    private void SFXSliderChanged(float normalizedVolume)
+    {
+        _sfxNormalVolumeChannel.RaiseEvent(normalizedVolume);
+    }
+
+    private void SetVisuals(AudioNormalVolumes audioNormalVolumes)
+    {
+        _generalVolumeSlider.value = audioNormalVolumes.GeneralVolume;
+        _musicVolumeSlider.value = audioNormalVolumes.MusicVolume;
+        _sfxVolumeSlider.value = audioNormalVolumes.SFXVolume;
+
+        gameObject.SetActive(false);
     }
 }
