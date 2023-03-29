@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIMainMenuManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class UIMainMenuManager : MonoBehaviour
     [SerializeField] private float _speedTweens = 1000f;
 
     private float _offset = 100f;
+
+    private Queue<int> _queueTweensID = new Queue<int>();
 
     [Header("Panels")]
     [SerializeField] private UIMainMenuPanel _menuPanel;
@@ -69,12 +72,10 @@ public class UIMainMenuManager : MonoBehaviour
     #region MainMenuPanel events
     private void ShowOptionsPanel()
     {
+        LeanTween.cancelAll();
+
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
-
-        // just in case
-        LeanTween.cancel(optionsPanelRT);
-        LeanTween.cancel(mainmenuPanelRT);
 
         // show optionsPanel
         var optionsInSequence = LeanTween.sequence();
@@ -107,11 +108,17 @@ public class UIMainMenuManager : MonoBehaviour
     #region OptionsPanel events
     private void ShowScreenSettingsPanel()
     {
+        LeanTween.cancelAll();
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
         
         HideAudioSettingsPanel();
 
-        LeanTween.cancel(screenSettingsRT); // try to cancel just in case
+        // try to cancel just in case
+        //while (LeanTween.isTweening(screenSettingsRT)) {
+        //    Debug.LogWarning("Cancelled");  // should enter twice
+        //    LeanTween.cancel(screenSettingsRT);
+        //}
+
 
         var screenSettingsInSequence = LeanTween.sequence();
         screenSettingsInSequence.append(
@@ -128,11 +135,10 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void ShowAudioSettingsPanel()
     {
+        LeanTween.cancelAll();
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
         HideScreenSettingsPanel();
-
-        LeanTween.cancel(audioSettingsRT);  // try to cancel just in case
 
         var audioSettingsInSequence = LeanTween.sequence();
         audioSettingsInSequence.append(
@@ -149,14 +155,12 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void ShowMainMenuPanel()
     {
+        LeanTween.cancelAll();
+
         DisableSubMenus();
 
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
-
-        // just in case
-        LeanTween.cancel(optionsPanelRT);
-        LeanTween.cancel(mainmenuPanelRT);
 
         // show mainPanel
         var mainMenuInSequence = LeanTween.sequence();
@@ -221,8 +225,7 @@ public class UIMainMenuManager : MonoBehaviour
     {
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
-        LeanTween.cancel(audioSettingsRT);  //cancel just in case
-        LeanTween.cancel(audioSettingsRT);  //twice for the movement tween and the setactive tween
+        CancelAllTweens();
 
         var audioSettingsOutSequence = LeanTween.sequence();
         audioSettingsOutSequence.append(
@@ -241,11 +244,11 @@ public class UIMainMenuManager : MonoBehaviour
     {
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
 
-        LeanTween.cancel(screenSettingsRT); //cancel just in case
+        CancelAllTweens();
 
         var screenSettingsOutSequence = LeanTween.sequence();
         screenSettingsOutSequence.append(
-            LeanTween.move(
+             LeanTween.move(
                 screenSettingsRT,
                 GetScreenSettingsPanelHiddenPos(screenSettingsRT),
                 CalculateTime(screenSettingsRT.rect.height + _offset)
@@ -254,6 +257,15 @@ public class UIMainMenuManager : MonoBehaviour
         screenSettingsOutSequence.append(
             () => screenSettingsRT.gameObject.SetActive(false)
         );
+    }
+    
+    private void CancelAllTweens()
+    {
+        while (_queueTweensID.Count > 0)
+        {
+            int id = _queueTweensID.Dequeue();
+            LeanTween.cancel(id);
+        }
     }
     #endregion
 }
