@@ -1,16 +1,55 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIMainMenuManager : MonoBehaviour
 {
-    [Range(1000f, 2000f)]
+    private class PanelLTSequences
+    {
+        public LTSeq PanelInSeq;
+        public LTSeq PanelOutSeq;
+        public String Name { get; }
+
+        /// <summary>
+        /// Create null InSeq and OutSeq
+        /// with Name {name}
+        /// </summary>
+        public PanelLTSequences(String name)
+        {
+            PanelInSeq = null;
+            PanelOutSeq = null;
+
+            Name = name;
+        }
+
+        public bool CancelAll()
+        {
+            if (PanelInSeq == null) {   //not sequences assigned yet
+                Debug.Log($"{Name} PanelInSeq not assigned");
+                return false;
+            }
+            if (PanelOutSeq == null) {
+                Debug.Log($"{Name} PanelOutSeq not assigned yet");
+                return false;
+            }
+
+            LeanTween.cancel(PanelInSeq.id);
+            LeanTween.cancel(PanelOutSeq.id);
+
+            return true;
+        }
+    }
+
+    [Min(1000f)]
     [SerializeField] private float _speedTweens = 1000f;
 
     private float _offset = 100f;
 
-    private Queue<int> _queueTweensID = new Queue<int>();
+    // store sequences to cancel them whenever I want
+    private PanelLTSequences _mainMenuSeqs;
+    private PanelLTSequences _optionsSeqs;
+    private PanelLTSequences _screenSettingsSeqs;
+    private PanelLTSequences _audioSettingsSeqs;
 
     [Header("Panels")]
     [SerializeField] private UIMainMenuPanel _menuPanel;
@@ -27,6 +66,8 @@ public class UIMainMenuManager : MonoBehaviour
     private VoidEventChannelSO _audioSettingsPanelEvent;
     [SerializeField]
     private VoidEventChannelSO _mainMenuPanelEvent;
+    [SerializeField]
+    private VoidEventChannelSO _onCompletedLTSeqEvent;
 
     private void OnEnable()
     {
@@ -58,6 +99,12 @@ public class UIMainMenuManager : MonoBehaviour
         LeanTween.move(audioSettingsRT, GetAudioSettingsPanelHiddenPos(audioSettingsRT), 0f);
 
         StartCoroutine(WaitOneFramesAndHide());
+
+        // create sequences
+        _mainMenuSeqs = new PanelLTSequences("MainMenuSeqs");
+        _optionsSeqs = new PanelLTSequences("OptionsSeqs");
+        _screenSettingsSeqs = new PanelLTSequences("SSSeqs");
+        _audioSettingsSeqs = new PanelLTSequences("ASSeqs");
     }
 
     private IEnumerator WaitOneFramesAndHide()
@@ -72,90 +119,47 @@ public class UIMainMenuManager : MonoBehaviour
     #region MainMenuPanel events
     private void ShowOptionsPanel()
     {
-        LeanTween.cancelAll();
+        //_optionsSeqs.CancelAll();
+        //_mainMenuSeqs.CancelAll();
 
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
 
         // show optionsPanel
-        var optionsInSequence = LeanTween.sequence();
-        optionsInSequence.append(
-            () => _optionsPanel.gameObject.SetActive(true)    
-        );
-        optionsInSequence.append(
-            LeanTween.move(
-                optionsPanelRT,
-                Vector2.zero,
-                CalculateTime(optionsPanelRT.rect.height)
-            )
-        );
+        _optionsSeqs.PanelInSeq = CreateOPInSeq(optionsPanelRT);
 
         // hide mainPanel
-        var menuOutSequence = LeanTween.sequence();
-        menuOutSequence.append(
-            LeanTween.move(
-                mainmenuPanelRT,
-                GetMainPanelHiddenPos(mainmenuPanelRT),
-                CalculateTime(mainmenuPanelRT.rect.width)
-            )
-        );
-        menuOutSequence.append(
-            () => _menuPanel.gameObject.SetActive(false)
-        );
+        _mainMenuSeqs.PanelOutSeq = CreateMMOutSeq(mainmenuPanelRT);
     }
     #endregion
 
     #region OptionsPanel events
     private void ShowScreenSettingsPanel()
     {
-        LeanTween.cancelAll();
+        //_screenSettingsSeqs.CancelAll();
+
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
         
         HideAudioSettingsPanel();
 
-        // try to cancel just in case
-        //while (LeanTween.isTweening(screenSettingsRT)) {
-        //    Debug.LogWarning("Cancelled");  // should enter twice
-        //    LeanTween.cancel(screenSettingsRT);
-        //}
-
-
-        var screenSettingsInSequence = LeanTween.sequence();
-        screenSettingsInSequence.append(
-            () => screenSettingsRT.gameObject.SetActive(true)
-        );
-        screenSettingsInSequence.append(
-            LeanTween.move(
-                screenSettingsRT,
-                Vector2.zero,
-                CalculateTime(screenSettingsRT.rect.height + _offset)
-            )
-        );
+        _screenSettingsSeqs.PanelInSeq = CreateSSPInSeq(screenSettingsRT);
     }
 
     private void ShowAudioSettingsPanel()
     {
-        LeanTween.cancelAll();
+        //_audioSettingsSeqs.CancelAll();
+
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
         HideScreenSettingsPanel();
 
-        var audioSettingsInSequence = LeanTween.sequence();
-        audioSettingsInSequence.append(
-            () => audioSettingsRT.gameObject.SetActive(true)
-        );
-        audioSettingsInSequence.append(
-            LeanTween.move(
-                audioSettingsRT,
-                Vector2.zero,
-                CalculateTime(audioSettingsRT.rect.height + _offset)
-            )
-        );
+        _audioSettingsSeqs.PanelInSeq = CreateASPInSeq(audioSettingsRT);
     }
 
     private void ShowMainMenuPanel()
     {
-        LeanTween.cancelAll();
+        //_mainMenuSeqs.CancelAll();
+        //_optionsSeqs.CancelAll();
 
         DisableSubMenus();
 
@@ -163,32 +167,30 @@ public class UIMainMenuManager : MonoBehaviour
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
 
         // show mainPanel
-        var mainMenuInSequence = LeanTween.sequence();
-        mainMenuInSequence.append(
-            () => _menuPanel.gameObject.SetActive(true)
-        );
-        mainMenuInSequence.append(
-            LeanTween.move(
-                mainmenuPanelRT,
-                Vector2.zero,
-                CalculateTime(mainmenuPanelRT.rect.width)
-            )
-        );
+        _mainMenuSeqs.PanelInSeq = CreateMMInSeq(mainmenuPanelRT);
 
         // hide optionsPanel
-        var optionsOutSequence = LeanTween.sequence();
-        optionsOutSequence.append(
-            LeanTween.move(
-                optionsPanelRT,
-                GetOptionsPanelHiddenPos(optionsPanelRT),
-                CalculateTime(optionsPanelRT.rect.height)
-            )
-        );
-        optionsOutSequence.append(
-            () => _optionsPanel.gameObject.SetActive(false)
-        );
+        _optionsSeqs.PanelOutSeq = CreateOPOutSeq(optionsPanelRT);
     }
     #endregion
+
+    private void HideAudioSettingsPanel()
+    {
+        //_audioSettingsSeqs.CancelAll();
+
+        RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
+
+        _audioSettingsSeqs.PanelOutSeq = CreateASPOutSeq(audioSettingsRT);
+    }
+
+    private void HideScreenSettingsPanel()
+    {;
+        //_screenSettingsSeqs.CancelAll();
+
+        RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
+
+        _screenSettingsSeqs.PanelOutSeq = CreateSSPOutSeq(screenSettingsRT);
+    }
 
     private void DisableSubMenus()
     {
@@ -221,51 +223,155 @@ public class UIMainMenuManager : MonoBehaviour
         return distance / _speedTweens;
     }
 
-    private void HideAudioSettingsPanel()
+
+    // TODO: Refactor all of these into two general functions
+    private LTSeq CreateMMInSeq(RectTransform rectTransform)
     {
-        RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
-
-        CancelAllTweens();
-
-        var audioSettingsOutSequence = LeanTween.sequence();
-        audioSettingsOutSequence.append(
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            () => rectTransform.gameObject.SetActive(true)
+        );
+        sequence.append(
             LeanTween.move(
-                audioSettingsRT,
-                GetAudioSettingsPanelHiddenPos(audioSettingsRT),
-                CalculateTime(audioSettingsRT.rect.height + _offset)
+                rectTransform,
+                Vector2.zero,
+                CalculateTime(rectTransform.rect.width)
+            )
+            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+        );
+
+        return sequence;
+    }
+    private LTSeq CreateMMOutSeq(RectTransform rectTransform)
+    {
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                GetMainPanelHiddenPos(rectTransform),
+                CalculateTime(rectTransform.rect.width)
             )
         );
-        audioSettingsOutSequence.append(
-            () => audioSettingsRT.gameObject.SetActive(false)
+        sequence.append(
+            () =>
+                {
+                    rectTransform.gameObject.SetActive(false);
+                    _onCompletedLTSeqEvent.RaiseEvent();
+                }
         );
+
+        return sequence;
     }
-
-    private void HideScreenSettingsPanel()
+    private LTSeq CreateOPInSeq(RectTransform rectTransform)
     {
-        RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            () => rectTransform.gameObject.SetActive(true)
+        );
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                Vector2.zero,
+                CalculateTime(rectTransform.rect.height)
+            )
+            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+        );
 
-        CancelAllTweens();
+        return sequence;
+    }
+    private LTSeq CreateOPOutSeq(RectTransform rectTransform)
+    {
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                GetOptionsPanelHiddenPos(rectTransform),
+                CalculateTime(rectTransform.rect.height)
+            )
+        );
+        sequence.append(
+            () =>
+            {
+                rectTransform.gameObject.SetActive(false);
+                _onCompletedLTSeqEvent.RaiseEvent();
+            }
+        );
 
-        var screenSettingsOutSequence = LeanTween.sequence();
-        screenSettingsOutSequence.append(
+        return sequence;
+    }
+    private LTSeq CreateSSPInSeq(RectTransform rectTransform)
+    {
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            () => rectTransform.gameObject.SetActive(true)
+        );
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                Vector2.zero,
+                CalculateTime(rectTransform.rect.height + _offset)
+            )
+            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+        );
+
+        return sequence;
+    }
+    private LTSeq CreateSSPOutSeq(RectTransform rectTransform)
+    {
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
              LeanTween.move(
-                screenSettingsRT,
-                GetScreenSettingsPanelHiddenPos(screenSettingsRT),
-                CalculateTime(screenSettingsRT.rect.height + _offset)
+                rectTransform,
+                GetScreenSettingsPanelHiddenPos(rectTransform),
+                CalculateTime(rectTransform.rect.height + _offset)
             )
         );
-        screenSettingsOutSequence.append(
-            () => screenSettingsRT.gameObject.SetActive(false)
+        sequence.append(
+            () =>
+            {
+                rectTransform.gameObject.SetActive(false);
+                _onCompletedLTSeqEvent.RaiseEvent();
+            }
         );
+
+        return sequence;
     }
-    
-    private void CancelAllTweens()
+    private LTSeq CreateASPInSeq(RectTransform rectTransform)
     {
-        while (_queueTweensID.Count > 0)
-        {
-            int id = _queueTweensID.Dequeue();
-            LeanTween.cancel(id);
-        }
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            () => rectTransform.gameObject.SetActive(true)
+        );
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                Vector2.zero,
+                CalculateTime(rectTransform.rect.height + _offset)
+            )
+            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+        );
+
+        return sequence;
+    }
+    private LTSeq CreateASPOutSeq(RectTransform rectTransform)
+    {
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(
+            LeanTween.move(
+                rectTransform,
+                GetAudioSettingsPanelHiddenPos(rectTransform),
+                CalculateTime(rectTransform.rect.height + _offset)
+            )
+        );
+        sequence.append(
+            () =>
+            {
+                rectTransform.gameObject.SetActive(false);
+                _onCompletedLTSeqEvent.RaiseEvent();
+            }
+        );
+
+        return sequence;
     }
     #endregion
 }
