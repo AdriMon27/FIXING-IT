@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b59f1f36eaea1142932e25261b70b9e, type: 3}
-  m_Name: Input Reader
+  m_Script: {fileID: 11500000, guid: 4bfd4c946de87b340ac66596f395e613, type: 3}
+  m_Name: OnStartedLTSeqEvent
   m_EditorClassIdentifier: 
+  _description: The InputController should be listening to this, to deactivate the
+    input

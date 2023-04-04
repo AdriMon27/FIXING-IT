@@ -4,58 +4,22 @@ using UnityEngine;
 
 public class UIMainMenuManager : MonoBehaviour
 {
-    private class PanelLTSequences
-    {
-        public LTSeq PanelInSeq;
-        public LTSeq PanelOutSeq;
-        public String Name { get; }
-
-        /// <summary>
-        /// Create null InSeq and OutSeq
-        /// with Name {name}
-        /// </summary>
-        public PanelLTSequences(String name)
-        {
-            PanelInSeq = null;
-            PanelOutSeq = null;
-
-            Name = name;
-        }
-
-        public bool CancelAll()
-        {
-            if (PanelInSeq == null) {   //not sequences assigned yet
-                Debug.Log($"{Name} PanelInSeq not assigned");
-                return false;
-            }
-            if (PanelOutSeq == null) {
-                Debug.Log($"{Name} PanelOutSeq not assigned yet");
-                return false;
-            }
-
-            LeanTween.cancel(PanelInSeq.id);
-            LeanTween.cancel(PanelOutSeq.id);
-
-            return true;
-        }
-    }
-
     [Min(1000f)]
     [SerializeField] private float _speedTweens = 1000f;
 
     private float _offset = 100f;
-
-    // store sequences to cancel them whenever I want
-    private PanelLTSequences _mainMenuSeqs;
-    private PanelLTSequences _optionsSeqs;
-    private PanelLTSequences _screenSettingsSeqs;
-    private PanelLTSequences _audioSettingsSeqs;
 
     [Header("Panels")]
     [SerializeField] private UIMainMenuPanel _menuPanel;
     [SerializeField] private UIOptionsPanel _optionsPanel;
     [SerializeField] private UIScreenSettings _screenSettingsPanel;
     [SerializeField] private UIAudioSettings _audioSettingsPanel;
+
+    [Header("Broadcasting To")]
+    [SerializeField]
+    private VoidEventChannelSO _onStartedLTSeqEvent;
+    [SerializeField]
+    private VoidEventChannelSO _onCompletedLTSeqEvent;
 
     [Header("Listening To")]
     [SerializeField]
@@ -66,8 +30,6 @@ public class UIMainMenuManager : MonoBehaviour
     private VoidEventChannelSO _audioSettingsPanelEvent;
     [SerializeField]
     private VoidEventChannelSO _mainMenuPanelEvent;
-    [SerializeField]
-    private VoidEventChannelSO _onCompletedLTSeqEvent;
 
     private void OnEnable()
     {
@@ -99,12 +61,6 @@ public class UIMainMenuManager : MonoBehaviour
         LeanTween.move(audioSettingsRT, GetAudioSettingsPanelHiddenPos(audioSettingsRT), 0f);
 
         StartCoroutine(WaitOneFramesAndHide());
-
-        // create sequences
-        _mainMenuSeqs = new PanelLTSequences("MainMenuSeqs");
-        _optionsSeqs = new PanelLTSequences("OptionsSeqs");
-        _screenSettingsSeqs = new PanelLTSequences("SSSeqs");
-        _audioSettingsSeqs = new PanelLTSequences("ASSeqs");
     }
 
     private IEnumerator WaitOneFramesAndHide()
@@ -119,77 +75,71 @@ public class UIMainMenuManager : MonoBehaviour
     #region MainMenuPanel events
     private void ShowOptionsPanel()
     {
-        //_optionsSeqs.CancelAll();
-        //_mainMenuSeqs.CancelAll();
-
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
 
         // show optionsPanel
-        _optionsSeqs.PanelInSeq = CreateOPInSeq(optionsPanelRT);
+        CreateOPInSeq(optionsPanelRT);
 
         // hide mainPanel
-        _mainMenuSeqs.PanelOutSeq = CreateMMOutSeq(mainmenuPanelRT);
+        CreateMMOutSeq(mainmenuPanelRT);
+
+        _onStartedLTSeqEvent.RaiseEvent();
     }
     #endregion
 
     #region OptionsPanel events
     private void ShowScreenSettingsPanel()
     {
-        //_screenSettingsSeqs.CancelAll();
-
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
         
         HideAudioSettingsPanel();
 
-        _screenSettingsSeqs.PanelInSeq = CreateSSPInSeq(screenSettingsRT);
+        CreateSSPInSeq(screenSettingsRT);
+
+        _onStartedLTSeqEvent.RaiseEvent();
     }
 
     private void ShowAudioSettingsPanel()
     {
-        //_audioSettingsSeqs.CancelAll();
-
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
         HideScreenSettingsPanel();
 
-        _audioSettingsSeqs.PanelInSeq = CreateASPInSeq(audioSettingsRT);
+        CreateASPInSeq(audioSettingsRT);
+
+        _onStartedLTSeqEvent.RaiseEvent();
     }
 
     private void ShowMainMenuPanel()
     {
-        //_mainMenuSeqs.CancelAll();
-        //_optionsSeqs.CancelAll();
-
         DisableSubMenus();
 
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform mainmenuPanelRT = _menuPanel.GetComponent<RectTransform>();
 
         // show mainPanel
-        _mainMenuSeqs.PanelInSeq = CreateMMInSeq(mainmenuPanelRT);
+        CreateMMInSeq(mainmenuPanelRT);
 
         // hide optionsPanel
-        _optionsSeqs.PanelOutSeq = CreateOPOutSeq(optionsPanelRT);
+        CreateOPOutSeq(optionsPanelRT);
+
+        _onStartedLTSeqEvent.RaiseEvent();
     }
     #endregion
 
     private void HideAudioSettingsPanel()
     {
-        //_audioSettingsSeqs.CancelAll();
-
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
-        _audioSettingsSeqs.PanelOutSeq = CreateASPOutSeq(audioSettingsRT);
+        CreateASPOutSeq(audioSettingsRT);
     }
 
     private void HideScreenSettingsPanel()
-    {;
-        //_screenSettingsSeqs.CancelAll();
-
+    {
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
 
-        _screenSettingsSeqs.PanelOutSeq = CreateSSPOutSeq(screenSettingsRT);
+        CreateSSPOutSeq(screenSettingsRT);
     }
 
     private void DisableSubMenus()
@@ -222,7 +172,7 @@ public class UIMainMenuManager : MonoBehaviour
         // speed = distance / time
         return distance / _speedTweens;
     }
-
+    #endregion
 
     // TODO: Refactor all of these into two general functions
     private LTSeq CreateMMInSeq(RectTransform rectTransform)
@@ -256,7 +206,7 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
                 {
                     rectTransform.gameObject.SetActive(false);
-                    _onCompletedLTSeqEvent.RaiseEvent();
+                    //_onCompletedLTSeqEvent.RaiseEvent();
                 }
         );
 
@@ -293,7 +243,7 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
             {
                 rectTransform.gameObject.SetActive(false);
-                _onCompletedLTSeqEvent.RaiseEvent();
+                //_onCompletedLTSeqEvent.RaiseEvent();
             }
         );
 
@@ -330,7 +280,7 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
             {
                 rectTransform.gameObject.SetActive(false);
-                _onCompletedLTSeqEvent.RaiseEvent();
+                //_onCompletedLTSeqEvent.RaiseEvent();
             }
         );
 
@@ -367,11 +317,10 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
             {
                 rectTransform.gameObject.SetActive(false);
-                _onCompletedLTSeqEvent.RaiseEvent();
+                //_onCompletedLTSeqEvent.RaiseEvent();
             }
         );
 
         return sequence;
     }
-    #endregion
 }
