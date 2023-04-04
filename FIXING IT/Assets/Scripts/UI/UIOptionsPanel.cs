@@ -8,6 +8,8 @@ public class UIOptionsPanel : MonoBehaviour
     [SerializeField] private Button _volumeSettingsButton;
     [SerializeField] private Button _backButton;
 
+    public GameObject FirstSelected => _screenSettingsButton.gameObject;
+
     [Header("Broadcasting To")]
     [SerializeField]
     private VoidEventChannelSO _screenSettingsPanelEvent;

@@ -16,7 +16,7 @@ public class InputController : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _onStartedLTSeqEvent;
     [SerializeField]
-    private VoidEventChannelSO _onCompletedLTSeqEvent;
+    private GameObjectEventChannelSO _onCompletedLTSeqEvent;
 
     private void OnEnable()
     {
@@ -38,16 +38,17 @@ public class InputController : MonoBehaviour
         _inputReaderSO.DisableAllInput();
     }
 
-    private void WaitAndEnableMenuInput()
+    private void WaitAndEnableMenuInput(GameObject newSelectedGO)
     {
-        StartCoroutine(EnableMenuInput());
+        StartCoroutine(EnableMenuInput(newSelectedGO));
     }
 
-    private IEnumerator EnableMenuInput()
+    private IEnumerator EnableMenuInput(GameObject newSelectedGO)
     {
         yield return new WaitForSeconds(_secondsToWaitInTweens);  //necessary wait at minimum speed of tweens (1000)
 
         _currentEventSystem.enabled = true;
+        _currentEventSystem.SetSelectedGameObject(newSelectedGO);
 
         _inputReaderSO.EnableMenuInput();
     }

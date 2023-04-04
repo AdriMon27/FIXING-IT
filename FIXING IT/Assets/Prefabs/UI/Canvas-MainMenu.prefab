@@ -3914,7 +3914,7 @@ MonoBehaviour:
   _audioSettingsPanel: {fileID: 4592340431628229537}
   _onStartedLTSeqEvent: {fileID: 11400000, guid: 9085a4f4f4721c141b03685a635ce951,
     type: 2}
-  _onCompletedLTSeqEvent: {fileID: 11400000, guid: ba1db8fb32866644d80827c1a7fd79d9,
+  _onCompletedLTSeqEvent: {fileID: 11400000, guid: b7f74658720dbf147bee6e95edd8bf84,
     type: 2}
   _optionsPanelEvent: {fileID: 11400000, guid: 35800945cd04d1c4b96b51b5c739936e, type: 2}
   _screenSettingsPanelEvent: {fileID: 11400000, guid: 82d28cf273616e941b1f5be4c4468417,

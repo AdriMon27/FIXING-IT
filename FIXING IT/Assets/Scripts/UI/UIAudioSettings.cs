@@ -12,6 +12,8 @@ public class UIAudioSettings : MonoBehaviour
     [SerializeField] private Slider _musicVolumeSlider;
     [SerializeField] private Slider _sfxVolumeSlider;
 
+    public GameObject FirstSelected => _generalVolumeSlider.gameObject;
+
     [Header("Listening To")]
     [SerializeField]
     private AudioVolumeChannelSO _allNormalVolumeChannel;

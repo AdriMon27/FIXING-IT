@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfd4c946de87b340ac66596f395e613, type: 3}
+  m_Script: {fileID: 11500000, guid: 26f89fe36d46fac44a19bd490c016a8a, type: 3}
   m_Name: OnCompletedLTSeqEvent
   m_EditorClassIdentifier: 
-  _description: The InputController should be listening to this, to activate the
-    input again
+  _description: 

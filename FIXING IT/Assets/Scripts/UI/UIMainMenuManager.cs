@@ -19,7 +19,7 @@ public class UIMainMenuManager : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _onStartedLTSeqEvent;
     [SerializeField]
-    private VoidEventChannelSO _onCompletedLTSeqEvent;
+    private GameObjectEventChannelSO _onCompletedLTSeqEvent;
 
     [Header("Listening To")]
     [SerializeField]
@@ -61,6 +61,11 @@ public class UIMainMenuManager : MonoBehaviour
         LeanTween.move(audioSettingsRT, GetAudioSettingsPanelHiddenPos(audioSettingsRT), 0f);
 
         StartCoroutine(WaitOneFramesAndHide());
+
+        Debug.Log(_menuPanel.FirstSelected.name);
+        Debug.Log(_optionsPanel.FirstSelected.name);
+        Debug.Log(_screenSettingsPanel.FirstSelected.name);
+        Debug.Log(_audioSettingsPanel.FirstSelected.name);
     }
 
     private IEnumerator WaitOneFramesAndHide()
@@ -187,7 +192,7 @@ public class UIMainMenuManager : MonoBehaviour
                 Vector2.zero,
                 CalculateTime(rectTransform.rect.width)
             )
-            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+            .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_menuPanel.FirstSelected))
         );
 
         return sequence;
@@ -224,7 +229,7 @@ public class UIMainMenuManager : MonoBehaviour
                 Vector2.zero,
                 CalculateTime(rectTransform.rect.height)
             )
-            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+            .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_optionsPanel.FirstSelected))
         );
 
         return sequence;
@@ -261,7 +266,7 @@ public class UIMainMenuManager : MonoBehaviour
                 Vector2.zero,
                 CalculateTime(rectTransform.rect.height + _offset)
             )
-            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+            .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_screenSettingsPanel.FirstSelected))
         );
 
         return sequence;
@@ -298,7 +303,7 @@ public class UIMainMenuManager : MonoBehaviour
                 Vector2.zero,
                 CalculateTime(rectTransform.rect.height + _offset)
             )
-            .setOnComplete(_onCompletedLTSeqEvent.RaiseEvent)
+            .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_audioSettingsPanel.FirstSelected))
         );
 
         return sequence;

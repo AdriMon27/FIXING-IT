@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ public class UIMainMenuPanel : MonoBehaviour
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _optionsButton;
     [SerializeField] private Button _exitButton;
+
+    public GameObject FirstSelected => _playButton.gameObject;
 
     [Header("Broadcasting To")]
     [SerializeField]

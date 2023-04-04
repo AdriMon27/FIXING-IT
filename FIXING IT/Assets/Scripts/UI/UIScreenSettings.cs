@@ -12,6 +12,8 @@ public class UIScreenSettings : MonoBehaviour
     [SerializeField] private Button _applyButton;
     [SerializeField] private Button _resetButton;
 
+    public GameObject FirstSelected => _resolutionsDropdown.gameObject;
+
     [Header("Listening To")]
     [SerializeField]
     private ScreenSettingsChannelSO _screenSettingsChanged;
