@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class UIMainMenuManager : MonoBehaviour
 {
+    private enum PanelShowing
+    {
+        MainPanel,
+        OptionsPanel,
+        ScreenSettingsPanel,
+        AudioSettingsPanel
+    }
+
+    [SerializeField] private InputReaderSO _inputReaderSO;
+    private PanelShowing _panelShowing;
+
     [Min(1000f)]
     [SerializeField] private float _speedTweens = 1000f;
 
@@ -33,6 +44,8 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void OnEnable()
     {
+        _inputReaderSO.MenuCancelEvent += GoBackAPanel;
+
         _optionsPanelEvent.OnEventRaised += ShowOptionsPanel;
 
         _screenSettingsPanelEvent.OnEventRaised += ShowScreenSettingsPanel;
@@ -42,6 +55,8 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void OnDisable()
     {
+        _inputReaderSO.MenuCancelEvent -= GoBackAPanel;
+
         _optionsPanelEvent.OnEventRaised -= ShowOptionsPanel;
 
         _screenSettingsPanelEvent.OnEventRaised -= ShowScreenSettingsPanel;
@@ -51,6 +66,8 @@ public class UIMainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        _panelShowing = PanelShowing.MainPanel;
+
         // put hidden menus outside canvas, instant
         RectTransform optionsPanelRT = _optionsPanel.GetComponent<RectTransform>();
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
@@ -61,11 +78,26 @@ public class UIMainMenuManager : MonoBehaviour
         LeanTween.move(audioSettingsRT, GetAudioSettingsPanelHiddenPos(audioSettingsRT), 0f);
 
         StartCoroutine(WaitOneFramesAndHide());
+    }
 
-        Debug.Log(_menuPanel.FirstSelected.name);
-        Debug.Log(_optionsPanel.FirstSelected.name);
-        Debug.Log(_screenSettingsPanel.FirstSelected.name);
-        Debug.Log(_audioSettingsPanel.FirstSelected.name);
+    private void GoBackAPanel()
+    {
+        switch (_panelShowing)
+        {
+            case PanelShowing.OptionsPanel:
+                ShowMainMenuPanel();
+                break;
+            case PanelShowing.ScreenSettingsPanel:
+                HideScreenSettingsPanel(true);
+                break;
+            case PanelShowing.AudioSettingsPanel:
+                HideAudioSettingsPanel(true);
+                break;
+            default:
+                Debug.LogWarning($"We should be in {PanelShowing.MainPanel} and the Exit is managed by the scene loader" +
+                    $"\n PanelShowing: {_panelShowing}");
+                break;
+        }
     }
 
     private IEnumerator WaitOneFramesAndHide()
@@ -90,6 +122,8 @@ public class UIMainMenuManager : MonoBehaviour
         CreateMMOutSeq(mainmenuPanelRT);
 
         _onStartedLTSeqEvent.RaiseEvent();
+
+        _panelShowing = PanelShowing.OptionsPanel;
     }
     #endregion
 
@@ -103,6 +137,8 @@ public class UIMainMenuManager : MonoBehaviour
         CreateSSPInSeq(screenSettingsRT);
 
         _onStartedLTSeqEvent.RaiseEvent();
+
+        _panelShowing = PanelShowing.ScreenSettingsPanel;
     }
 
     private void ShowAudioSettingsPanel()
@@ -114,6 +150,8 @@ public class UIMainMenuManager : MonoBehaviour
         CreateASPInSeq(audioSettingsRT);
 
         _onStartedLTSeqEvent.RaiseEvent();
+
+        _panelShowing = PanelShowing.AudioSettingsPanel;
     }
 
     private void ShowMainMenuPanel()
@@ -130,21 +168,27 @@ public class UIMainMenuManager : MonoBehaviour
         CreateOPOutSeq(optionsPanelRT);
 
         _onStartedLTSeqEvent.RaiseEvent();
+
+        _panelShowing = PanelShowing.MainPanel;
     }
     #endregion
 
-    private void HideAudioSettingsPanel()
+    private void HideAudioSettingsPanel(bool onlyHiding = false)
     {
         RectTransform audioSettingsRT = _audioSettingsPanel.GetComponent<RectTransform>();
 
-        CreateASPOutSeq(audioSettingsRT);
+        CreateASPOutSeq(audioSettingsRT, onlyHiding);
+
+        _panelShowing = PanelShowing.OptionsPanel;
     }
 
-    private void HideScreenSettingsPanel()
+    private void HideScreenSettingsPanel(bool onlyHiding = false)
     {
         RectTransform screenSettingsRT = _screenSettingsPanel.GetComponent<RectTransform>();
 
-        CreateSSPOutSeq(screenSettingsRT);
+        CreateSSPOutSeq(screenSettingsRT, onlyHiding);
+
+        _panelShowing = PanelShowing.OptionsPanel;
     }
 
     private void DisableSubMenus()
@@ -271,8 +315,12 @@ public class UIMainMenuManager : MonoBehaviour
 
         return sequence;
     }
-    private LTSeq CreateSSPOutSeq(RectTransform rectTransform)
+    private LTSeq CreateSSPOutSeq(RectTransform rectTransform, bool onlyHiding = false)
     {
+        if (onlyHiding) {
+            _onStartedLTSeqEvent.RaiseEvent();
+        }
+
         LTSeq sequence = LeanTween.sequence();
         sequence.append(
              LeanTween.move(
@@ -285,7 +333,9 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
             {
                 rectTransform.gameObject.SetActive(false);
-                //_onCompletedLTSeqEvent.RaiseEvent();
+                if (onlyHiding) {
+                    _onCompletedLTSeqEvent.RaiseEvent(_optionsPanel.FirstSelected);
+                }
             }
         );
 
@@ -308,8 +358,12 @@ public class UIMainMenuManager : MonoBehaviour
 
         return sequence;
     }
-    private LTSeq CreateASPOutSeq(RectTransform rectTransform)
+    private LTSeq CreateASPOutSeq(RectTransform rectTransform, bool onlyHiding = false)
     {
+        if (onlyHiding) {
+            _onStartedLTSeqEvent.RaiseEvent();
+        }
+
         LTSeq sequence = LeanTween.sequence();
         sequence.append(
             LeanTween.move(
@@ -322,7 +376,9 @@ public class UIMainMenuManager : MonoBehaviour
             () =>
             {
                 rectTransform.gameObject.SetActive(false);
-                //_onCompletedLTSeqEvent.RaiseEvent();
+                if (onlyHiding) {
+                    _onCompletedLTSeqEvent.RaiseEvent(_optionsPanel.FirstSelected);
+                }
             }
         );
 

@@ -33,7 +33,6 @@ public class InputController : MonoBehaviour
     private void DisableAllInput()
     {
         _currentEventSystem = EventSystem.current;
-        _currentEventSystem.enabled = false;
 
         _inputReaderSO.DisableAllInput();
     }
@@ -47,7 +46,6 @@ public class InputController : MonoBehaviour
     {
         yield return new WaitForSeconds(_secondsToWaitInTweens);  //necessary wait at minimum speed of tweens (1000)
 
-        _currentEventSystem.enabled = true;
         _currentEventSystem.SetSelectedGameObject(newSelectedGO);
 
         _inputReaderSO.EnableMenuInput();
