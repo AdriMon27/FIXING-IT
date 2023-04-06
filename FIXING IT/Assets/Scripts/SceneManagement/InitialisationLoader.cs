@@ -16,6 +16,8 @@ public class InitialisationLoader : MonoBehaviour
     private void Start()
     {
         _managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive).Completed += LoadMainMenu;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void LoadMainMenu(AsyncOperationHandle<SceneInstance> obj)
