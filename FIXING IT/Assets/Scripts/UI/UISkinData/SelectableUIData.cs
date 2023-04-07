@@ -18,7 +18,7 @@ public class SelectableUIData : MonoBehaviour
     private void OnSkinUI()
     {
         _selectable = GetComponent<Selectable>();
-        Debug.Log(_selectable.gameObject.name);
+        //Debug.Log(_selectable.gameObject.name);
 
         _selectable.colors = _skinDataSO.Colors;
     }
