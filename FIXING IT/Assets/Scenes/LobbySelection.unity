@@ -2285,7 +2285,7 @@ MonoBehaviour:
     type: 3}
   m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018,
     type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018,
+  m_MoveAction: {fileID: -1680190386980627800, guid: ca9f5fa95ffab41fb9a615ab714db018,
     type: 3}
   m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018,
     type: 3}
@@ -2378,18 +2378,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1646096436 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3464482977541847002, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-    type: 3}
-  m_PrefabInstance: {fileID: 3148783228653333108}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1687614259
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,16 +3303,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4512556262343196908, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4512556262343196908, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6491227952297563537, guid: 6dc38b8e6eb881c4d92995834d7c9644,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -3350,11 +3328,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8222560479722424087, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: scrollRect
-      value: 
-      objectReference: {fileID: 1646096436}
     - target: {fileID: 8494594265742240220, guid: 6dc38b8e6eb881c4d92995834d7c9644,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3410,6 +3383,5 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8222560479722424087, guid: 6dc38b8e6eb881c4d92995834d7c9644, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dc38b8e6eb881c4d92995834d7c9644, type: 3}
