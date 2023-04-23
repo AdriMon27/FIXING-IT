@@ -889,7 +889,8 @@ MonoBehaviour:
   _playButton: {fileID: 4592340431575803416}
   _optionsButton: {fileID: 4594977372159596033}
   _exitButton: {fileID: 6183256207678767060}
-  _playGameEvent: {fileID: 11400000, guid: 64922ea63a9640e499c05603cff18bfc, type: 2}
+  _toLobbySelectionEvent: {fileID: 11400000, guid: 64922ea63a9640e499c05603cff18bfc,
+    type: 2}
   _optionsPanelEvent: {fileID: 11400000, guid: 35800945cd04d1c4b96b51b5c739936e, type: 2}
   _exitGameEvent: {fileID: 11400000, guid: 4f17c2ad52a41b34d8cb38308c4adfdf, type: 2}
 --- !u!1 &4592340431985065244

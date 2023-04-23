@@ -12,7 +12,7 @@ public class UIMainMenuPanel : MonoBehaviour
 
     [Header("Broadcasting To")]
     [SerializeField]
-    private VoidEventChannelSO _playGameEvent;
+    private VoidEventChannelSO _toLobbySelectionEvent;
     [SerializeField]
     private VoidEventChannelSO _optionsPanelEvent;
     [SerializeField]
@@ -27,7 +27,7 @@ public class UIMainMenuPanel : MonoBehaviour
 
     private void PlayButtonAcion()
     {
-        _playGameEvent.RaiseEvent();
+        _toLobbySelectionEvent.RaiseEvent();
     }
 
     private void OptionsButtonAction()
