@@ -8,6 +8,8 @@ public class ChangeSceneBridge : MonoBehaviour
     [Header("Broadcasting To")]
     [SerializeField]
     private LoadSceneChannelSO _loadSceneChannel;
+    [SerializeField]
+    private LoadSceneChannelSO _loadNetworkSceneChannel;
 
     [Header("Listening To")]
     [SerializeField]

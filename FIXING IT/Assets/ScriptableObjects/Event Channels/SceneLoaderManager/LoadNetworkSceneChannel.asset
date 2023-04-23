@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21ef3f3fe65f54349bf455e3ad1b107a, type: 3}
-  m_Name: LoadScene
+  m_Name: LoadNetworkSceneChannel
   m_EditorClassIdentifier: 
   _description: 

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -13,6 +14,8 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField]
     private LoadSceneChannelSO _loadSceneChannel;
     [SerializeField]
+    private LoadSceneChannelSO _loadNetworkSceneChannel;
+    [SerializeField]
     private VoidEventChannelSO _exitGameEvent;
 
     [Header("Broadcasting To")]
@@ -21,12 +24,14 @@ public class SceneLoaderManager : MonoBehaviour
     private void OnEnable()
     {
         _loadSceneChannel.OnEventRaised += LoadScene;
+        _loadNetworkSceneChannel.OnEventRaised += LoadNetworkScene;
         _exitGameEvent.OnEventRaised += ExitGame;
     }
 
     private void OnDisable()
     {
         _loadSceneChannel.OnEventRaised -= LoadScene;
+        _loadNetworkSceneChannel.OnEventRaised -= LoadNetworkScene;
         _exitGameEvent.OnEventRaised -= ExitGame;
     }
 
@@ -35,6 +40,19 @@ public class SceneLoaderManager : MonoBehaviour
         _sceneToLoad = sceneToLoad;
 
         UnloadPreviousScene();
+        LoadNewScene();
+    }
+
+    private void LoadNetworkScene(GameSceneSO sceneToLoad)
+    {
+        UnloadPreviousScene();
+
+        string sceneName = sceneToLoad.name;
+
+        var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        if (status != SceneEventProgressStatus.Started) {
+            Debug.LogWarning($"Failed to load {sceneName} with a {nameof(SceneEventProgressStatus)}: {status}");
+        }
     }
 
     /// <summary>
@@ -46,8 +64,6 @@ public class SceneLoaderManager : MonoBehaviour
         if (_currentSceneLoaded != null) {
             _currentSceneLoaded.SceneReference.UnLoadScene();
         }
-
-        LoadNewScene();
     }
 
     private void LoadNewScene()

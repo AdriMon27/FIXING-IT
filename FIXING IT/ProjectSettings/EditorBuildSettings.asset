@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbySelection.unity
     guid: ddaa39e8341114d43a66a8d00ba94158
   - enabled: 0
+    path: Assets/Scenes/CharacterSelection.unity
+    guid: 025fbe607848682488248c96a46bbfa3
+  - enabled: 0
     path: Assets/Scenes/Minigame.unity
     guid: b0a8e7be63efcf74aacda2d99d945106
   m_configObjects:

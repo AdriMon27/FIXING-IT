@@ -48,14 +48,17 @@ public class LobbyManager : MonoBehaviour
 
     private async void Start()
     {
-        await UnityServices.InitializeAsync();
+        // to prevent initialize and signin when we are signed
+        if (UnityServices.State != ServicesInitializationState.Initialized) {
+            await UnityServices.InitializeAsync();
 
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-        };
+            AuthenticationService.Instance.SignedIn += () =>
+            {
+                Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
+            };
 
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
 
         _playerName = $"Guest{Random.Range(1000, 9999)}";   // It is not unique
         Debug.Log(_playerName);
