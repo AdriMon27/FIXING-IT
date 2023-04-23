@@ -53,6 +53,8 @@ public class SceneLoaderManager : MonoBehaviour
         if (status != SceneEventProgressStatus.Started) {
             Debug.LogWarning($"Failed to load {sceneName} with a {nameof(SceneEventProgressStatus)}: {status}");
         }
+
+        _currentSceneLoaded = sceneToLoad;
     }
 
     /// <summary>

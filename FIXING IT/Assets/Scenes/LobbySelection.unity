@@ -1257,6 +1257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbiesListedEvent: {fileID: 11400000, guid: 8961a737c8d2f4d4bafa25702ab29a9a,
     type: 2}
+  _lobbyCreatedEvent: {fileID: 11400000, guid: 2cbc44445ff6e9e4c92409c50b4d992f, type: 2}
+  _lobbyJoinedEvent: {fileID: 11400000, guid: 7868ae1b7165cbe408418020a9404173, type: 2}
   _refreshLobbiesListEvent: {fileID: 11400000, guid: 368b8ae929d984948930fa3c672a7fbf,
     type: 2}
   _createLobbyChannel: {fileID: 11400000, guid: c9f88ff0c4135ba468307a72626cb5da,

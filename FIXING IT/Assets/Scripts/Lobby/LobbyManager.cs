@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -19,6 +18,10 @@ public class LobbyManager : MonoBehaviour
     [Header("Broadcasting To")]
     [SerializeField]
     private LobbiesChannelSO _lobbiesListedEvent;
+    [SerializeField]
+    private VoidEventChannelSO _lobbyCreatedEvent;
+    [SerializeField]
+    private VoidEventChannelSO _lobbyJoinedEvent;
 
     [Header("Listening To")]
     [SerializeField]
@@ -143,6 +146,9 @@ public class LobbyManager : MonoBehaviour
             _joinedLobby = _hostLobby;
 
             Debug.Log($"Created lobby! {lobby.Name}, {lobby.MaxPlayers}, {lobby.Id}, {lobby.LobbyCode}");
+
+            // send event
+            _lobbyCreatedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
             Debug.LogException(e);
@@ -160,6 +166,9 @@ public class LobbyManager : MonoBehaviour
             _joinedLobby = lobby;
 
             Debug.Log($"Joined Lobby with id: {lobbyId}");
+
+            // send event
+            _lobbyJoinedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
             Debug.LogException(e);
@@ -177,6 +186,9 @@ public class LobbyManager : MonoBehaviour
             _joinedLobby = lobby;
 
             Debug.Log($"Joined Lobby with code: {lobbyCode}");
+
+            // send event
+            _lobbyJoinedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
             Debug.LogException(e);
