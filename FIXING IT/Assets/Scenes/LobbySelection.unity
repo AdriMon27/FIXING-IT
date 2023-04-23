@@ -929,7 +929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &421157521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,6 +1226,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691317565}
   m_CullTransparentMesh: 1
+--- !u!1 &706063175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 706063177}
+  - component: {fileID: 706063176}
+  m_Layer: 0
+  m_Name: LobbyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &706063176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706063175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2c7879a4098404ebc3925a05c7a3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lobbiesListedEvent: {fileID: 11400000, guid: 8961a737c8d2f4d4bafa25702ab29a9a,
+    type: 2}
+  _refreshLobbiesListEvent: {fileID: 11400000, guid: 368b8ae929d984948930fa3c672a7fbf,
+    type: 2}
+  _createLobbyChannel: {fileID: 11400000, guid: c9f88ff0c4135ba468307a72626cb5da,
+    type: 2}
+  _joinByIdEvent: {fileID: 11400000, guid: 4791a7aaac7af9e4499590c283fc524a, type: 2}
+  _joinByCodeEvent: {fileID: 11400000, guid: 2810a2ce68668484385d21ce3ec3cfe5, type: 2}
+--- !u!4 &706063177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706063175}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &916675217
 GameObject:
   m_ObjectHideFlags: 0
@@ -3231,46 +3283,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas-LobbySelection
-      objectReference: {fileID: 0}
-    - target: {fileID: 2400633745105748646, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2400633745105748646, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2400633745105748646, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2400633745105748646, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2795807627015692617, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2795807627015692617, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2795807627015692617, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2795807627015692617, guid: 6dc38b8e6eb881c4d92995834d7c9644,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3596311545441869160, guid: 6dc38b8e6eb881c4d92995834d7c9644,
         type: 3}

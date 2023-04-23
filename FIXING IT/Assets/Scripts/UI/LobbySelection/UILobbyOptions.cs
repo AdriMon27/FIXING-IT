@@ -7,6 +7,7 @@ public class UILobbyOptions : MonoBehaviour
     // poner los panel de izq a der tal como estan aqui
     [SerializeField] private Button _createLobbyButton;
     [SerializeField] private Button _joinByCodeButton;
+    [SerializeField] private Button _refreshLobbiesButton;
     [SerializeField] private Button _toMainMenuButton;
 
     public GameObject FirstSelected => _createLobbyButton.gameObject;
@@ -17,12 +18,15 @@ public class UILobbyOptions : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _joinByCodePanelEvent;
     [SerializeField]
+    private VoidEventChannelSO _refreshLobbiesListEvent;
+    [SerializeField]
     private VoidEventChannelSO _toMainMenuScreenEvent;
 
     private void Start()
     {
         _createLobbyButton.onClick.AddListener(CreateLobbyButtonAction);
         _joinByCodeButton.onClick.AddListener(JoinByCodeButtonAction);
+        _refreshLobbiesButton.onClick.AddListener(RefreshLobbiesButtonAction);
         _toMainMenuButton.onClick.AddListener(ToMainMenuButtonAction);
     }
 
@@ -34,6 +38,10 @@ public class UILobbyOptions : MonoBehaviour
     private void JoinByCodeButtonAction()
     {
         _joinByCodePanelEvent.RaiseEvent();
+    }
+    private void RefreshLobbiesButtonAction()
+    {
+        _refreshLobbiesListEvent.RaiseEvent();
     }
 
     private void ToMainMenuButtonAction()
