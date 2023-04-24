@@ -20,6 +20,7 @@ public class SceneLoaderManager : NetworkBehaviour
     private VoidEventChannelSO _exitGameEvent;
 
     [Header("Broadcasting To")]
+    [SerializeField] VoidEventChannelSO _startSceneLoadingEvent;
     [SerializeField] VoidEventChannelSO _sceneLoadedEvent;
 
     private void OnEnable()
@@ -58,6 +59,10 @@ public class SceneLoaderManager : NetworkBehaviour
 
     private void LoadNewScene()
     {
+        // send event
+        _startSceneLoadingEvent.RaiseEvent();
+
+        // load scene
         var loadingOperationHandle = _sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
         loadingOperationHandle.Completed += OnNewSceneLoaded;
 
@@ -73,6 +78,7 @@ public class SceneLoaderManager : NetworkBehaviour
 
         //LightProbes.TetrahedralizeAsync(); //not necessary
 
+        // send event
         _sceneLoadedEvent.RaiseEvent();
     }
     #endregion
@@ -99,6 +105,10 @@ public class SceneLoaderManager : NetworkBehaviour
         if (!IsServer)
             return;
 
+        // send event
+        _startSceneLoadingEvent.RaiseEvent();
+
+        // load scene
         string sceneName = _sceneToLoad.name;
 
         var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
@@ -191,6 +201,8 @@ public class SceneLoaderManager : NetworkBehaviour
                         Debug.LogWarning($"Load event timed out for the following client identifiers:({sceneEvent.ClientsThatTimedOut})");
                     }
 
+                    // send event
+                    _sceneLoadedEvent.RaiseEvent();
                     break;
                 }
             case SceneEventType.UnloadEventCompleted:
