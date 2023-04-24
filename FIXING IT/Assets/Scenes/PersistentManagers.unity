@@ -204,6 +204,7 @@ MonoBehaviour:
   _mainMenuScene: {fileID: 11400000, guid: 273fcde681f64e044baae7629b47f100, type: 2}
   _characterSelectionScene: {fileID: 11400000, guid: 4363647b31354c04ab2b46d86fc95b7b,
     type: 2}
+  _minigameScene: {fileID: 11400000, guid: 964b7db7013102e49a768ae6985acc6f, type: 2}
   _loadSceneChannel: {fileID: 11400000, guid: 32f079b5a35ba684e8ae1dbc02c577d0, type: 2}
   _loadNetworkSceneChannel: {fileID: 11400000, guid: 56d38ca1aa9b1a3458c8001520e04453,
     type: 2}
@@ -212,6 +213,8 @@ MonoBehaviour:
   _toMainMenuScreenEvent: {fileID: 11400000, guid: 2489f3cc2da59e048a904609c1992906,
     type: 2}
   _hostStartedEvent: {fileID: 11400000, guid: dcf5f5d61aa970f459cdc57153a283d4, type: 2}
+  _allPlayersReadyEvent: {fileID: 11400000, guid: baa8043ccfcfc094d999ee659fed7201,
+    type: 2}
 --- !u!4 &304519922
 Transform:
   m_ObjectHideFlags: 0
@@ -341,6 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2052955464}
   - component: {fileID: 2052955463}
+  - component: {fileID: 2052955465}
   m_Layer: 0
   m_Name: SceneLoaderManager
   m_TagString: Untagged
@@ -380,3 +384,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2052955465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052955462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 326460688
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

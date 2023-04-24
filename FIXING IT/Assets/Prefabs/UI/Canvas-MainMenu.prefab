@@ -2323,6 +2323,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 4592340432985864202}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 3283330542298917039}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 383770e5e92e56144af4e5b54a50f1df, type: 3}
 --- !u!114 &4141470438442300678 stripped
@@ -2607,6 +2622,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 4592340432985864202}
+    - target: {fileID: 4415197628786435241, guid: 383770e5e92e56144af4e5b54a50f1df,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 4141470438442300678}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 383770e5e92e56144af4e5b54a50f1df, type: 3}
 --- !u!224 &3283330542298917038 stripped
@@ -3184,7 +3214,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3283330542298917039}
+    - target: {fileID: 9199597611198124699, guid: 53e5693de3168a44782019a8d6aa0493,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 4141470438442300678}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53e5693de3168a44782019a8d6aa0493, type: 3}
 --- !u!114 &4592340432985864202 stripped

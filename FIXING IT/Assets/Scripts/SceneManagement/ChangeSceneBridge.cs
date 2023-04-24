@@ -5,6 +5,7 @@ public class ChangeSceneBridge : MonoBehaviour
     [SerializeField] private GameSceneSO _lobbySelectionScene;
     [SerializeField] private GameSceneSO _mainMenuScene;
     [SerializeField] private GameSceneSO _characterSelectionScene;
+    [SerializeField] private GameSceneSO _minigameScene;
 
     [Header("Broadcasting To")]
     [SerializeField]
@@ -19,6 +20,8 @@ public class ChangeSceneBridge : MonoBehaviour
     private VoidEventChannelSO _toMainMenuScreenEvent;
     [SerializeField]
     private VoidEventChannelSO _hostStartedEvent;
+    [SerializeField]
+    private VoidEventChannelSO _allPlayersReadyEvent;
 
     private void OnEnable()
     {
@@ -26,6 +29,8 @@ public class ChangeSceneBridge : MonoBehaviour
         _toMainMenuScreenEvent.OnEventRaised += LoadMainMenuScreen;
 
         _hostStartedEvent.OnEventRaised += LoadCharacterSelection;
+
+        _allPlayersReadyEvent.OnEventRaised += LoadMinigame;
     }
     private void OnDisable()
     {
@@ -33,6 +38,8 @@ public class ChangeSceneBridge : MonoBehaviour
         _toMainMenuScreenEvent.OnEventRaised += LoadMainMenuScreen;
 
         _hostStartedEvent.OnEventRaised -= LoadCharacterSelection;
+
+        _allPlayersReadyEvent.OnEventRaised -= LoadMinigame;
     }
 
     private void LoadLobbySelection()
@@ -48,5 +55,10 @@ public class ChangeSceneBridge : MonoBehaviour
     private void LoadCharacterSelection()
     {
         _loadNetworkSceneChannel.RaiseEvent(_characterSelectionScene);
+    }
+
+    private void LoadMinigame()
+    {
+        _loadNetworkSceneChannel.RaiseEvent(_minigameScene);
     }
 }

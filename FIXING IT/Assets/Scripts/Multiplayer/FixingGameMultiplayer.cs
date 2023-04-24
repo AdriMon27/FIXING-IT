@@ -43,7 +43,6 @@ public class FixingGameMultiplayer : MonoBehaviour
 
     private void StartClient()
     {
-        Debug.Log("aquiii dentro puto");
         NetworkManager.Singleton.StartClient();
     }
 }
