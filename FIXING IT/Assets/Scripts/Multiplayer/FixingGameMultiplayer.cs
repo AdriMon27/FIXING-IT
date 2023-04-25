@@ -3,15 +3,23 @@ using UnityEngine;
 
 public class FixingGameMultiplayer : MonoBehaviour
 {
+    [SerializeField] private GameSceneSO _characterSelectionSceneSO;
+
     [Header("Broadcasting To")]
     [SerializeField]
     private VoidEventChannelSO _hostStartedEvent;
+    [SerializeField]
+    private StringEventChannelSO _rejectedToServerEvent;
 
     [Header("Listening To")]
     [SerializeField]
     private VoidEventChannelSO _lobbyCreatedEvent;
     [SerializeField]
     private VoidEventChannelSO _lobbyJoinedEvent;
+
+    [Header("Invoking Func")]
+    [SerializeField]
+    private StringFuncSO _getCurrentSceneNameFunc;
 
     private void OnEnable()
     {
@@ -27,7 +35,7 @@ public class FixingGameMultiplayer : MonoBehaviour
 
     private void StartHost()
     {
-        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
+        NetworkManager.Singleton.ConnectionApprovalCallback = NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.StartHost();
 
         // send event
@@ -37,8 +45,24 @@ public class FixingGameMultiplayer : MonoBehaviour
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
         NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
-        connectionApprovalResponse.Approved = true; // poner a false para no dejar entrar a gente
-        //connectionApprovalResponse.CreatePlayerObject = true;
+        string rejectedReason = string.Empty;
+
+        // server no está en characerselection
+        UnityEngine.SceneManagement.Scene characterSelectionScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_characterSelectionSceneSO.name);
+        string currentSceneName = _getCurrentSceneNameFunc.RaiseFunc();
+
+        if (characterSelectionScene.name != currentSceneName) {
+            connectionApprovalResponse.Approved = false;
+            // No existe en esta versión de la librería
+            //connectionApprovalResponse.Reason = "Game has already started";
+
+            // send event
+            rejectedReason = "Game has already started";
+            _rejectedToServerEvent.RaiseEvent(rejectedReason);
+            return;
+        }
+
+        connectionApprovalResponse.Approved = true;
     }
 
     private void StartClient()

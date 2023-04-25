@@ -9,6 +9,7 @@ public class SceneLoaderManager : NetworkBehaviour
     // filled after loaded one scene
     private GameSceneSO _sceneToLoad;
     private GameSceneSO _currentSceneLoaded;
+    private bool _isSceneToLoadNetwork = false;
     private bool _isCurrentSceneNetwork = false;
 
     [Header("Listening To")]
@@ -23,6 +24,10 @@ public class SceneLoaderManager : NetworkBehaviour
     [SerializeField] VoidEventChannelSO _startSceneLoadingEvent;
     [SerializeField] VoidEventChannelSO _sceneLoadedEvent;
 
+    [Header("Setting Func")]
+    [SerializeField]
+    private StringFuncSO _getCurrentSceneNameFunc;
+
     private void OnEnable()
     {
         _loadSceneChannel.OnEventRaised += LoadScene;
@@ -35,6 +40,11 @@ public class SceneLoaderManager : NetworkBehaviour
         _loadSceneChannel.OnEventRaised -= LoadScene;
         _loadNetworkSceneChannel.OnEventRaised -= LoadNetworkScene;
         _exitGameEvent.OnEventRaised -= ExitGame;
+    }
+
+    private void Start()
+    {
+        _getCurrentSceneNameFunc.TrySetOnFuncRaised(() => _currentSceneLoaded.name);
     }
 
     public override void OnNetworkSpawn()
@@ -52,6 +62,7 @@ public class SceneLoaderManager : NetworkBehaviour
     private void LoadScene(GameSceneSO sceneToLoad)
     {
         _sceneToLoad = sceneToLoad;
+        _isSceneToLoadNetwork = false;
 
         UnloadPreviousScene();
         LoadNewScene();
@@ -87,6 +98,7 @@ public class SceneLoaderManager : NetworkBehaviour
     private void LoadNetworkScene(GameSceneSO sceneToLoad)
     {
         _sceneToLoad = sceneToLoad;
+        _isSceneToLoadNetwork = true;
 
         UnloadPreviousScene();
         
@@ -212,7 +224,10 @@ public class SceneLoaderManager : NetworkBehaviour
                         Debug.LogWarning($"Unload event timed out for the following client identifiers:({sceneEvent.ClientsThatTimedOut})");
                     }
 
-                    Invoke(nameof(LoadNewNetworkScene), 0.1f);  // necessary wait to prevent errors
+                    if (_isSceneToLoadNetwork) {
+                        Invoke(nameof(LoadNewNetworkScene), 0.1f);  // necessary wait to prevent errors
+                    }
+                    // else -> managed by its function
                     break;
                 }
         }

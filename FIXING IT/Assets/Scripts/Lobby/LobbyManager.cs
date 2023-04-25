@@ -116,7 +116,7 @@ public class LobbyManager : MonoBehaviour
             // lobbies with al least 1 slot and sorted in created order
             QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions {
                 Filters = new List<QueryFilter> {
-                    //new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
+                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT) // con al menos 1 hueco
                     // I can put another filter to compare the data, for example for the GameMode, not necessary in my game
                     //new QueryFilter(QueryFilter.FieldOptions.S1, "SpeedFix", QueryFilter.OpOptions.EQ)
                 },
@@ -138,7 +138,7 @@ public class LobbyManager : MonoBehaviour
     private async void CreateLobby(string lobbyName, bool isPrivate)
     {
         try {
-            int maxPlayers = 1;
+            int maxPlayers = 4;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions {
                 IsPrivate = isPrivate,
                 Player = GetPlayer(),

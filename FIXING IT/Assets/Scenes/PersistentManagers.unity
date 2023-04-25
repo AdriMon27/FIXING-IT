@@ -152,9 +152,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7cabeb3ea355f42a811a53af0adcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterSelectionSceneSO: {fileID: 11400000, guid: 4363647b31354c04ab2b46d86fc95b7b,
+    type: 2}
   _hostStartedEvent: {fileID: 11400000, guid: dcf5f5d61aa970f459cdc57153a283d4, type: 2}
+  _rejectedToServerEvent: {fileID: 11400000, guid: efa5b3d5cdbe70e4691904a210964551,
+    type: 2}
   _lobbyCreatedEvent: {fileID: 11400000, guid: 2cbc44445ff6e9e4c92409c50b4d992f, type: 2}
   _lobbyJoinedEvent: {fileID: 11400000, guid: 7868ae1b7165cbe408418020a9404173, type: 2}
+  _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
+    type: 2}
 --- !u!4 &41687653
 Transform:
   m_ObjectHideFlags: 0
@@ -291,6 +297,8 @@ MonoBehaviour:
     type: 2}
   _hostStartedEvent: {fileID: 11400000, guid: dcf5f5d61aa970f459cdc57153a283d4, type: 2}
   _allPlayersReadyEvent: {fileID: 11400000, guid: baa8043ccfcfc094d999ee659fed7201,
+    type: 2}
+  _networkToMainMenuEvent: {fileID: 11400000, guid: af8bfa1293ad05949a7633e37d79fac7,
     type: 2}
 --- !u!4 &304519922
 Transform:
@@ -638,6 +646,8 @@ MonoBehaviour:
   _startSceneLoadingEvent: {fileID: 11400000, guid: 2efe707bf45627d45aba44eee0892905,
     type: 2}
   _sceneLoadedEvent: {fileID: 11400000, guid: 89677e0ba0d3f73458af243467382bd0, type: 2}
+  _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
+    type: 2}
 --- !u!4 &2052955464
 Transform:
   m_ObjectHideFlags: 0

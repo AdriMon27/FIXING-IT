@@ -24,6 +24,8 @@ public class UILobbySelectionManager : MonoBehaviour
     [SerializeField]
     private StringEventChannelSO _lobbyErrorCatchedEvent;
     [SerializeField]
+    private StringEventChannelSO _rejectedToServerEvent;
+    [SerializeField]
     private VoidEventChannelSO _cancelLobbyCreationEvent;
     [SerializeField]
     private VoidEventChannelSO _cancelJoinByCodeEvent;
@@ -37,6 +39,7 @@ public class UILobbySelectionManager : MonoBehaviour
         _createLobbyPanelEvent.OnEventRaised += ShowCreateLobbyPanel;
         _joinByCodePanelEvent.OnEventRaised += ShowJoinByCodePanel;
         _lobbyErrorCatchedEvent.OnEventRaised += ShowErrorToUser;
+        _rejectedToServerEvent.OnEventRaised += ShowErrorToUser;
 
         _cancelLobbyCreationEvent.OnEventRaised += HidePopUp;
         _cancelJoinByCodeEvent.OnEventRaised += HidePopUp;
@@ -50,6 +53,7 @@ public class UILobbySelectionManager : MonoBehaviour
         _createLobbyPanelEvent.OnEventRaised -= ShowCreateLobbyPanel;
         _joinByCodePanelEvent.OnEventRaised -= ShowJoinByCodePanel;
         _lobbyErrorCatchedEvent.OnEventRaised -= ShowErrorToUser;
+        _rejectedToServerEvent.OnEventRaised -= ShowErrorToUser;
 
         _cancelLobbyCreationEvent.OnEventRaised -= HidePopUp;
         _cancelJoinByCodeEvent.OnEventRaised -= HidePopUp;

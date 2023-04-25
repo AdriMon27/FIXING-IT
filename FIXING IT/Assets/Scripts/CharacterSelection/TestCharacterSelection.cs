@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// PONER TODO PRIVADO DESPUES DE TESTEAR
@@ -14,6 +15,8 @@ public class TestCharacterSelection : NetworkBehaviour
     [Header("Broadcasting To")]
     [SerializeField]
     private VoidEventChannelSO _allPlayersReadyEvent;
+    [SerializeField]
+    private VoidEventChannelSO _networkToMainMenuEvent;
 
     private Dictionary<ulong, bool> _playerReadyDictionary;
 
@@ -48,5 +51,14 @@ public class TestCharacterSelection : NetworkBehaviour
             // send event
             _allPlayersReadyEvent.RaiseEvent();
         }
+    }
+
+    // REFACTORIZAR EN LA NO TEST
+    public void LeaveToMainMenu()
+    {
+        NetworkManager.Singleton.Shutdown();
+        
+        // send event to change scene
+        _networkToMainMenuEvent.RaiseEvent();
     }
 }

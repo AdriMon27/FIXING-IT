@@ -495,6 +495,8 @@ MonoBehaviour:
     type: 2}
   _lobbyErrorCatchedEvent: {fileID: 11400000, guid: bd39c7cb56f6fc5419e8fbd4a416947d,
     type: 2}
+  _rejectedToServerEvent: {fileID: 11400000, guid: efa5b3d5cdbe70e4691904a210964551,
+    type: 2}
   _cancelLobbyCreationEvent: {fileID: 11400000, guid: 9150c1e7e3962824fac704883e23552d,
     type: 2}
   _cancelJoinByCodeEvent: {fileID: 11400000, guid: 00f62fafe12668f4688645249af468a4,
