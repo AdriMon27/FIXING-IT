@@ -22,9 +22,13 @@ public class UILobbySelectionManager : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO _joinByCodePanelEvent;
     [SerializeField]
+    private StringEventChannelSO _lobbyErrorCatchedEvent;
+    [SerializeField]
     private VoidEventChannelSO _cancelLobbyCreationEvent;
     [SerializeField]
     private VoidEventChannelSO _cancelJoinByCodeEvent;
+    [SerializeField]
+    private VoidEventChannelSO _acceptedLobbyErrorEvent;
 
     private void OnEnable()
     {
@@ -32,9 +36,11 @@ public class UILobbySelectionManager : MonoBehaviour
 
         _createLobbyPanelEvent.OnEventRaised += ShowCreateLobbyPanel;
         _joinByCodePanelEvent.OnEventRaised += ShowJoinByCodePanel;
+        _lobbyErrorCatchedEvent.OnEventRaised += ShowErrorToUser;
 
         _cancelLobbyCreationEvent.OnEventRaised += HidePopUp;
         _cancelJoinByCodeEvent.OnEventRaised += HidePopUp;
+        _acceptedLobbyErrorEvent.OnEventRaised += HidePopUp;
     }
 
     private void OnDisable()
@@ -43,9 +49,11 @@ public class UILobbySelectionManager : MonoBehaviour
 
         _createLobbyPanelEvent.OnEventRaised -= ShowCreateLobbyPanel;
         _joinByCodePanelEvent.OnEventRaised -= ShowJoinByCodePanel;
+        _lobbyErrorCatchedEvent.OnEventRaised -= ShowErrorToUser;
 
         _cancelLobbyCreationEvent.OnEventRaised -= HidePopUp;
         _cancelJoinByCodeEvent.OnEventRaised -= HidePopUp;
+        _acceptedLobbyErrorEvent.OnEventRaised -= HidePopUp;
     }
 
     private void Start()
@@ -66,6 +74,13 @@ public class UILobbySelectionManager : MonoBehaviour
     private void ShowJoinByCodePanel()
     {
         _popUpPanel.ShowPopUp(UIPopUpPanel.PopUpMode.JoinByCode);
+
+        _panelShowing = PanelShowing.PopUp;
+    }
+
+    private void ShowErrorToUser(string errorMsg)
+    {
+        _popUpPanel.ShowPopUp(UIPopUpPanel.PopUpMode.Error, errorMsg);
 
         _panelShowing = PanelShowing.PopUp;
     }

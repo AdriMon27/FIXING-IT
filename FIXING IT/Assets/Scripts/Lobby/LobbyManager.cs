@@ -22,6 +22,8 @@ public class LobbyManager : MonoBehaviour
     private VoidEventChannelSO _lobbyCreatedEvent;
     [SerializeField]
     private VoidEventChannelSO _lobbyJoinedEvent;
+    [SerializeField]
+    private StringEventChannelSO _lobbyErrorCatchedEvent;
 
     [Header("Listening To")]
     [SerializeField]
@@ -65,6 +67,8 @@ public class LobbyManager : MonoBehaviour
 
         _playerName = $"Guest{Random.Range(1000, 9999)}";   // It is not unique
         Debug.Log(_playerName);
+
+        ListLobbies();
     }
 
     private void Update()
@@ -112,7 +116,7 @@ public class LobbyManager : MonoBehaviour
             // lobbies with al least 1 slot and sorted in created order
             QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions {
                 Filters = new List<QueryFilter> {
-                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
+                    //new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
                     // I can put another filter to compare the data, for example for the GameMode, not necessary in my game
                     //new QueryFilter(QueryFilter.FieldOptions.S1, "SpeedFix", QueryFilter.OpOptions.EQ)
                 },
@@ -127,14 +131,14 @@ public class LobbyManager : MonoBehaviour
             _lobbiesListedEvent.RaiseEvent(queryResponse.Results);
         }
         catch (LobbyServiceException e) {
-            Debug.LogException(e);
+            ManageLobbyErrors(e);
         }
     }
 
     private async void CreateLobby(string lobbyName, bool isPrivate)
     {
         try {
-            int maxPlayers = 4;
+            int maxPlayers = 1;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions {
                 IsPrivate = isPrivate,
                 Player = GetPlayer(),
@@ -151,7 +155,7 @@ public class LobbyManager : MonoBehaviour
             _lobbyCreatedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
-            Debug.LogException(e);
+            ManageLobbyErrors(e);
         }
     }
 
@@ -171,7 +175,7 @@ public class LobbyManager : MonoBehaviour
             _lobbyJoinedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
-            Debug.LogException(e);
+            ManageLobbyErrors(e);
         }
     }
 
@@ -191,7 +195,7 @@ public class LobbyManager : MonoBehaviour
             _lobbyJoinedEvent.RaiseEvent();
         }
         catch (LobbyServiceException e) {
-            Debug.LogException(e);
+            ManageLobbyErrors(e);
         }
     }
 
@@ -206,4 +210,14 @@ public class LobbyManager : MonoBehaviour
         };
     }
     #endregion
+
+    private void ManageLobbyErrors(LobbyServiceException e)
+    {
+        Debug.LogException(e);
+
+        string userErrorMsg = e.Message;
+        userErrorMsg = userErrorMsg[0].ToString().ToUpper() + userErrorMsg.Substring(1);
+
+        _lobbyErrorCatchedEvent.RaiseEvent(userErrorMsg);
+    }
 }
