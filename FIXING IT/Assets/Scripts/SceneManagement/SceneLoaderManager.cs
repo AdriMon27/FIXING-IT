@@ -28,6 +28,11 @@ public class SceneLoaderManager : NetworkBehaviour
     [SerializeField]
     private StringFuncSO _getCurrentSceneNameFunc;
 
+    private void Awake()
+    {
+        _getCurrentSceneNameFunc.TrySetOnFuncRaised(() => _currentSceneLoaded.name);
+    }
+
     private void OnEnable()
     {
         _loadSceneChannel.OnEventRaised += LoadScene;
@@ -40,11 +45,6 @@ public class SceneLoaderManager : NetworkBehaviour
         _loadSceneChannel.OnEventRaised -= LoadScene;
         _loadNetworkSceneChannel.OnEventRaised -= LoadNetworkScene;
         _exitGameEvent.OnEventRaised -= ExitGame;
-    }
-
-    private void Start()
-    {
-        _getCurrentSceneNameFunc.TrySetOnFuncRaised(() => _currentSceneLoaded.name);
     }
 
     public override void OnNetworkSpawn()

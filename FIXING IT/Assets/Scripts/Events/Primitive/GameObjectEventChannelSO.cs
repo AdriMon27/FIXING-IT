@@ -12,7 +12,7 @@ public class GameObjectEventChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(gameObject);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameter {gameObject}");
+            Debug.LogWarning($"{errorMessage} with parameter {gameObject}");
         }
     }
 }

@@ -12,7 +12,7 @@ public class StringEventChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(arg0);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameters {arg0}");
+            Debug.LogWarning($"{errorMessage} with parameters {arg0}");
         }
     }
 }

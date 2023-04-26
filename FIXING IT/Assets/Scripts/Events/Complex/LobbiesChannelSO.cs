@@ -14,7 +14,7 @@ public class LobbiesChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(lobbies);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameter {lobbies}");
+            Debug.LogWarning($"{errorMessage} with parameter {lobbies}");
         }
     }
 }

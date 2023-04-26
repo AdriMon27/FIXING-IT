@@ -12,7 +12,7 @@ public class ScreenSettingsChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(screenResolutionIndex, isFullScreen);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameters {screenResolutionIndex} and {isFullScreen}");
+            Debug.LogWarning($"{errorMessage} with parameters {screenResolutionIndex} and {isFullScreen}");
         }
     }
 }

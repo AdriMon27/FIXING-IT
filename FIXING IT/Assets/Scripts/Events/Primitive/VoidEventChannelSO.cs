@@ -12,7 +12,7 @@ public class VoidEventChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke();
         }
         else {
-            Debug.LogError(errorMessage);
+            Debug.LogWarning(errorMessage);
         }
     }
 }

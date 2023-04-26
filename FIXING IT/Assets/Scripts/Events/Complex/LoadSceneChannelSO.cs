@@ -12,7 +12,7 @@ public class LoadSceneChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(gameSceneSO);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameter {gameSceneSO}");
+            Debug.LogWarning($"{errorMessage} with parameter {gameSceneSO}");
         }
     }
 }
