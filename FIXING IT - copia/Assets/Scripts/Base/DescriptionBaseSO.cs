@@ -6,4 +6,6 @@ using UnityEngine;
 public class DescriptionBaseSO : ScriptableObject
 {
     [SerializeField, TextArea] string _description;
+
+    protected string errorMessage => $"Someone Raise the event {name} but nobody was Listening";
 }
