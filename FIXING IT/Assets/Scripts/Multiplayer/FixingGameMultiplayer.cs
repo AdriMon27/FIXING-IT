@@ -2,15 +2,19 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class FixingGameMultiplayer : MonoBehaviour
+public class FixingGameMultiplayer : NetworkBehaviour
 {
     [SerializeField] private GameSceneSO _characterSelectionSceneSO;
+
+    private NetworkList<PlayerData> _playerDataNetworkList;
 
     [Header("Broadcasting To")]
     [SerializeField]
     private VoidEventChannelSO _hostStartedEvent;
     [SerializeField]
     private StringEventChannelSO _rejectedToServerEvent;
+    [SerializeField]
+    private VoidEventChannelSO _playerDataNetworkListChangedEvent;
 
     [Header("Listening To")]
     [SerializeField]
@@ -21,6 +25,18 @@ public class FixingGameMultiplayer : MonoBehaviour
     [Header("Invoking Func")]
     [SerializeField]
     private StringFuncSO _getCurrentSceneNameFunc;
+
+    [Header("Setting Func")]
+    [SerializeField]
+    private IntBoolFuncSO _isPlayerIndexConnected;
+
+    private void Awake()
+    {
+        _playerDataNetworkList = new NetworkList<PlayerData>();
+        _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
+
+        _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
+    }
 
     private void OnEnable()
     {
@@ -36,13 +52,33 @@ public class FixingGameMultiplayer : MonoBehaviour
 
     private void StartHost()
     {
-        NetworkManager.Singleton.ConnectionApprovalCallback = NetworkManager_ConnectionApprovalCallback;
+        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         NetworkManager.Singleton.StartHost();
 
         // send event
         _hostStartedEvent.RaiseEvent();
     }
+    private void StartClient()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.StartClient();
+    }
 
+    private void OnPlayerDataNetworkListChanged(NetworkListEvent<PlayerData> changeEvent)
+    {
+        _playerDataNetworkListChangedEvent.RaiseEvent();
+    }
+
+    private bool IsPlayerIndexConnected(int playerIndex)
+    {
+        //if (!IsServer)
+            //return false;
+
+        return playerIndex < _playerDataNetworkList.Count;
+    }
+
+    #region NetworkCallbacks
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
         NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
@@ -54,8 +90,7 @@ public class FixingGameMultiplayer : MonoBehaviour
 
         if (characterSelectionScene.name != currentSceneName) {
             connectionApprovalResponse.Approved = false;
-            // No existe en esta versión de la librería
-            //connectionApprovalResponse.Reason = "Game has already started";
+            connectionApprovalResponse.Reason = "Game has already started!";
 
             return;
         }
@@ -63,14 +98,22 @@ public class FixingGameMultiplayer : MonoBehaviour
         connectionApprovalResponse.Approved = true;
     }
 
-    private void StartClient()
+    /// <summary>
+    /// Only subscribed by the host
+    /// Host manages what to do when a client connects
+    /// </summary>
+    /// <param name="clientId">clientId that has connected</param>
+    private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-        NetworkManager.Singleton.StartClient();
+        _playerDataNetworkList.Add(new PlayerData() {
+            ClientId = clientId,
+        });
     }
+
 
     private void NetworkManager_OnClientDisconnectCallback(ulong obj)
     {
-        _rejectedToServerEvent.RaiseEvent("Failed to join the lobby!");
+        _rejectedToServerEvent.RaiseEvent(NetworkManager.Singleton.DisconnectReason);
     }
+    #endregion
 }

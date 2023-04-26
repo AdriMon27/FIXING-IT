@@ -12,6 +12,8 @@ public class SceneLoaderManager : NetworkBehaviour
     private bool _isSceneToLoadNetwork = false;
     private bool _isCurrentSceneNetwork = false;
 
+    private float _necessaryWaitSeconds = 0.1f;
+
     [Header("Listening To")]
     [SerializeField]
     private LoadSceneChannelSO _loadSceneChannel;
@@ -61,6 +63,9 @@ public class SceneLoaderManager : NetworkBehaviour
     #region Local Load
     private void LoadScene(GameSceneSO sceneToLoad)
     {
+        // send event
+        _startSceneLoadingEvent.RaiseEvent();
+
         _sceneToLoad = sceneToLoad;
         _isSceneToLoadNetwork = false;
 
@@ -70,9 +75,6 @@ public class SceneLoaderManager : NetworkBehaviour
 
     private void LoadNewScene()
     {
-        // send event
-        _startSceneLoadingEvent.RaiseEvent();
-
         // load scene
         var loadingOperationHandle = _sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
         loadingOperationHandle.Completed += OnNewSceneLoaded;
@@ -97,6 +99,9 @@ public class SceneLoaderManager : NetworkBehaviour
     #region Network Load
     private void LoadNetworkScene(GameSceneSO sceneToLoad)
     {
+        // send event
+        _startSceneLoadingEvent.RaiseEvent();
+
         _sceneToLoad = sceneToLoad;
         _isSceneToLoadNetwork = true;
 
@@ -104,8 +109,8 @@ public class SceneLoaderManager : NetworkBehaviour
         
         // si hemos descargado una local
         if (!_isCurrentSceneNetwork) {
-            LoadNewNetworkScene();
-        } 
+            Invoke(nameof(LoadNewNetworkScene), _necessaryWaitSeconds);  // necessary wait to prevent errors
+        }
         // else => lo maneja SceneLoaderManager_OnNewtworkSceneEvent
     }
 
@@ -116,9 +121,6 @@ public class SceneLoaderManager : NetworkBehaviour
     {
         if (!IsServer)
             return;
-
-        // send event
-        _startSceneLoadingEvent.RaiseEvent();
 
         // load scene
         string sceneName = _sceneToLoad.name;
@@ -195,6 +197,8 @@ public class SceneLoaderManager : NetworkBehaviour
                         // Keep track of the loaded scene, you need this to unload it
                         m_LoadedScene = sceneEvent.Scene;
                     }*/
+                    SceneManager.SetActiveScene(sceneEvent.Scene);
+
                     Debug.Log($"Loaded the {sceneEvent.SceneName} scene on {clientOrServer}-({sceneEvent.ClientId}).");
 
                     break;
@@ -225,7 +229,7 @@ public class SceneLoaderManager : NetworkBehaviour
                     }
 
                     if (_isSceneToLoadNetwork) {
-                        Invoke(nameof(LoadNewNetworkScene), 0.1f);  // necessary wait to prevent errors
+                        Invoke(nameof(LoadNewNetworkScene), _necessaryWaitSeconds);  // necessary wait to prevent errors
                     }
                     // else -> managed by its function
                     break;
