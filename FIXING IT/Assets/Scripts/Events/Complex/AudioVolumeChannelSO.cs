@@ -12,7 +12,7 @@ public class AudioVolumeChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(audioVolumes);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameterss {audioVolumes}");
+            Debug.LogWarning($"{errorMessage} with parameterss {audioVolumes}");
         }
     }
 }

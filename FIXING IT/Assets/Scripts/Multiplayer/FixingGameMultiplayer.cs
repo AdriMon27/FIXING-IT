@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -56,9 +57,6 @@ public class FixingGameMultiplayer : MonoBehaviour
             // No existe en esta versión de la librería
             //connectionApprovalResponse.Reason = "Game has already started";
 
-            // send event
-            rejectedReason = "Game has already started";
-            _rejectedToServerEvent.RaiseEvent(rejectedReason);
             return;
         }
 
@@ -67,6 +65,12 @@ public class FixingGameMultiplayer : MonoBehaviour
 
     private void StartClient()
     {
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartClient();
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+    {
+        _rejectedToServerEvent.RaiseEvent("Failed to join the lobby!");
     }
 }
