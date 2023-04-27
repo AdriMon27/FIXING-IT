@@ -135,6 +135,9 @@ public class SceneLoaderManager : MonoBehaviour
             ManageNetworkSceneLoaderExceptions(e);
         }
 
+        if (hasNetSceneLoaded)
+            _currentSceneLoaded = _sceneToLoad;
+
         _isCurrentSceneNetwork = hasNetSceneLoaded;
     }
     #endregion
