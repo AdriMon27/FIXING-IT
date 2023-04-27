@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class FixingGameMultiplayer : NetworkBehaviour
 {
+    public static FixingGameMultiplayer Instance { get; private set; }
+
     [SerializeField] private GameSceneSO _characterSelectionSceneSO;
 
-    private NetworkList<PlayerData> _playerDataNetworkList;
+    //private NetworkList<PlayerData> _playerDataNetworkList;
+    private NetworkVariable<int> _testVariable;
 
     [Header("Broadcasting To")]
     [SerializeField]
@@ -32,8 +35,17 @@ public class FixingGameMultiplayer : NetworkBehaviour
 
     private void Awake()
     {
-        _playerDataNetworkList = new NetworkList<PlayerData>();
-        _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
+        if (Instance != null && Instance != this) {
+            Destroy(this);
+        }
+        else { 
+            Instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+
+        //_playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
+        //_playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
+        _testVariable = new NetworkVariable<int>(0);
 
         _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
     }
@@ -56,6 +68,8 @@ public class FixingGameMultiplayer : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         NetworkManager.Singleton.StartHost();
 
+        //_testVariable.Value = 1;
+
         // send event
         _hostStartedEvent.RaiseEvent();
     }
@@ -75,7 +89,8 @@ public class FixingGameMultiplayer : NetworkBehaviour
         //if (!IsServer)
             //return false;
 
-        return playerIndex < _playerDataNetworkList.Count;
+        //return playerIndex < _playerDataNetworkList.Count;
+        return playerIndex < _testVariable.Value;
     }
 
     #region NetworkCallbacks
@@ -105,9 +120,10 @@ public class FixingGameMultiplayer : NetworkBehaviour
     /// <param name="clientId">clientId that has connected</param>
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
-        _playerDataNetworkList.Add(new PlayerData() {
+        /*_playerDataNetworkList.Add(new PlayerData() {
             ClientId = clientId,
-        });
+        });*/
+        _testVariable.Value++;
     }
 
 

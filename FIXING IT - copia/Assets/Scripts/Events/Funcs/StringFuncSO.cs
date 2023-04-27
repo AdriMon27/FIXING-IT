@@ -22,7 +22,7 @@ public class StringFuncSO : DescriptionBaseSO
             return OnFuncRaised.Invoke();
         }
         else {
-            Debug.LogError($"{errorMessage}");
+            Debug.LogWarning($"{errorMessage}");
             return null;
         }
     }

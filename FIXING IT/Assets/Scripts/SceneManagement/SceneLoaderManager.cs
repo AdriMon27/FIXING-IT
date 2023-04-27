@@ -4,6 +4,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Persistent Manager, doesn´t need an Instance
+/// </summary>
 public class SceneLoaderManager : NetworkBehaviour
 {
     // filled after loaded one scene
@@ -32,6 +35,8 @@ public class SceneLoaderManager : NetworkBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+
         _getCurrentSceneNameFunc.TrySetOnFuncRaised(() => _currentSceneLoaded.name);
     }
 

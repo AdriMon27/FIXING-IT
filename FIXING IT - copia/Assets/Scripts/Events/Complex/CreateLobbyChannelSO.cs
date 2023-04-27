@@ -12,7 +12,7 @@ public class CreateLobbyChannelSO : DescriptionBaseSO
             OnEventRaised.Invoke(lobbyName, isPrivate);
         }
         else {
-            Debug.LogError($"{errorMessage} with parameters {lobbyName} and {isPrivate}");
+            Debug.LogWarning($"{errorMessage} with parameters {lobbyName} and {isPrivate}");
         }
     }
 }

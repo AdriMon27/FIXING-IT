@@ -55,12 +55,10 @@ public class LobbyManager : MonoBehaviour
     {
         // to prevent initialize and signin when we are signed
         if (UnityServices.State != ServicesInitializationState.Initialized) {
-            await UnityServices.InitializeAsync();
-
-            AuthenticationService.Instance.SignedIn += () =>
-            {
-                Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-            };
+            InitializationOptions initializationOptions = new InitializationOptions();
+            initializationOptions.SetProfile(Random.Range(0, 1000).ToString()); // to allow test with multiple builds
+            
+            await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
