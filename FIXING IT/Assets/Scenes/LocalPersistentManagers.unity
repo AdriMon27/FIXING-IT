@@ -590,7 +590,8 @@ MonoBehaviour:
   _loadNetworkSceneChannel: {fileID: 11400000, guid: 56d38ca1aa9b1a3458c8001520e04453,
     type: 2}
   _exitGameEvent: {fileID: 11400000, guid: 4f17c2ad52a41b34d8cb38308c4adfdf, type: 2}
-  _unloadedNetworkEventCompleted: {fileID: 0}
+  _unloadedNetworkEventCompleted: {fileID: 11400000, guid: 37bbb39bf4842764dac48b7db813a545,
+    type: 2}
   _startSceneLoadingEvent: {fileID: 11400000, guid: 2efe707bf45627d45aba44eee0892905,
     type: 2}
   _sceneLoadedEvent: {fileID: 11400000, guid: 89677e0ba0d3f73458af243467382bd0, type: 2}
