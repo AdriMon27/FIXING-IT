@@ -43,7 +43,7 @@ public class SceneLoaderManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         _getCurrentSceneNameFunc.TrySetOnFuncRaised(() => _currentSceneLoaded.name);
     }

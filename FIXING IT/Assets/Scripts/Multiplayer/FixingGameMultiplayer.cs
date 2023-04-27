@@ -1,5 +1,7 @@
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FixingGameMultiplayer : NetworkBehaviour
 {
@@ -99,10 +101,13 @@ public class FixingGameMultiplayer : NetworkBehaviour
         string rejectedReason = string.Empty;
 
         // server no está en characerselection
-        UnityEngine.SceneManagement.Scene characterSelectionScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_characterSelectionSceneSO.name);
-        string currentSceneName = _getCurrentSceneNameFunc.RaiseFunc();
+        int numberOfActiveScenes = SceneManager.sceneCount;
+        string[] activeSceneNames = new string[numberOfActiveScenes];
+        for (int i = 0; i < SceneManager.sceneCount; i++) {
+            activeSceneNames[i] = SceneManager.GetSceneAt(i).name;
+        }
 
-        if (characterSelectionScene.name != currentSceneName) {
+        if (!activeSceneNames.Contains(_characterSelectionSceneSO.name)) {
             connectionApprovalResponse.Approved = false;
             connectionApprovalResponse.Reason = "Game has already started!";
 
