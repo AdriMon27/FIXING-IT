@@ -1,4 +1,4 @@
-using Unity.Netcode;
+using System;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Persistent Manager, doesn´t need an Instance
 /// </summary>
-public class SceneLoaderManager : NetworkBehaviour
+public class SceneLoaderManager : MonoBehaviour
 {
     // filled after loaded one scene
     private GameSceneSO _sceneToLoad;
@@ -24,11 +24,19 @@ public class SceneLoaderManager : NetworkBehaviour
     private LoadSceneChannelSO _loadNetworkSceneChannel;
     [SerializeField]
     private VoidEventChannelSO _exitGameEvent;
+    [SerializeField]
+    private VoidEventChannelSO _unloadedNetworkEventCompleted;
 
     [Header("Broadcasting To")]
     [SerializeField] VoidEventChannelSO _startSceneLoadingEvent;
     [SerializeField] VoidEventChannelSO _sceneLoadedEvent;
 
+    [Header("Invoking Func")]
+    [SerializeField]
+    private StringBoolFuncSO _loadNewNetworkSceneByNameFunc;
+    [SerializeField]
+    private StringBoolFuncSO _unloadNetworkSceneByNameFunc;
+    
     [Header("Setting Func")]
     [SerializeField]
     private StringFuncSO _getCurrentSceneNameFunc;
@@ -45,6 +53,8 @@ public class SceneLoaderManager : NetworkBehaviour
         _loadSceneChannel.OnEventRaised += LoadScene;
         _loadNetworkSceneChannel.OnEventRaised += LoadNetworkScene;
         _exitGameEvent.OnEventRaised += ExitGame;
+
+        _unloadedNetworkEventCompleted.OnEventRaised += SceneLoaderManager_UnloadedNetworkEventCompleted;
     }
 
     private void OnDisable()
@@ -52,17 +62,8 @@ public class SceneLoaderManager : NetworkBehaviour
         _loadSceneChannel.OnEventRaised -= LoadScene;
         _loadNetworkSceneChannel.OnEventRaised -= LoadNetworkScene;
         _exitGameEvent.OnEventRaised -= ExitGame;
-    }
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-        {
-            NetworkManager.Singleton.SceneManager.OnSceneEvent += SceneLoaderManager_OnNetworkSceneEvent;
-        }
-        Debug.Log($"OnNetworkSpawn and IsServer: {IsServer}");
-
-        base.OnNetworkSpawn();
+        _unloadedNetworkEventCompleted.OnEventRaised -= SceneLoaderManager_UnloadedNetworkEventCompleted;
     }
 
     #region Local Load
@@ -116,7 +117,7 @@ public class SceneLoaderManager : NetworkBehaviour
         if (!_isCurrentSceneNetwork) {
             Invoke(nameof(LoadNewNetworkScene), _necessaryWaitSeconds);  // necessary wait to prevent errors
         }
-        // else => lo maneja SceneLoaderManager_OnNewtworkSceneEvent
+        // else => lo maneja UnloadPreviousSceneNetwork
     }
 
     /// <summary>
@@ -124,19 +125,17 @@ public class SceneLoaderManager : NetworkBehaviour
     /// </summary>
     private void LoadNewNetworkScene()
     {
-        if (!IsServer)
-            return;
-
         // load scene
         string sceneName = _sceneToLoad.name;
-
-        var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-        if (status != SceneEventProgressStatus.Started) {
-            Debug.LogWarning($"Failed to load {sceneName} with a {nameof(SceneEventProgressStatus)}: {status}");
+        bool hasNetSceneLoaded = false;
+        try { 
+            hasNetSceneLoaded = _loadNewNetworkSceneByNameFunc.RaiseFunc(sceneName);
+        }
+        catch (Exception e) {
+            ManageNetworkSceneLoaderExceptions(e);
         }
 
-        _currentSceneLoaded = _sceneToLoad;
-        _isCurrentSceneNetwork = true;
+        _isCurrentSceneNetwork = hasNetSceneLoaded;
     }
     #endregion
 
@@ -166,16 +165,13 @@ public class SceneLoaderManager : NetworkBehaviour
     }
     private void UnloadPreviousSceneNetwork()
     {
-        // TODO: mirar esto bien
-        if (!IsServer)
-            return;
+        string sceneName = _currentSceneLoaded.name;
 
-        Scene sceneToUnload = SceneManager.GetSceneByName(_currentSceneLoaded.name);
-        if (sceneToUnload.IsValid()) {
-            NetworkManager.Singleton.SceneManager.UnloadScene(sceneToUnload);
+        try { 
+            _unloadNetworkSceneByNameFunc.RaiseFunc(sceneName);
         }
-        else { 
-            Debug.LogError($"Escena con nombre {_currentSceneLoaded.name} no existe ahora mismo");
+        catch (Exception e) {
+            ManageNetworkSceneLoaderExceptions(e);
         }
     }
     #endregion
@@ -186,59 +182,16 @@ public class SceneLoaderManager : NetworkBehaviour
         Application.Quit();
     }
 
-
-    private void SceneLoaderManager_OnNetworkSceneEvent(SceneEvent sceneEvent)
+    private void ManageNetworkSceneLoaderExceptions(Exception e)
     {
-        var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
-        switch (sceneEvent.SceneEventType)
-        {
-            // locally cases
-            case SceneEventType.LoadComplete:
-                {
-                    // We want to handle this for only the server-side
-                    /*if (sceneEvent.ClientId == NetworkManager.ServerClientId)
-                    {
-                        // *** IMPORTANT ***
-                        // Keep track of the loaded scene, you need this to unload it
-                        m_LoadedScene = sceneEvent.Scene;
-                    }*/
-                    SceneManager.SetActiveScene(sceneEvent.Scene);
+        Debug.LogError($"Error catched: {e.Message}");
+    }
 
-                    Debug.Log($"Loaded the {sceneEvent.SceneName} scene on {clientOrServer}-({sceneEvent.ClientId}).");
-
-                    break;
-                }
-            case SceneEventType.UnloadComplete:
-                {
-                    Debug.Log($"Unloaded the {sceneEvent.SceneName} scene on {clientOrServer}-({sceneEvent.ClientId}).");
-
-                    break;
-                }
-            // when server && all clients
-            case SceneEventType.LoadEventCompleted:
-                {
-                    Debug.Log($"Load event completed for the following client identifiers:({sceneEvent.ClientsThatCompleted})");
-                    if (sceneEvent.ClientsThatTimedOut.Count > 0) {
-                        Debug.LogWarning($"Load event timed out for the following client identifiers:({sceneEvent.ClientsThatTimedOut})");
-                    }
-
-                    // send event
-                    _sceneLoadedEvent.RaiseEvent();
-                    break;
-                }
-            case SceneEventType.UnloadEventCompleted:
-                {
-                    Debug.Log($"Unload event completed for the following client identifiers:({sceneEvent.ClientsThatCompleted})");
-                    if (sceneEvent.ClientsThatTimedOut.Count > 0) {
-                        Debug.LogWarning($"Unload event timed out for the following client identifiers:({sceneEvent.ClientsThatTimedOut})");
-                    }
-
-                    if (_isSceneToLoadNetwork) {
-                        Invoke(nameof(LoadNewNetworkScene), _necessaryWaitSeconds);  // necessary wait to prevent errors
-                    }
-                    // else -> managed by its function
-                    break;
-                }
+    private void SceneLoaderManager_UnloadedNetworkEventCompleted()
+    {
+        if (_isSceneToLoadNetwork) {
+            Invoke(nameof(LoadNewNetworkScene), _necessaryWaitSeconds);  // necessary wait to prevent errors
         }
+        // else -> managed by its function
     }
 }

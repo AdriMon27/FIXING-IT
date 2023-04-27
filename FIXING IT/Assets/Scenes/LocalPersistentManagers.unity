@@ -567,7 +567,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2052955464}
   - component: {fileID: 2052955463}
-  - component: {fileID: 2052955465}
   m_Layer: 0
   m_Name: SceneLoaderManager
   m_TagString: Untagged
@@ -591,9 +590,14 @@ MonoBehaviour:
   _loadNetworkSceneChannel: {fileID: 11400000, guid: 56d38ca1aa9b1a3458c8001520e04453,
     type: 2}
   _exitGameEvent: {fileID: 11400000, guid: 4f17c2ad52a41b34d8cb38308c4adfdf, type: 2}
+  _unloadedNetworkEventCompleted: {fileID: 0}
   _startSceneLoadingEvent: {fileID: 11400000, guid: 2efe707bf45627d45aba44eee0892905,
     type: 2}
   _sceneLoadedEvent: {fileID: 11400000, guid: 89677e0ba0d3f73458af243467382bd0, type: 2}
+  _loadNewNetworkSceneByNameFunc: {fileID: 11400000, guid: 05611f731a618bc41bb2df860e45e98f,
+    type: 2}
+  _unloadNetworkSceneByNameFunc: {fileID: 11400000, guid: 257097662b3779c4e875335117196c3d,
+    type: 2}
   _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
     type: 2}
 --- !u!4 &2052955464
@@ -611,19 +615,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2052955465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052955462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 326460688
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
