@@ -6,6 +6,11 @@ public class StringBoolFuncSO : DescriptionBaseSO
 {
     private Func<string, bool> OnFuncRaised;
 
+    public void ClearOnFuncRaised()
+    {
+        OnFuncRaised = null;
+    }
+
     public bool TrySetOnFuncRaised(Func<string, bool> newFunc)
     {
         if (OnFuncRaised != null) {

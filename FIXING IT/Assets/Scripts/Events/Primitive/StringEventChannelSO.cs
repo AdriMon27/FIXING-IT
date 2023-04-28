@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Primitive/String Event Channel")]
-public class StringEventChannelSO : DescriptionBaseSO
+public class StringEventChannelSO : DescriptionBaseSO, IMyEventSO<string>
 {
-    public UnityAction<string> OnEventRaised;
+    public UnityAction<string> OnEventRaised { get; set; }
 
     public void RaiseEvent(string arg0)
     {

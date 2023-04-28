@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Primitive/Float Event Channel")]
-public class FloatEventChannelSO : DescriptionBaseSO
+public class FloatEventChannelSO : DescriptionBaseSO, IMyEventSO<float>
 {
-    public UnityAction<float> OnEventRaised;
+    public UnityAction<float> OnEventRaised { get; set; }
 
     public void RaiseEvent(float arg0)
     {

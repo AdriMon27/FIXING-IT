@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Complex/Screen Settings Channel")]
-public class ScreenSettingsChannelSO : DescriptionBaseSO
+public class ScreenSettingsChannelSO : DescriptionBaseSO, IMyEventSO<int, bool>
 {
-    public UnityAction<int, bool> OnEventRaised;
+    public UnityAction<int, bool> OnEventRaised { get; set; }
 
     public void RaiseEvent(int screenResolutionIndex, bool isFullScreen)
     {

@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Complex/Create Lobby Channel")]
-public class CreateLobbyChannelSO : DescriptionBaseSO
+public class CreateLobbyChannelSO : DescriptionBaseSO, IMyEventSO<string, bool>
 {
-    public UnityAction<string, bool> OnEventRaised;
+    public UnityAction<string, bool> OnEventRaised { get; set; }
 
     public void RaiseEvent(string lobbyName, bool isPrivate)
     {

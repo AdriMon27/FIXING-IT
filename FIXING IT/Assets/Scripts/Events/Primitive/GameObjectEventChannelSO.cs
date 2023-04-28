@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Primitive/GameObject Event Channel")]
-public class GameObjectEventChannelSO : DescriptionBaseSO
+public class GameObjectEventChannelSO : DescriptionBaseSO, IMyEventSO<GameObject>
 {
-    public UnityAction<GameObject> OnEventRaised;
+    public UnityAction<GameObject> OnEventRaised { get; set; }
 
     public void RaiseEvent(GameObject gameObject)
     {

@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Complex/Load Scene Channel")]
-public class LoadSceneChannelSO : DescriptionBaseSO
+public class LoadSceneChannelSO : DescriptionBaseSO,IMyEventSO<GameSceneSO>
 {
-    public UnityAction<GameSceneSO> OnEventRaised;
+    public UnityAction<GameSceneSO> OnEventRaised { get; set; }
 
     public void RaiseEvent(GameSceneSO gameSceneSO)
     {

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Events/Complex/Lobbies Channel")]
-public class LobbiesChannelSO : DescriptionBaseSO
+public class LobbiesChannelSO : DescriptionBaseSO, IMyEventSO<List<Lobby>>
 {
-    public UnityAction<List<Lobby>> OnEventRaised;
+    public UnityAction<List<Lobby>> OnEventRaised { get; set; }
 
     public void RaiseEvent(List<Lobby> lobbies)
     {
