@@ -1,8 +1,9 @@
+using ProgramadorCastellano.FuncsAndEvents;
 using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Events/Funcs/Int -> Bool Func")]
-public class IntBoolFuncSO : DescriptionBaseSO
+public class IntBoolFuncSO : DescriptionBaseSO, IMyFuncSO<int, bool>
 {
     private Func<int, bool> OnFuncRaised;
 
@@ -25,5 +26,10 @@ public class IntBoolFuncSO : DescriptionBaseSO
             Debug.LogWarning($"{errorMessage} with parameter {arg0}");
             return false;
         }
+    }
+
+    public void ClearOnFuncRaised()
+    {
+        OnFuncRaised = null;
     }
 }

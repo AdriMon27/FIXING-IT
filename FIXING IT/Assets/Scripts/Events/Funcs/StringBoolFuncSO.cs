@@ -1,15 +1,11 @@
+using ProgramadorCastellano.FuncsAndEvents;
 using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Events/Funcs/String -> Bool Func")]
-public class StringBoolFuncSO : DescriptionBaseSO
+public class StringBoolFuncSO : DescriptionBaseSO, IMyFuncSO<string, bool>
 {
     private Func<string, bool> OnFuncRaised;
-
-    public void ClearOnFuncRaised()
-    {
-        OnFuncRaised = null;
-    }
 
     public bool TrySetOnFuncRaised(Func<string, bool> newFunc)
     {
@@ -30,5 +26,10 @@ public class StringBoolFuncSO : DescriptionBaseSO
             Debug.LogWarning($"{errorMessage} with parameter {arg0}");
             return false;
         }
+    }
+
+    public void ClearOnFuncRaised()
+    {
+        OnFuncRaised = null;
     }
 }

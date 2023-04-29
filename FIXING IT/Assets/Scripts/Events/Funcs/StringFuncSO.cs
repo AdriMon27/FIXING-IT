@@ -1,8 +1,9 @@
+using ProgramadorCastellano.FuncsAndEvents;
 using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Events/Funcs/Get String Func")]
-public class StringFuncSO : DescriptionBaseSO
+public class StringFuncSO : DescriptionBaseSO, IMyFuncSO<string>
 {
     private Func<string> OnFuncRaised;
 
@@ -25,5 +26,10 @@ public class StringFuncSO : DescriptionBaseSO
             Debug.LogWarning($"{errorMessage}");
             return null;
         }
+    }
+
+    public void ClearOnFuncRaised()
+    {
+        OnFuncRaised = null;
     }
 }
