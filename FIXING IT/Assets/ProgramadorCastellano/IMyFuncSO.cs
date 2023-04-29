@@ -1,6 +1,6 @@
 using System;
 
-namespace ProgramadorCastellano.FuncsAndEvents
+namespace ProgramadorCastellano.MyFuncs
 {
     /// <summary>
     /// This interface shouldn´t be used outside the namespace

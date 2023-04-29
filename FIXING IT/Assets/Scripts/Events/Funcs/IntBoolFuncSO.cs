@@ -1,4 +1,4 @@
-using ProgramadorCastellano.FuncsAndEvents;
+using ProgramadorCastellano.MyFuncs;
 using System;
 using UnityEngine;
 
