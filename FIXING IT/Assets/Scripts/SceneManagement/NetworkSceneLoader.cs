@@ -7,8 +7,6 @@ public class NetworkSceneLoader : NetworkBehaviour
 {
     public static NetworkSceneLoader Instance { get; private set; }
 
-    private float _necessaryWaitSeconds = 0.1f;
-
     [Header("Broadcasting To")]
     [SerializeField]
     private VoidEventChannelSO _sceneLoadedEvent;
@@ -28,8 +26,11 @@ public class NetworkSceneLoader : NetworkBehaviour
         }
         else {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
-        DontDestroyOnLoad(this);
+
+        _loadNewNetworkSceneByNameFunc.ClearOnFuncRaised();
+        _unloadNetworkSceneByNameFunc.ClearOnFuncRaised();
 
         _loadNewNetworkSceneByNameFunc.TrySetOnFuncRaised(LoadNewNetworkScene);
         _unloadNetworkSceneByNameFunc.TrySetOnFuncRaised(UnloadNetworkScene);
@@ -85,7 +86,7 @@ public class NetworkSceneLoader : NetworkBehaviour
 
         Scene sceneToUnload = SceneManager.GetSceneByName(sceneName);
         if (!sceneToUnload.IsValid()) {
-            string errorMsg = $"Escena con nombre {sceneName} no existe ahora mismo";
+            string errorMsg = $"UnloadingError: Escena con nombre {sceneName} no existe ahora mismo";
 
             Debug.LogWarning(errorMsg);
             throw new Exception(errorMsg);
@@ -104,8 +105,6 @@ public class NetworkSceneLoader : NetworkBehaviour
             // locally cases
             case SceneEventType.LoadComplete:
                 {
-                    //SceneManager.SetActiveScene(sceneEvent.Scene);
-
                     Debug.Log($"Loaded the {sceneEvent.SceneName} scene on {clientOrServer}-({sceneEvent.ClientId}).");
                     break;
                 }

@@ -7,7 +7,7 @@ public class MainMenuCleanUp : MonoBehaviour
     // All of them are loaded again at LobbySelection
     private void Awake()
     {
-        if (NetworkManager.Singleton != null) {
+        /*if (NetworkManager.Singleton != null) {
             Destroy(NetworkManager.Singleton.gameObject);
         }
 
@@ -17,6 +17,6 @@ public class MainMenuCleanUp : MonoBehaviour
 
         if (FixingGameMultiplayer.Instance != null) {
             Destroy(FixingGameMultiplayer.Instance.gameObject);
-        }
+        }*/
     }
 }

@@ -41,8 +41,8 @@ public class FixingGameMultiplayer : NetworkBehaviour
         }
         else { 
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
 
         _playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
         _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
