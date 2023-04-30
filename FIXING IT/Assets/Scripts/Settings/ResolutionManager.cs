@@ -1,3 +1,4 @@
+using FixingIt.Events;
 using UnityEngine;
 
 namespace FixingIt.Settings
