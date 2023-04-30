@@ -9,6 +9,7 @@ namespace FixingIt.CharacterSelection
     {
         [SerializeField] private int _playerIndex;
         [SerializeField] private GameObject _readyGameObject;
+        [SerializeField] private PlayerVisualComponent _playerVisualComp;
 
         [Header("Listening To")]
         [SerializeField]
@@ -23,6 +24,8 @@ namespace FixingIt.CharacterSelection
         private ULongBoolFuncSO _isPlayerReadyFunc;
         [SerializeField]
         private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndexFunc;
+        [SerializeField]
+        private IntColorFuncSO _getPlayerColorFunc;
 
         private void Start()
         {
@@ -44,9 +47,14 @@ namespace FixingIt.CharacterSelection
             {
                 Show();
 
+                // show ready
                 PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
                 bool isReady = _isPlayerReadyFunc.RaiseFunc(playerData.ClientId);
                 _readyGameObject.SetActive(isReady);
+
+                // show color
+                Color playerColor = _getPlayerColorFunc.RaiseFunc(_playerIndex);
+                _playerVisualComp.SetPlayerColor(playerColor);
             }
             else
             {

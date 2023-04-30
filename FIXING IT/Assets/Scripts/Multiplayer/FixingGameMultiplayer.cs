@@ -14,9 +14,9 @@ namespace FixingIt.Multiplayer
         public static FixingGameMultiplayer Instance { get; private set; }
 
         [SerializeField] private GameSceneSO _characterSelectionSceneSO;
+        [SerializeField] private Color[] _playerColorArray;
 
         private NetworkList<PlayerData> _playerDataNetworkList;
-        //private NetworkVariable<int> _testVariable;
 
         [Header("Broadcasting To")]
         [SerializeField]
@@ -41,6 +41,8 @@ namespace FixingIt.Multiplayer
         private IntBoolFuncSO _isPlayerIndexConnected;
         [SerializeField]
         private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndex;
+        [SerializeField]
+        private IntColorFuncSO _getPlayerColorFunc;
 
         private void Awake()
         {
@@ -56,10 +58,10 @@ namespace FixingIt.Multiplayer
 
             _playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
             _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
-            //_testVariable = new NetworkVariable<int>(0);
 
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
             _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
+            _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
         }
 
         private void OnEnable()
@@ -79,8 +81,6 @@ namespace FixingIt.Multiplayer
             NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
             NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
             NetworkManager.Singleton.StartHost();
-
-            //_testVariable.Value = 1;
 
             // send event
             _hostStartedEvent.RaiseEvent();
@@ -102,12 +102,16 @@ namespace FixingIt.Multiplayer
             //return false;
 
             return playerIndex < _playerDataNetworkList.Count;
-            //return playerIndex < _testVariable.Value;
         }
 
         private PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
         {
             return _playerDataNetworkList[playerIndex];
+        }
+
+        private Color GetPlayerColor(int playerIndex)
+        {
+            return _playerColorArray[playerIndex];
         }
 
         #region NetworkCallbacks

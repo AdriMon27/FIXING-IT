@@ -709,6 +709,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterSelectionSceneSO: {fileID: 11400000, guid: 4363647b31354c04ab2b46d86fc95b7b,
     type: 2}
+  _playerColorArray:
+  - {r: 0.25490198, g: 0.6, b: 0.6117647, a: 1}
+  - {r: 0.6117647, g: 0.26666668, b: 0.25490198, a: 1}
+  - {r: 0.42352942, g: 0.6117647, b: 0.25490198, a: 1}
+  - {r: 0.44705883, g: 0.25490198, b: 0.6117647, a: 1}
   _hostStartedEvent: {fileID: 11400000, guid: dcf5f5d61aa970f459cdc57153a283d4, type: 2}
   _rejectedToServerEvent: {fileID: 11400000, guid: efa5b3d5cdbe70e4691904a210964551,
     type: 2}
@@ -721,6 +726,8 @@ MonoBehaviour:
   _isPlayerIndexConnected: {fileID: 11400000, guid: 21123dfdd061aad4ebaf87d0c5a62b30,
     type: 2}
   _getPlayerDataFromPlayerIndex: {fileID: 11400000, guid: 3111aba2807ef574b9ee43cc45b4e038,
+    type: 2}
+  _getPlayerColorFunc: {fileID: 11400000, guid: b253c255c52ffc54289e2a6c5d3e4a1e,
     type: 2}
 --- !u!114 &1945757823
 MonoBehaviour:

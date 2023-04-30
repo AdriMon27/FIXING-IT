@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerIndex: 0
   _readyGameObject: {fileID: 7464402596422442118}
+  _playerVisualComp: {fileID: 5710223044873797130}
   _playerDataNetworkListChangedEvent: {fileID: 11400000, guid: 4a5470f4d83c2034db1eda6980a15bc9,
     type: 2}
   _clientReadyChangedEvent: {fileID: 11400000, guid: 1dcaeb7a2341a9243b234945b1f2da6a,
@@ -56,6 +57,8 @@ MonoBehaviour:
     type: 2}
   _isPlayerReadyFunc: {fileID: 11400000, guid: 238beda1638b2ae4cb3ae0696d7d1919, type: 2}
   _getPlayerDataFromPlayerIndexFunc: {fileID: 11400000, guid: 3111aba2807ef574b9ee43cc45b4e038,
+    type: 2}
+  _getPlayerColorFunc: {fileID: 11400000, guid: b253c255c52ffc54289e2a6c5d3e4a1e,
     type: 2}
 --- !u!1 &7464402596422442118
 GameObject:
@@ -302,6 +305,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad27d27b1a537748af0b62171d99918, type: 3}
+--- !u!114 &5710223044873797130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2735217656512367736, guid: 3ad27d27b1a537748af0b62171d99918,
+    type: 3}
+  m_PrefabInstance: {fileID: 7695447168969634418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e5d0a63f92a834d9c603b5bae5f9a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6597395215520488725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3550278601663164263, guid: 3ad27d27b1a537748af0b62171d99918,
