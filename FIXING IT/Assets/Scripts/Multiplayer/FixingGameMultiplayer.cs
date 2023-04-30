@@ -1,3 +1,4 @@
+using FixingIt.Funcs;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.MyEvents;
 using ProgramadorCastellano.MyFuncs;
@@ -38,6 +39,8 @@ namespace FixingIt.Multiplayer
         [Header("Setting Func")]
         [SerializeField]
         private IntBoolFuncSO _isPlayerIndexConnected;
+        [SerializeField]
+        private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndex;
 
         private void Awake()
         {
@@ -56,6 +59,7 @@ namespace FixingIt.Multiplayer
             //_testVariable = new NetworkVariable<int>(0);
 
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
+            _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
         }
 
         private void OnEnable()

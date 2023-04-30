@@ -33,7 +33,7 @@ namespace FixingIt.CharacterSelection
             Instance = this;
             _playerReadyDictionary = new Dictionary<ulong, bool>();
 
-            //_isPlayerReadyFunc.TrySetOnFuncRaised(IsPlayerReady);
+            _isPlayerReadyFunc.TrySetOnFuncRaised(IsPlayerReady);
         }
 
         public void SetPlayerReady()
@@ -74,6 +74,11 @@ namespace FixingIt.CharacterSelection
 
             // send event
             _clientReadyChangedEvent.RaiseEvent();
+        }
+
+        private bool IsPlayerReady(ulong clientId)
+        {
+            return _playerReadyDictionary.ContainsKey(clientId) && _playerReadyDictionary[clientId];
         }
 
         // REFACTORIZAR EN LA NO TEST

@@ -1,3 +1,4 @@
+using FixingIt.Funcs;
 using ProgramadorCastellano.MyEvents;
 using ProgramadorCastellano.MyFuncs;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace FixingIt.CharacterSelection
         private IntBoolFuncSO _isPlayerIndexConnectedFunc;
         [SerializeField]
         private ULongBoolFuncSO _isPlayerReadyFunc;
+        [SerializeField]
+        private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndexFunc;
 
         private void Start()
         {
@@ -41,8 +44,9 @@ namespace FixingIt.CharacterSelection
             {
                 Show();
 
-                //bool isReady = _isPlayerReadyFunc.RaiseFunc(_playerIndex);
-                //_readyGameObject.SetActive(isReady);
+                PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
+                bool isReady = _isPlayerReadyFunc.RaiseFunc(playerData.ClientId);
+                _readyGameObject.SetActive(isReady);
             }
             else
             {
