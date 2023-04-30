@@ -1,34 +1,37 @@
 using UnityEngine;
 
-public class UILoadingManager : MonoBehaviour
+namespace FixingIt.UI.Loading
 {
-    [SerializeField] private GameObject _loadingPanel;
-
-    [Header("Listening to")]
-    [SerializeField]
-    private VoidEventChannelSO _startSceneLoadingEvent;
-    [SerializeField]
-    private VoidEventChannelSO _sceneLoadedEvent;
-
-    private void Start()
+    public class UILoadingManager : MonoBehaviour
     {
-        _loadingPanel.SetActive(false);
-    }
+        [SerializeField] private GameObject _loadingPanel;
 
-    private void OnEnable()
-    {
-        _startSceneLoadingEvent.OnEventRaised += ToggleLoadingPanel;
-        _sceneLoadedEvent.OnEventRaised += ToggleLoadingPanel;
-    }
+        [Header("Listening to")]
+        [SerializeField]
+        private VoidEventChannelSO _startSceneLoadingEvent;
+        [SerializeField]
+        private VoidEventChannelSO _sceneLoadedEvent;
 
-    private void OnDisable()
-    {
-        _startSceneLoadingEvent.OnEventRaised -= ToggleLoadingPanel;
-        _sceneLoadedEvent.OnEventRaised -= ToggleLoadingPanel;
-    }
+        private void Start()
+        {
+            _loadingPanel.SetActive(false);
+        }
 
-    private void ToggleLoadingPanel()
-    {
-        _loadingPanel.SetActive(!_loadingPanel.activeSelf);
+        private void OnEnable()
+        {
+            _startSceneLoadingEvent.OnEventRaised += ToggleLoadingPanel;
+            _sceneLoadedEvent.OnEventRaised += ToggleLoadingPanel;
+        }
+
+        private void OnDisable()
+        {
+            _startSceneLoadingEvent.OnEventRaised -= ToggleLoadingPanel;
+            _sceneLoadedEvent.OnEventRaised -= ToggleLoadingPanel;
+        }
+
+        private void ToggleLoadingPanel()
+        {
+            _loadingPanel.SetActive(!_loadingPanel.activeSelf);
+        }
     }
 }

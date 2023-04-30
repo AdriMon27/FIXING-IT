@@ -2,29 +2,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILobbyErrorPanel : MonoBehaviour
+namespace FixingIt.UI.LobbySelection
 {
-    [SerializeField] private TextMeshProUGUI _tmpError;
-    [SerializeField] private Button _acceptErrorButton;
-
-    [Header("Broadcasting To")]
-    [SerializeField]
-    private VoidEventChannelSO _acceptedLobbbyErrorEvent;
-
-    public GameObject FirstSelected => _acceptErrorButton.gameObject;
-
-    private void Start()
+    public class UILobbyErrorPanel : MonoBehaviour
     {
-        _acceptErrorButton.onClick.AddListener(AcceptError);
-    }
+        [SerializeField] private TextMeshProUGUI _tmpError;
+        [SerializeField] private Button _acceptErrorButton;
 
-    private void AcceptError()
-    {
-        _acceptedLobbbyErrorEvent.RaiseEvent();
-    }
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _acceptedLobbbyErrorEvent;
 
-    public void SetErrorMsg(string errorMsg)
-    {
-        _tmpError.text = errorMsg;
+        public GameObject FirstSelected => _acceptErrorButton.gameObject;
+
+        private void Start()
+        {
+            _acceptErrorButton.onClick.AddListener(AcceptError);
+        }
+
+        private void AcceptError()
+        {
+            _acceptedLobbbyErrorEvent.RaiseEvent();
+        }
+
+        public void SetErrorMsg(string errorMsg)
+        {
+            _tmpError.text = errorMsg;
+        }
     }
 }
