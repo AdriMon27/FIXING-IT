@@ -1,29 +1,31 @@
-using System;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class InitialisationLoader : MonoBehaviour
+namespace FixingIt.SceneManagement
 {
-    [SerializeField] GameSceneSO _managersScene;
-    [SerializeField] GameSceneSO _mainMenuScene;
-
-    [Header("Broadcasting To")]
-    [SerializeField]
-    private LoadSceneChannelSO _loadSceneChannel;
-
-    private void Start()
+    public class InitialisationLoader : MonoBehaviour
     {
-        _managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive).Completed += LoadMainMenu;
+        [SerializeField] GameSceneSO _managersScene;
+        [SerializeField] GameSceneSO _mainMenuScene;
 
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private LoadSceneChannelSO _loadSceneChannel;
 
-    private void LoadMainMenu(AsyncOperationHandle<SceneInstance> obj)
-    {
-        _loadSceneChannel.RaiseEvent(_mainMenuScene);
+        private void Start()
+        {
+            _managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive).Completed += LoadMainMenu;
 
-        SceneManager.UnloadSceneAsync(0);   //delete itself after
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        private void LoadMainMenu(AsyncOperationHandle<SceneInstance> obj)
+        {
+            _loadSceneChannel.RaiseEvent(_mainMenuScene);
+
+            SceneManager.UnloadSceneAsync(0);   //delete itself after
+        }
     }
 }

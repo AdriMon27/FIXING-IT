@@ -1,46 +1,51 @@
 using UnityEngine;
 
-public class CharacterSelectionPlayer : MonoBehaviour
+namespace FixingIt.Multiplayer
 {
-    [SerializeField] private int _playerIndex;
-
-    [Header("Listening To")]
-    [SerializeField]
-    private VoidEventChannelSO _playerDataNetworkListChangedEvent;
-
-    [Header("Invoking Func")]
-    [SerializeField]
-    private IntBoolFuncSO _isPlayerIndexConnected;
-
-    private void Start()
+    public class CharacterSelectionPlayer : MonoBehaviour
     {
-        _playerDataNetworkListChangedEvent.OnEventRaised += UpdateCSPlayer;
+        [SerializeField] private int _playerIndex;
 
-        UpdateCSPlayer();
-    }
+        [Header("Listening To")]
+        [SerializeField]
+        private VoidEventChannelSO _playerDataNetworkListChangedEvent;
 
-    private void OnDestroy()
-    {
-        _playerDataNetworkListChangedEvent.OnEventRaised -= UpdateCSPlayer;
-    }
+        [Header("Invoking Func")]
+        [SerializeField]
+        private IntBoolFuncSO _isPlayerIndexConnected;
 
-    private void UpdateCSPlayer()
-    {
-        if (_isPlayerIndexConnected.RaiseFunc(_playerIndex)) {
-            Show();
+        private void Start()
+        {
+            _playerDataNetworkListChangedEvent.OnEventRaised += UpdateCSPlayer;
+
+            UpdateCSPlayer();
         }
-        else {
-            Hide();
+
+        private void OnDestroy()
+        {
+            _playerDataNetworkListChangedEvent.OnEventRaised -= UpdateCSPlayer;
         }
-    }
 
-    private void Show()
-    {
-        gameObject.SetActive(true);
-    }
+        private void UpdateCSPlayer()
+        {
+            if (_isPlayerIndexConnected.RaiseFunc(_playerIndex))
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
+        }
 
-    private void Hide()
-    {
-        gameObject.SetActive(false);
+        private void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        private void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
