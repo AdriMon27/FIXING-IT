@@ -1,4 +1,5 @@
 using FixingIt.Funcs;
+using FixingIt.PlayerGame;
 using ProgramadorCastellano.MyEvents;
 using ProgramadorCastellano.MyFuncs;
 using UnityEngine;

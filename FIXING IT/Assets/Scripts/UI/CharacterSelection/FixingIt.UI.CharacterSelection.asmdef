@@ -1,0 +1,20 @@
+{
+    "name": "FixingIt.UI.CharacterSelection",
+    "rootNamespace": "FixingIt.UI.CharacterSelection",
+    "references": [
+        "GUID:39a53fcf163849642bf3d091692f6a2c",
+        "GUID:f1d564af88de86f4c96bc66bc695f2c5",
+        "GUID:283b35537e61caa4da56ec25fcff0660",
+        "GUID:78b06932ac7862e449983bacd5ca6684",
+        "GUID:8adcebc1dead4804197f2fd75e299a6f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

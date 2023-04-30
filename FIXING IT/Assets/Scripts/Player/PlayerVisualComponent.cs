@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FixingIt
+namespace FixingIt.PlayerGame
 {
     public class PlayerVisualComponent : MonoBehaviour
     {

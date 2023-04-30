@@ -1,4 +1,5 @@
 using FixingIt.Funcs;
+using FixingIt.PlayerGame;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.MyEvents;
 using ProgramadorCastellano.MyFuncs;
