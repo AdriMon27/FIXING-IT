@@ -1,3 +1,4 @@
+using FixingIt.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
