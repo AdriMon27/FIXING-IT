@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d7c14d69e406f246a680f1cb9866963, type: 3}
   m_Name: CharacterSelection
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FixingIt.SceneManagement.ScriptableObjects:FixingIt.SceneManagement.ScriptableObjects:GameSceneSO
   _description: 
   _sceneReference:
     m_AssetGUID: 025fbe607848682488248c96a46bbfa3

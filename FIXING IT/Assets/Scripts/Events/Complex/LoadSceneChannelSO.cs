@@ -1,4 +1,4 @@
-using FixingIt.SceneManagement;
+using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.MyEvents;
 using UnityEngine;
 

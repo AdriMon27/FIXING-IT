@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d7c14d69e406f246a680f1cb9866963, type: 3}
   m_Name: LocalPersistentManagers
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FixingIt.SceneManagement.ScriptableObjects:FixingIt.SceneManagement.ScriptableObjects:GameSceneSO
   _description: This will contain the scene with all the managers
   _sceneReference:
     m_AssetGUID: 059074697698db74f99fc4a28795f6bf

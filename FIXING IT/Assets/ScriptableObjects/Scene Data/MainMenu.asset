@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d7c14d69e406f246a680f1cb9866963, type: 3}
   m_Name: MainMenu
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FixingIt.SceneManagement.ScriptableObjects:FixingIt.SceneManagement.ScriptableObjects:GameSceneSO
   _description: Main Menu of the game
   _sceneReference:
     m_AssetGUID: 99c9720ab356a0642a771bea13969a05

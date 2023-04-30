@@ -2,7 +2,7 @@ using ProgramadorCastellano.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace FixingIt.SceneManagement
+namespace FixingIt.SceneManagement.ScriptableObjects
 {
     [CreateAssetMenu()]
     public class GameSceneSO : DescriptionBaseSO

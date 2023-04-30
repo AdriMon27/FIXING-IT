@@ -5,25 +5,6 @@ using UnityEngine.Audio;
 
 namespace FixingIt.Settings
 {
-    public struct AudioNormalVolumes
-    {
-        public float GeneralVolume;
-        public float MusicVolume;
-        public float SFXVolume;
-
-        public AudioNormalVolumes(float general, float music, float sfx)
-        {
-            GeneralVolume = general;
-            MusicVolume = music;
-            SFXVolume = sfx;
-        }
-
-        public override string ToString()
-        {
-            return $"GeneralVolume: {GeneralVolume}. MusicVolume: {MusicVolume}. SFXVolume: {SFXVolume}";
-        }
-    }
-
     public class AudioManager : MonoBehaviour
     {
         private const string GENERAL_VOLUME = "GeneralVolume";

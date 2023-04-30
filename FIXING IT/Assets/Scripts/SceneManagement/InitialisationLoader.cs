@@ -1,4 +1,5 @@
 using FixingIt.Events;
+using FixingIt.SceneManagement.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
