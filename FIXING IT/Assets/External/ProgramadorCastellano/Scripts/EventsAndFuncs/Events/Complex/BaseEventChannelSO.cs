@@ -10,7 +10,7 @@ namespace ProgramadorCastellano.MyEvents
     /// If you want to change the names in the parameters you can make a new RaiseEvent() ant call base.RaiseEvent()
     /// </summary>
     /// <typeparam name="T">Struct,List,Dict... that the event channel will use</typeparam>
-    public abstract class BaseComplexEventChannelSO<T> : DescriptionBaseSO, IMyEventSO<T>
+    public abstract class BaseEventChannelSO<T> : DescriptionBaseSO, IMyEventSO<T>
     {
         public UnityAction<T> OnEventRaised { get; set; }
 
@@ -25,7 +25,7 @@ namespace ProgramadorCastellano.MyEvents
         }
     }
 
-    public abstract class BaseComplexEventChannelSO<T0,T1> : DescriptionBaseSO, IMyEventSO<T0, T1>
+    public abstract class BaseEventChannelSO<T0,T1> : DescriptionBaseSO, IMyEventSO<T0, T1>
     {
         public UnityAction<T0,T1> OnEventRaised { get; set; }
 

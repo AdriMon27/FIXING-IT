@@ -4,7 +4,7 @@ using UnityEngine;
 namespace FixingIt.Events
 {
     [CreateAssetMenu(menuName = "Events/Complex/Screen Settings Channel")]
-    public class ScreenSettingsChannelSO : BaseComplexEventChannelSO<int, bool>
+    public class ScreenSettingsChannelSO : BaseEventChannelSO<int, bool>
     {
         public new void RaiseEvent(int screenResolutionIndex, bool isFullScreen)
         {

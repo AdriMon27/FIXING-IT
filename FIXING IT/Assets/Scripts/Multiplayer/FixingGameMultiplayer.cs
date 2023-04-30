@@ -101,6 +101,11 @@ namespace FixingIt.Multiplayer
             //return playerIndex < _testVariable.Value;
         }
 
+        private PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
+        {
+            return _playerDataNetworkList[playerIndex];
+        }
+
         #region NetworkCallbacks
         private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
             NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)

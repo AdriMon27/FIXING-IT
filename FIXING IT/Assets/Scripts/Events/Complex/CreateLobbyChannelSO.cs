@@ -4,7 +4,7 @@ using UnityEngine;
 namespace FixingIt.Events
 {
     [CreateAssetMenu(menuName = "Events/Complex/Create Lobby Channel")]
-    public class CreateLobbyChannelSO : BaseComplexEventChannelSO<string, bool>
+    public class CreateLobbyChannelSO : BaseEventChannelSO<string, bool>
     {
         public new void RaiseEvent(string lobbyName, bool isPrivate)
         {

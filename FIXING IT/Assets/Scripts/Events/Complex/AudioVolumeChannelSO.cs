@@ -23,7 +23,7 @@ namespace FixingIt.Events
     }
 
     [CreateAssetMenu(menuName = "Events/Complex/Audio Volume Channel")]
-    public class AudioVolumeChannelSO : BaseComplexEventChannelSO<AudioNormalVolumes>
+    public class AudioVolumeChannelSO : BaseEventChannelSO<AudioNormalVolumes>
     {
     }
 }
