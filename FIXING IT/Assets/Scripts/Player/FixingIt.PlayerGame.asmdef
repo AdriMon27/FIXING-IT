@@ -1,6 +1,6 @@
 {
     "name": "FixingIt.Player",
-    "rootNamespace": "FixingIt.Player",
+    "rootNamespace": "FixingIt.PlayerGame",
     "references": [
         "GUID:1491147abca9d7d4bb7105af628b223e"
     ],
