@@ -1,0 +1,16 @@
+{
+    "name": "FixingIt.UI.Loading",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f1d564af88de86f4c96bc66bc695f2c5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
