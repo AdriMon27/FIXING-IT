@@ -1,11 +1,14 @@
 using UnityEngine;
 
-/// <summary>
-/// Base class for ScriptableObjects that need a public description field.
-/// </summary>
-public class DescriptionBaseSO : ScriptableObject
+namespace ProgramadorCastellano.Base
 {
-    [SerializeField, TextArea] string _description;
+    /// <summary>
+    /// Base class for ScriptableObjects that need a public description field.
+    /// </summary>
+    public class DescriptionBaseSO : ScriptableObject
+    {
+        [SerializeField, TextArea] string _description;
 
-    protected string errorMessage => $"Someone Raise the event {name} but nobody was Listening";
+        protected string errorMessage => $"Someone Raise the event {name} but nobody was Listening";
+    }
 }
