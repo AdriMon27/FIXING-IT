@@ -27,12 +27,12 @@ namespace ProgramadorCastellano.UI
 
 
         // COMMENT THE UPDATE AFTER DESGIN
-        private void Update()
+        /*private void Update()
         {
             if (Application.isEditor)
             {
                 OnSkinUI();
             }
-        }
+        }*/
     }
 }

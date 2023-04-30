@@ -31,6 +31,8 @@ namespace FixingIt.Multiplayer
         private VoidEventChannelSO _lobbyCreatedEvent;
         [SerializeField]
         private VoidEventChannelSO _lobbyJoinedEvent;
+        [SerializeField]
+        private IntEventChannelSO _changePlayerColorId;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -43,6 +45,8 @@ namespace FixingIt.Multiplayer
         private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndex;
         [SerializeField]
         private IntColorFuncSO _getPlayerColorFunc;
+        [SerializeField]
+        private PlayerdataFuncSO _getClientPlayerData;
 
         private void Awake()
         {
@@ -62,18 +66,23 @@ namespace FixingIt.Multiplayer
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
             _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
             _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
+            _getClientPlayerData.TrySetOnFuncRaised(GetPlayerData);
         }
 
         private void OnEnable()
         {
             _lobbyCreatedEvent.OnEventRaised += StartHost;
             _lobbyJoinedEvent.OnEventRaised += StartClient;
+
+            _changePlayerColorId.OnEventRaised += ChangePlayerColor;
         }
 
         private void OnDisable()
         {
             _lobbyCreatedEvent.OnEventRaised -= StartHost;
             _lobbyJoinedEvent.OnEventRaised -= StartClient;
+
+            _changePlayerColorId.OnEventRaised -= ChangePlayerColor;
         }
 
         private void StartHost()
@@ -96,6 +105,7 @@ namespace FixingIt.Multiplayer
             _playerDataNetworkListChangedEvent.RaiseEvent();
         }
 
+        #region Player Info
         private bool IsPlayerIndexConnected(int playerIndex)
         {
             //if (!IsServer)
@@ -109,10 +119,84 @@ namespace FixingIt.Multiplayer
             return _playerDataNetworkList[playerIndex];
         }
 
-        private Color GetPlayerColor(int playerIndex)
+        private PlayerData GetPlayerData()
         {
-            return _playerColorArray[playerIndex];
+            return GetPlayerDataFromClientId(NetworkManager.Singleton.LocalClientId);
         }
+
+        private int GetPlayerDataIndexFromClientId(ulong clientId)
+        {
+            for (int i = 0; i < _playerDataNetworkList.Count; i++) {
+                if (_playerDataNetworkList[i].ClientId == clientId) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private PlayerData GetPlayerDataFromClientId(ulong clientId)
+        {
+            foreach (PlayerData playerData in _playerDataNetworkList) {
+                if (playerData.ClientId == clientId) {
+                    return playerData;
+                }
+            }
+
+            return default;
+        }
+
+        private Color GetPlayerColor(int colorId)
+        {
+            return _playerColorArray[colorId];
+        }
+
+        private void ChangePlayerColor(int colorId)
+        {
+            ChangePlayerColorServerRpc(colorId);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ChangePlayerColorServerRpc(int colorId, ServerRpcParams serverRpcParams = default)
+        {
+            if (!IsColorAvailable(colorId)) {
+                return;
+            }
+
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.ColorId = colorId;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
+        #endregion
+
+        #region Color
+        private bool IsColorAvailable(int colorId)
+        {
+            foreach (PlayerData playerData in _playerDataNetworkList) {
+                if (playerData.ColorId == colorId) {
+                    // already in use
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private int GetFirstUnusedColorId()
+        {
+            for (int i = 0; i < _playerColorArray.Length; i++) {
+                if (IsColorAvailable(i)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+        #endregion
 
         #region NetworkCallbacks
         private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
@@ -149,10 +233,9 @@ namespace FixingIt.Multiplayer
             _playerDataNetworkList.Add(new PlayerData()
             {
                 ClientId = clientId,
+                ColorId = GetFirstUnusedColorId(),
             });
-            //_testVariable.Value++;
         }
-
 
         private void NetworkManager_OnClientDisconnectCallback(ulong obj)
         {

@@ -53,7 +53,7 @@ namespace FixingIt.CharacterSelection
                 _readyGameObject.SetActive(isReady);
 
                 // show color
-                Color playerColor = _getPlayerColorFunc.RaiseFunc(_playerIndex);
+                Color playerColor = _getPlayerColorFunc.RaiseFunc(playerData.ColorId);
                 _playerVisualComp.SetPlayerColor(playerColor);
             }
             else
