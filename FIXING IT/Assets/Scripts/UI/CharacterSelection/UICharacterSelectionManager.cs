@@ -1,5 +1,6 @@
 using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,9 +9,13 @@ namespace FixingIt.UI.CharacterSelection
 {
     public class UICharacterSelectionManager : MonoBehaviour
     {
+        private const string READY = "READY";
+        private const string NOT_READY = "NOT READY";
+
         [SerializeField] private InputReaderSO _inputReaderSO;
 
         [SerializeField] private Button _readyButton;
+        [SerializeField] private TextMeshProUGUI _readyText;
         [SerializeField] private Button _mainMenuButton;
 
         [Header("Panels")]
@@ -29,6 +34,8 @@ namespace FixingIt.UI.CharacterSelection
         {
             _readyButton.onClick.AddListener(ReadyButtonAction);
             _mainMenuButton.onClick.AddListener(MainMenuButtonAction);
+
+            _readyText.text = NOT_READY;
 
             HideLeaveToMainMenuPopup();
         }
@@ -50,6 +57,8 @@ namespace FixingIt.UI.CharacterSelection
         private void ReadyButtonAction()
         {
             _readyButtonEvent.RaiseEvent();
+
+            ToggleReadyText();
         }
 
         private void MainMenuButtonAction()
@@ -62,6 +71,16 @@ namespace FixingIt.UI.CharacterSelection
         {
             _leaveToMainMenuPanel.gameObject.SetActive(false);
             EventSystem.current.SetSelectedGameObject(GetFirstSelected());
+        }
+
+        private void ToggleReadyText()
+        {
+            if (_readyText.text == READY) {
+                _readyText.text = NOT_READY;
+            }
+            else {
+                _readyText.text = READY;
+            }
         }
 
         private GameObject GetFirstSelected()

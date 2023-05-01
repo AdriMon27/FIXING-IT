@@ -396,6 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
   _readyButton: {fileID: 6856016326525352758}
+  _readyText: {fileID: 6856016326890711751}
   _mainMenuButton: {fileID: 3992609690574427148}
   _leaveToMainMenuPanel: {fileID: 2585482471855909020}
   _readyButtonEvent: {fileID: 11400000, guid: d74a000e05b9943448e76dadcb50d853, type: 2}
@@ -1950,6 +1951,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7088833351299375007}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6856016326890711751 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4415197628614931800, guid: 383770e5e92e56144af4e5b54a50f1df,
+    type: 3}
+  m_PrefabInstance: {fileID: 7088833351299375007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8093867926302149051
 PrefabInstance:
   m_ObjectHideFlags: 0

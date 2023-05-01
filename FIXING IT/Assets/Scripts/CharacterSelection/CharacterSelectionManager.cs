@@ -33,25 +33,31 @@ namespace FixingIt.CharacterSelection
 
         private void OnEnable()
         {
-            _readyButtonEvent.OnEventRaised += SetPlayerReady;
+            _readyButtonEvent.OnEventRaised += TogglePlayerReady;
         }
 
         private void OnDisable()
         {
-            _readyButtonEvent.OnEventRaised -= SetPlayerReady;
+            _readyButtonEvent.OnEventRaised -= TogglePlayerReady;
         }
 
         #region SetPlayerReady
-        private void SetPlayerReady()
+        private void TogglePlayerReady()
         {
-            SetPlayerReadyServerRpc();
+            TogglePlayerReadyServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+        private void TogglePlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            SetPlayerReadyClientRpc(serverRpcParams.Receive.SenderClientId);
-            _playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
+            bool isPlayerReady = true;
+
+            if (_playerReadyDictionary.ContainsKey(serverRpcParams.Receive.SenderClientId)) { 
+                isPlayerReady = !_playerReadyDictionary[serverRpcParams.Receive.SenderClientId];
+            }
+
+            SetPlayerReadyClientRpc(isPlayerReady, serverRpcParams.Receive.SenderClientId);
+            _playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = isPlayerReady;
 
             // check if all clients are ready
             bool allClientsReady = true;
@@ -72,9 +78,9 @@ namespace FixingIt.CharacterSelection
         }
 
         [ClientRpc]
-        private void SetPlayerReadyClientRpc(ulong clientId)
+        private void SetPlayerReadyClientRpc(bool isPlayerReady, ulong clientId)
         {
-            _playerReadyDictionary[clientId] = true;
+            _playerReadyDictionary[clientId] = isPlayerReady;
 
             // send event
             _clientReadyChangedEvent.RaiseEvent();
