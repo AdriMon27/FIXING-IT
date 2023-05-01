@@ -1,9 +1,10 @@
+using FixingIt.GameLobby;
 using FixingIt.Multiplayer;
 using FixingIt.SceneManagement;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace MainMenu
+namespace FixingIt.MainMenu
 {
     public class MainMenuCleanUp : MonoBehaviour
     {
@@ -19,6 +20,11 @@ namespace MainMenu
             if (NetworkSceneLoader.Instance != null)
             {
                 Destroy(NetworkSceneLoader.Instance.gameObject);
+            }
+
+            if (LobbyManager.Instance != null)
+            {
+                Destroy(LobbyManager.Instance.gameObject);
             }
 
             if (FixingGameMultiplayer.Instance != null)

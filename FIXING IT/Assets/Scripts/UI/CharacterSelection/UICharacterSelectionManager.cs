@@ -1,5 +1,6 @@
 using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
+using ProgramadorCastellano.Funcs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,9 @@ namespace FixingIt.UI.CharacterSelection
         [SerializeField] private TextMeshProUGUI _readyText;
         [SerializeField] private Button _mainMenuButton;
 
+        [SerializeField] private TextMeshProUGUI _lobbyNameText;
+        [SerializeField] private TextMeshProUGUI _lobbyCodeText;
+
         [Header("Panels")]
         [SerializeField]
         private UILeaveToMenuPanel _leaveToMainMenuPanel;
@@ -32,6 +36,13 @@ namespace FixingIt.UI.CharacterSelection
         [SerializeField]
         private VoidEventChannelSO _cancelLeaveToMainMenuEvent;
 
+        [Header("Invoking Func")]
+        [SerializeField]
+        private StringFuncSO _getLobbyName;
+        [SerializeField]
+        private StringFuncSO _getLobbyCode;
+
+
         private void Start()
         {
             _readyButton.onClick.AddListener(ReadyButtonAction);
@@ -40,6 +51,7 @@ namespace FixingIt.UI.CharacterSelection
             _readyText.text = NOT_READY;
 
             HideLeaveToMainMenuPopup();
+            SetLobbyText();
         }
 
         private void OnEnable()
@@ -83,6 +95,12 @@ namespace FixingIt.UI.CharacterSelection
             else {
                 _readyText.text = READY;
             }
+        }
+
+        private void SetLobbyText()
+        {
+            _lobbyNameText.text = $"LobbyName: {_getLobbyName.RaiseFunc()}";
+            _lobbyCodeText.text = $"LobbyCode: {_getLobbyCode.RaiseFunc()}";
         }
 
         private GameObject GetFirstSelected()

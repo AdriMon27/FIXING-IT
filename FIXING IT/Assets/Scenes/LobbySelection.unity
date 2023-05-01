@@ -368,6 +368,8 @@ MonoBehaviour:
     type: 2}
   _joinByIdEvent: {fileID: 11400000, guid: 4791a7aaac7af9e4499590c283fc524a, type: 2}
   _joinByCodeEvent: {fileID: 11400000, guid: 2810a2ce68668484385d21ce3ec3cfe5, type: 2}
+  _getLobbyNameFunc: {fileID: 11400000, guid: 53bc43cc4198efd46ba1878bdafb254e, type: 2}
+  _getLobbyCodeFunc: {fileID: 11400000, guid: 213b77230ff1f9e4fbb907b3e9114d0d, type: 2}
 --- !u!4 &706063177
 Transform:
   m_ObjectHideFlags: 0

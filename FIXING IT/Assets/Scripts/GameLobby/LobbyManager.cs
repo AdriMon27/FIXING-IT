@@ -1,5 +1,6 @@
 using FixingIt.Events;
 using ProgramadorCastellano.Events;
+using ProgramadorCastellano.Funcs;
 using System.Collections.Generic;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -9,8 +10,11 @@ using UnityEngine;
 
 namespace FixingIt.GameLobby
 {
+    // It is a Singleton just to work through scenes and delete it whenever I want
     public class LobbyManager : MonoBehaviour
     {
+        public static LobbyManager Instance { get; private set;}
+
         private const string PLAYER_NAME = "PlayerName";
 
         private Lobby _hostLobby;
@@ -38,6 +42,26 @@ namespace FixingIt.GameLobby
         private StringEventChannelSO _joinByIdEvent;
         [SerializeField]
         private StringEventChannelSO _joinByCodeEvent;
+
+        [Header("Setting Func")]
+        [SerializeField]
+        private StringFuncSO _getLobbyNameFunc;
+        [SerializeField]
+        private StringFuncSO _getLobbyCodeFunc;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this) {
+                Destroy(this);
+            }
+            else {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+
+            _getLobbyNameFunc.TrySetOnFuncRaised(() => _joinedLobby.Name);
+            _getLobbyCodeFunc.TrySetOnFuncRaised(() => _joinedLobby.LobbyCode);
+        }
 
         private void OnEnable()
         {
