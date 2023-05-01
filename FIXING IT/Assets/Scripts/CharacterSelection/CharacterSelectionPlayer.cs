@@ -1,7 +1,7 @@
 using FixingIt.Funcs;
 using FixingIt.PlayerGame;
 using ProgramadorCastellano.Events;
-using ProgramadorCastellano.MyFuncs;
+using ProgramadorCastellano.Funcs;
 using UnityEngine;
 
 namespace FixingIt.CharacterSelection

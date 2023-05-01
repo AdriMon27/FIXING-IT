@@ -1,5 +1,5 @@
 using FixingIt.PlayerGame;
-using ProgramadorCastellano.MyFuncs;
+using ProgramadorCastellano.Funcs;
 using UnityEngine;
 
 namespace FixingIt.Funcs

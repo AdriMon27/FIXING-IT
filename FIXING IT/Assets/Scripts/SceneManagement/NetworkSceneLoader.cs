@@ -1,5 +1,5 @@
 using ProgramadorCastellano.Events;
-using ProgramadorCastellano.MyFuncs;
+using ProgramadorCastellano.Funcs;
 using System;
 using Unity.Netcode;
 using UnityEngine;

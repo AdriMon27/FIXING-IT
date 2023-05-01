@@ -1,6 +1,6 @@
 using System;
 
-namespace ProgramadorCastellano.MyFuncs
+namespace ProgramadorCastellano.Funcs
 {
     /// <summary>
     /// It is the baseInterface for all the IMyFuncSO

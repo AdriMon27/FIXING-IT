@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProgramadorCastellano.MyFuncs
+namespace ProgramadorCastellano.Funcs
 {
     [CreateAssetMenu(menuName = "Events/Funcs/ULong -> Bool Func")]
     public class ULongBoolFuncSO : BaseFuncSO<ulong, bool>

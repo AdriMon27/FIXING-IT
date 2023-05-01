@@ -1,6 +1,6 @@
 using FixingIt.Funcs;
 using ProgramadorCastellano.Events;
-using ProgramadorCastellano.MyFuncs;
+using ProgramadorCastellano.Funcs;
 using UnityEngine;
 using UnityEngine.UI;
 

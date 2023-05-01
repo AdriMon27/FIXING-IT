@@ -2,7 +2,7 @@ using ProgramadorCastellano.Base;
 using System;
 using UnityEngine;
 
-namespace ProgramadorCastellano.MyFuncs
+namespace ProgramadorCastellano.Funcs
 {
     /// <summary>
     /// Base Scriptable Object class for creating our personals FuncSO

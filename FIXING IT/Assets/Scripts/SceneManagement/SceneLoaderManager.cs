@@ -1,7 +1,7 @@
 using FixingIt.Events;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.Events;
-using ProgramadorCastellano.MyFuncs;
+using ProgramadorCastellano.Funcs;
 using System;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
