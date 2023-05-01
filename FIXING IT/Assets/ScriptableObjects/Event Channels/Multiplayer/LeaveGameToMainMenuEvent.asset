@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bfd4c946de87b340ac66596f395e613, type: 3}
-  m_Name: LeaveToMainMeuEvent
+  m_Name: LeaveGameToMainMenuEvent
   m_EditorClassIdentifier: 
   _description: 

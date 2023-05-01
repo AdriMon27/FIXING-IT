@@ -13,13 +13,13 @@ namespace FixingIt.UI.CharacterSelection
 
         [Header("Broadcasting To")]
         [SerializeField]
-        private VoidEventChannelSO _leaveToMainMenuEvent;
+        private VoidEventChannelSO _leaveGameToMainMenuEvent;
         [SerializeField]
         private VoidEventChannelSO _cancelLeaveToMainMenuEvent;
 
         private void Start()
         {
-            _leaveButton.onClick.AddListener(() => _leaveToMainMenuEvent.RaiseEvent());
+            _leaveButton.onClick.AddListener(() => _leaveGameToMainMenuEvent.RaiseEvent());
             _cancelButton.onClick.AddListener(() => _cancelLeaveToMainMenuEvent.RaiseEvent());
         }
     }

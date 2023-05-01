@@ -26,6 +26,8 @@ namespace FixingIt.Multiplayer
         private StringEventChannelSO _rejectedToServerEvent;
         [SerializeField]
         private VoidEventChannelSO _playerDataNetworkListChangedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _networkToMainMenuEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -34,6 +36,8 @@ namespace FixingIt.Multiplayer
         private VoidEventChannelSO _lobbyJoinedEvent;
         [SerializeField]
         private IntEventChannelSO _changePlayerColorId;
+        [SerializeField]
+        private VoidEventChannelSO _leaveGameToMainMenuEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -76,6 +80,8 @@ namespace FixingIt.Multiplayer
             _lobbyJoinedEvent.OnEventRaised += StartClient;
 
             _changePlayerColorId.OnEventRaised += ChangePlayerColor;
+
+            _leaveGameToMainMenuEvent.OnEventRaised += LeaveToMainMenu;
         }
 
         private void OnDisable()
@@ -84,6 +90,8 @@ namespace FixingIt.Multiplayer
             _lobbyJoinedEvent.OnEventRaised -= StartClient;
 
             _changePlayerColorId.OnEventRaised -= ChangePlayerColor;
+
+            _leaveGameToMainMenuEvent.OnEventRaised -= LeaveToMainMenu;
         }
 
         private void StartHost()
@@ -104,6 +112,14 @@ namespace FixingIt.Multiplayer
         private void OnPlayerDataNetworkListChanged(NetworkListEvent<PlayerData> changeEvent)
         {
             _playerDataNetworkListChangedEvent.RaiseEvent();
+        }
+
+        private void LeaveToMainMenu()
+        {
+            NetworkManager.Singleton.Shutdown();
+
+            // send event
+            _networkToMainMenuEvent.RaiseEvent();
         }
 
         #region Player Info

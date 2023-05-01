@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leaveButton: {fileID: 5554872549723909394}
   _cancelButton: {fileID: 2178374195483926886}
-  _leaveToMainMenuEvent: {fileID: 11400000, guid: 891de68b90305a34c84132be19e6cafe,
+  _leaveGameToMainMenuEvent: {fileID: 11400000, guid: 891de68b90305a34c84132be19e6cafe,
     type: 2}
   _cancelLeaveToMainMenuEvent: {fileID: 11400000, guid: 0d2ae5296352a3042b9db1365da61846,
     type: 2}

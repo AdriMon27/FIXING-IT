@@ -721,9 +721,13 @@ MonoBehaviour:
     type: 2}
   _playerDataNetworkListChangedEvent: {fileID: 11400000, guid: 4a5470f4d83c2034db1eda6980a15bc9,
     type: 2}
+  _networkToMainMenuEvent: {fileID: 11400000, guid: af8bfa1293ad05949a7633e37d79fac7,
+    type: 2}
   _lobbyCreatedEvent: {fileID: 11400000, guid: 2cbc44445ff6e9e4c92409c50b4d992f, type: 2}
   _lobbyJoinedEvent: {fileID: 11400000, guid: 7868ae1b7165cbe408418020a9404173, type: 2}
   _changePlayerColorId: {fileID: 11400000, guid: ca141ff113ca72c43b44f75682999185,
+    type: 2}
+  _leaveGameToMainMenuEvent: {fileID: 11400000, guid: 891de68b90305a34c84132be19e6cafe,
     type: 2}
   _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
     type: 2}
