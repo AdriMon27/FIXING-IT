@@ -1,4 +1,4 @@
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

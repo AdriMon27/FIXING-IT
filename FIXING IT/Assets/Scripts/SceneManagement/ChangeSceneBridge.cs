@@ -1,6 +1,6 @@
 using FixingIt.Events;
 using FixingIt.SceneManagement.ScriptableObjects;
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.SceneManagement

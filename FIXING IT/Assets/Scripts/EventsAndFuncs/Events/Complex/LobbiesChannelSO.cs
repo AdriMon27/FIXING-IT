@@ -1,4 +1,4 @@
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;

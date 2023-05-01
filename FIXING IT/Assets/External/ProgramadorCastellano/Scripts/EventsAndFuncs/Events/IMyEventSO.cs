@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace ProgramadorCastellano.MyEvents
+namespace ProgramadorCastellano.Events
 {
     /// <summary>
     /// Interface that all of my EventSO with no parameters will use

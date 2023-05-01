@@ -2,7 +2,7 @@ using ProgramadorCastellano.Base;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ProgramadorCastellano.MyEvents
+namespace ProgramadorCastellano.Events
 {
     /// <summary>
     /// Base Scriptable Object class for creating our personals EventChannelSO.

@@ -1,7 +1,7 @@
 using FixingIt.Funcs;
 using FixingIt.PlayerGame;
 using FixingIt.SceneManagement.ScriptableObjects;
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using ProgramadorCastellano.MyFuncs;
 using System.Linq;
 using Unity.Netcode;

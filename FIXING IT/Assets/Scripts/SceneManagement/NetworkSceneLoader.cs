@@ -1,4 +1,4 @@
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using ProgramadorCastellano.MyFuncs;
 using System;
 using Unity.Netcode;

@@ -1,4 +1,4 @@
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;

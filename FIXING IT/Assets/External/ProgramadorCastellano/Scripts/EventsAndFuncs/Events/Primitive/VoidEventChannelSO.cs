@@ -2,7 +2,7 @@ using ProgramadorCastellano.Base;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ProgramadorCastellano.MyEvents
+namespace ProgramadorCastellano.Events
 {
     [CreateAssetMenu(menuName = "Events/Primitive/Void Event Channel")]
     public class VoidEventChannelSO : DescriptionBaseSO, IMyEventSO

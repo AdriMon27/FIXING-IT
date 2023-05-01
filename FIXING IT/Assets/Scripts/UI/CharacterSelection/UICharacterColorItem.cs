@@ -1,5 +1,5 @@
 using FixingIt.Funcs;
-using ProgramadorCastellano.MyEvents;
+using ProgramadorCastellano.Events;
 using ProgramadorCastellano.MyFuncs;
 using UnityEngine;
 using UnityEngine.UI;
