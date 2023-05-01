@@ -1,3 +1,4 @@
+using FixingIt.InputSystem;
 using ProgramadorCastellano.MyEvents;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,6 +8,8 @@ namespace FixingIt.UI.CharacterSelection
 {
     public class UICharacterSelectionManager : MonoBehaviour
     {
+        [SerializeField] private InputReaderSO _inputReaderSO;
+
         [SerializeField] private Button _readyButton;
         [SerializeField] private Button _mainMenuButton;
 
@@ -32,11 +35,15 @@ namespace FixingIt.UI.CharacterSelection
 
         private void OnEnable()
         {
+            _inputReaderSO.MenuCancelEvent += HideLeaveToMainMenuPopup;
+
             _cancelLeaveToMainMenuEvent.OnEventRaised += HideLeaveToMainMenuPopup;
         }
 
         private void OnDisable()
         {
+            _inputReaderSO.MenuCancelEvent -= HideLeaveToMainMenuPopup;
+
             _cancelLeaveToMainMenuEvent.OnEventRaised -= HideLeaveToMainMenuPopup;
         }
 

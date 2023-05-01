@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679cf5ca50783c946932cd7ab78139f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
   _readyButton: {fileID: 6856016326525352758}
   _mainMenuButton: {fileID: 3992609690574427148}
   _leaveToMainMenuPanel: {fileID: 2585482471855909020}
