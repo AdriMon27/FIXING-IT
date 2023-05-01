@@ -98,14 +98,16 @@ namespace FixingIt.Multiplayer
         {
             NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
             NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
             NetworkManager.Singleton.StartHost();
 
             // send event
             _hostStartedEvent.RaiseEvent();
         }
+
         private void StartClient()
         {
-            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
             NetworkManager.Singleton.StartClient();
         }
 
@@ -254,7 +256,18 @@ namespace FixingIt.Multiplayer
             });
         }
 
-        private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+        private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+        {
+            for (int i = 0; i < _playerDataNetworkList.Count; i++) {
+                PlayerData playerData = _playerDataNetworkList[i];
+                if (playerData.ClientId == clientId) {
+                    // Disconnected
+                    _playerDataNetworkList.RemoveAt(i);
+                }
+            }
+        }
+
+        private void NetworkManager_Client_OnClientDisconnectCallback(ulong obj)
         {
             _rejectedToServerEvent.RaiseEvent(NetworkManager.Singleton.DisconnectReason);
         }
