@@ -47,7 +47,7 @@ namespace FixingIt.CharacterSelection
             SetPlayerReadyServerRpc();
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
         {
             SetPlayerReadyClientRpc(serverRpcParams.Receive.SenderClientId);
