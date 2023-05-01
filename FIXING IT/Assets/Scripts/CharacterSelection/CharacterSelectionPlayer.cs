@@ -2,7 +2,10 @@ using FixingIt.Funcs;
 using FixingIt.PlayerGame;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
+using ProgramadorCastellano.MyEvents;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FixingIt.CharacterSelection
 {
@@ -11,6 +14,11 @@ namespace FixingIt.CharacterSelection
         [SerializeField] private int _playerIndex;
         [SerializeField] private GameObject _readyGameObject;
         [SerializeField] private PlayerVisualComponent _playerVisualComp;
+        [SerializeField] private Button _kickButton;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private ULongEventChannelSO _kickPlayerEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -28,10 +36,18 @@ namespace FixingIt.CharacterSelection
         [SerializeField]
         private IntColorFuncSO _getPlayerColorFunc;
 
+        private void Awake()
+        {
+            _kickButton.onClick.AddListener(KickPlayer);
+        }
+
         private void Start()
         {
             _playerDataNetworkListChangedEvent.OnEventRaised += UpdateCSPlayer;
             _clientReadyChangedEvent.OnEventRaised += UpdateCSPlayer;
+
+            // server is 0
+            _kickButton.gameObject.SetActive(NetworkManager.Singleton.IsServer && _playerIndex != 0);
 
             UpdateCSPlayer();
         }
@@ -61,6 +77,12 @@ namespace FixingIt.CharacterSelection
             {
                 Hide();
             }
+        }
+
+        private void KickPlayer()
+        {
+            PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
+            _kickPlayerEvent.RaiseEvent(playerData.ClientId);
         }
 
         private void Show()

@@ -21,6 +21,8 @@ namespace FixingIt.UI.CharacterSelection
         [Header("Panels")]
         [SerializeField]
         private UILeaveToMenuPanel _leaveToMainMenuPanel;
+        //[SerializeField]
+        //private UIKickedPanel _kickedPanel;
 
         [Header("Broadcasting To")]
         [SerializeField]

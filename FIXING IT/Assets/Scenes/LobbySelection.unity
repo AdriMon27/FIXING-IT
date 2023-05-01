@@ -729,6 +729,7 @@ MonoBehaviour:
     type: 2}
   _leaveGameToMainMenuEvent: {fileID: 11400000, guid: 891de68b90305a34c84132be19e6cafe,
     type: 2}
+  _kickPlayerEvent: {fileID: 11400000, guid: 1dde50a307c32004085338522ed033c9, type: 2}
   _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
     type: 2}
   _isPlayerIndexConnected: {fileID: 11400000, guid: 21123dfdd061aad4ebaf87d0c5a62b30,

@@ -3,6 +3,7 @@ using FixingIt.PlayerGame;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
+using ProgramadorCastellano.MyEvents;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -38,6 +39,8 @@ namespace FixingIt.Multiplayer
         private IntEventChannelSO _changePlayerColorId;
         [SerializeField]
         private VoidEventChannelSO _leaveGameToMainMenuEvent;
+        [SerializeField]
+        private ULongEventChannelSO _kickPlayerEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -82,6 +85,8 @@ namespace FixingIt.Multiplayer
             _changePlayerColorId.OnEventRaised += ChangePlayerColor;
 
             _leaveGameToMainMenuEvent.OnEventRaised += LeaveToMainMenu;
+
+            _kickPlayerEvent.OnEventRaised += KickPlayer;
         }
 
         private void OnDisable()
@@ -92,6 +97,8 @@ namespace FixingIt.Multiplayer
             _changePlayerColorId.OnEventRaised -= ChangePlayerColor;
 
             _leaveGameToMainMenuEvent.OnEventRaised -= LeaveToMainMenu;
+
+            _kickPlayerEvent.OnEventRaised += KickPlayer;
         }
 
         private void StartHost()
@@ -122,6 +129,12 @@ namespace FixingIt.Multiplayer
 
             // send event
             _networkToMainMenuEvent.RaiseEvent();
+        }
+
+        private void KickPlayer(ulong clientId)
+        {
+            NetworkManager.Singleton.DisconnectClient(clientId);
+            NetworkManager_Server_OnClientDisconnectCallback(clientId); 
         }
 
         #region Player Info
