@@ -3,9 +3,9 @@ using FixingIt.PlayerGame;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
-using ProgramadorCastellano.MyEvents;
 using System.Linq;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +32,8 @@ namespace FixingIt.Multiplayer
         private VoidEventChannelSO _playerDataNetworkListChangedEvent;
         [SerializeField]
         private VoidEventChannelSO _networkToMainMenuEvent;
+        [SerializeField]
+        private StringEventChannelSO _playerIdDisconnectedEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -246,6 +248,18 @@ namespace FixingIt.Multiplayer
             playerData.PlayerName = playerName;
             _playerDataNetworkList[playerDataIndex] = playerData;
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerIdServerRpc(string playerId, ServerRpcParams serverRpcParams = default)
+        {
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.PlayerId = playerId;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
         #endregion
 
         #region Color
@@ -321,6 +335,9 @@ namespace FixingIt.Multiplayer
                 if (playerData.ClientId == clientId) {
                     // Disconnected
                     _playerDataNetworkList.RemoveAt(i);
+
+                    string playerId = playerData.PlayerId.ToString();
+                    _playerIdDisconnectedEvent.RaiseEvent(playerId);
                 }
             }
         }
@@ -328,6 +345,7 @@ namespace FixingIt.Multiplayer
         private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
         {
             SetPlayerNameServerRpc(GetPlayerName());
+            SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
         }
 
         private void NetworkManager_Client_OnClientDisconnectCallback(ulong obj)

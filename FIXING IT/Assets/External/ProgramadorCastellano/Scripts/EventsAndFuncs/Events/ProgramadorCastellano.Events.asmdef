@@ -1,6 +1,6 @@
 {
     "name": "ProgramadorCastellano.Events",
-    "rootNamespace": "ProgramadorCastellano.MyEvents",
+    "rootNamespace": "ProgramadorCastellano.Events",
     "references": [
         "GUID:39a53fcf163849642bf3d091692f6a2c"
     ],

@@ -1,7 +1,6 @@
-using ProgramadorCastellano.Events;
 using UnityEngine;
 
-namespace ProgramadorCastellano.MyEvents
+namespace ProgramadorCastellano.Events
 {
     [CreateAssetMenu(menuName = "Events/Primitive/ULong Event Channel")]
     public class ULongEventChannelSO : BaseEventChannelSO<ulong>

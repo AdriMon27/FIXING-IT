@@ -225,7 +225,10 @@ MonoBehaviour:
   _playerNameText: {fileID: 8373990572548916628}
   _playerVisualComp: {fileID: 5710223044873797130}
   _kickButton: {fileID: 2988587943416255680}
-  _kickPlayerEvent: {fileID: 11400000, guid: 1dde50a307c32004085338522ed033c9, type: 2}
+  _kickPlayerClientIdEvent: {fileID: 11400000, guid: 1dde50a307c32004085338522ed033c9,
+    type: 2}
+  _kickPlayerPlayerIdEvent: {fileID: 11400000, guid: 4ff16fa0ec921474d8f867f9d296776e,
+    type: 2}
   _playerDataNetworkListChangedEvent: {fileID: 11400000, guid: 4a5470f4d83c2034db1eda6980a15bc9,
     type: 2}
   _clientReadyChangedEvent: {fileID: 11400000, guid: 1dcaeb7a2341a9243b234945b1f2da6a,

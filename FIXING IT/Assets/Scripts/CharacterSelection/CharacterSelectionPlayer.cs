@@ -2,7 +2,6 @@ using FixingIt.Funcs;
 using FixingIt.PlayerGame;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
-using ProgramadorCastellano.MyEvents;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -20,7 +19,9 @@ namespace FixingIt.CharacterSelection
 
         [Header("Broadcasting To")]
         [SerializeField]
-        private ULongEventChannelSO _kickPlayerEvent;
+        private ULongEventChannelSO _kickPlayerClientIdEvent;
+        [SerializeField]
+        private StringEventChannelSO _kickPlayerPlayerIdEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -89,7 +90,8 @@ namespace FixingIt.CharacterSelection
         private void KickPlayer()
         {
             PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
-            _kickPlayerEvent.RaiseEvent(playerData.ClientId);
+            _kickPlayerClientIdEvent.RaiseEvent(playerData.ClientId);
+            _kickPlayerPlayerIdEvent.RaiseEvent(playerData.PlayerId.ToString());
         }
 
         private void Show()

@@ -368,6 +368,16 @@ MonoBehaviour:
     type: 2}
   _joinByIdEvent: {fileID: 11400000, guid: 4791a7aaac7af9e4499590c283fc524a, type: 2}
   _joinByCodeEvent: {fileID: 11400000, guid: 2810a2ce68668484385d21ce3ec3cfe5, type: 2}
+  _allPlayersReadyEvent: {fileID: 11400000, guid: baa8043ccfcfc094d999ee659fed7201,
+    type: 2}
+  _toMainMenuScreenEvent: {fileID: 11400000, guid: 2489f3cc2da59e048a904609c1992906,
+    type: 2}
+  _leaveGameToMainMenuEvent: {fileID: 11400000, guid: 891de68b90305a34c84132be19e6cafe,
+    type: 2}
+  _kickPlayerPlayerIdEvent: {fileID: 11400000, guid: 4ff16fa0ec921474d8f867f9d296776e,
+    type: 2}
+  _playerIdDisconnectedEvent: {fileID: 11400000, guid: 93f28a0d82d760240b8b0efab6a70af4,
+    type: 2}
   _getLobbyNameFunc: {fileID: 11400000, guid: 53bc43cc4198efd46ba1878bdafb254e, type: 2}
   _getLobbyCodeFunc: {fileID: 11400000, guid: 213b77230ff1f9e4fbb907b3e9114d0d, type: 2}
 --- !u!4 &706063177
@@ -724,6 +734,8 @@ MonoBehaviour:
   _playerDataNetworkListChangedEvent: {fileID: 11400000, guid: 4a5470f4d83c2034db1eda6980a15bc9,
     type: 2}
   _networkToMainMenuEvent: {fileID: 11400000, guid: af8bfa1293ad05949a7633e37d79fac7,
+    type: 2}
+  _playerIdDisconnectedEvent: {fileID: 11400000, guid: 93f28a0d82d760240b8b0efab6a70af4,
     type: 2}
   _lobbyCreatedEvent: {fileID: 11400000, guid: 2cbc44445ff6e9e4c92409c50b4d992f, type: 2}
   _lobbyJoinedEvent: {fileID: 11400000, guid: 7868ae1b7165cbe408418020a9404173, type: 2}

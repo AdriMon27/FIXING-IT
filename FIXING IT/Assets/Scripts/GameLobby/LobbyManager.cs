@@ -42,6 +42,16 @@ namespace FixingIt.GameLobby
         private StringEventChannelSO _joinByIdEvent;
         [SerializeField]
         private StringEventChannelSO _joinByCodeEvent;
+        [SerializeField]
+        private VoidEventChannelSO _allPlayersReadyEvent;
+        [SerializeField]
+        private VoidEventChannelSO _toMainMenuScreenEvent;
+        [SerializeField]
+        private VoidEventChannelSO _leaveGameToMainMenuEvent;
+        [SerializeField]
+        private StringEventChannelSO _kickPlayerPlayerIdEvent;
+        [SerializeField]
+        private StringEventChannelSO _playerIdDisconnectedEvent;
 
         [Header("Setting Func")]
         [SerializeField]
@@ -69,6 +79,14 @@ namespace FixingIt.GameLobby
             _createLobbyChannel.OnEventRaised += CreateLobby;
             _joinByIdEvent.OnEventRaised += JoinLobbyById;
             _joinByCodeEvent.OnEventRaised += JoinLobbyByCode;
+
+            _allPlayersReadyEvent.OnEventRaised += DeleteLobby;
+
+            _toMainMenuScreenEvent.OnEventRaised += LeaveLobby;
+            _leaveGameToMainMenuEvent.OnEventRaised += LeaveLobby;
+
+            _kickPlayerPlayerIdEvent.OnEventRaised += KickPlayer;
+            _playerIdDisconnectedEvent.OnEventRaised += KickPlayer;
         }
 
         private void OnDisable()
@@ -77,6 +95,14 @@ namespace FixingIt.GameLobby
             _createLobbyChannel.OnEventRaised -= CreateLobby;
             _joinByIdEvent.OnEventRaised -= JoinLobbyById;
             _joinByCodeEvent.OnEventRaised -= JoinLobbyByCode;
+
+            _allPlayersReadyEvent.OnEventRaised -= DeleteLobby;
+
+            _toMainMenuScreenEvent.OnEventRaised -= LeaveLobby;
+            _leaveGameToMainMenuEvent.OnEventRaised -= LeaveLobby;
+
+            _kickPlayerPlayerIdEvent.OnEventRaised -= KickPlayer;
+            _playerIdDisconnectedEvent.OnEventRaised -= KickPlayer;
         }
 
         private async void Start()
@@ -107,7 +133,7 @@ namespace FixingIt.GameLobby
         #region HandleLobby
         private async void HandleLobbyHeartBeat()
         {
-            if (_hostLobby == null)
+            if (!IsLobbyHost())
                 return;
 
             _heartbeatTimer -= Time.deltaTime;
@@ -116,13 +142,13 @@ namespace FixingIt.GameLobby
                 float heartbeatTimerMax = 15f;
                 _heartbeatTimer = heartbeatTimerMax;
 
-                await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
+                await LobbyService.Instance.SendHeartbeatPingAsync(_joinedLobby.Id);
             }
         }
 
         private async void HandleLobbyPollForUpdates()
         {
-            if (_joinedLobby == null)
+            if (!IsLobbyHost())
                 return;
 
             _lobbyUpdateTimer -= Time.deltaTime;
@@ -138,6 +164,12 @@ namespace FixingIt.GameLobby
             }
         }
         #endregion
+
+        private bool IsLobbyHost()
+        {
+            return _joinedLobby != null
+                && _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+        }
 
         private async void ListLobbies()
         {
@@ -240,6 +272,48 @@ namespace FixingIt.GameLobby
             }
         }
 
+        private async void DeleteLobby()
+        {
+            if (_joinedLobby == null)
+                return;
+
+            try {
+                await LobbyService.Instance.DeleteLobbyAsync(_joinedLobby.Id);
+
+                _joinedLobby = null;
+            }
+            catch (LobbyServiceException e) {
+                ManageLobbyErrors(e);
+            }
+        }
+
+        private async void LeaveLobby()
+        {
+            if (_joinedLobby == null)
+                return;
+
+            try {
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+
+                _joinedLobby = null;
+            }
+            catch (LobbyServiceException e) {
+                ManageLobbyErrors(e);
+            }
+        }
+
+        private async void KickPlayer(string playerId)
+        {
+            if (!IsLobbyHost())
+                return;
+
+            try {
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, playerId);
+            }
+            catch (LobbyServiceException e) {
+                ManageLobbyErrors(e);
+            }
+        }
 
         #region PlayerLobby
         private Player GetPlayer()
