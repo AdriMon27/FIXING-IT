@@ -9,6 +9,7 @@ namespace FixingIt.UI.LobbySelection
     {
         [SerializeField] private Transform _lobbyTemplate;
         [SerializeField] private Transform _lobbyContainer;
+        [SerializeField] private GameObject _noLobbiesText;
 
         [Header("Listening To")]
         [SerializeField]
@@ -31,6 +32,8 @@ namespace FixingIt.UI.LobbySelection
 
         private void UpdateLobbiesList(List<Lobby> lobbies)
         {
+            _noLobbiesText.SetActive(lobbies.Count == 0);
+
             // Destroy all childs except template
             foreach (Transform child in _lobbyContainer)
             {

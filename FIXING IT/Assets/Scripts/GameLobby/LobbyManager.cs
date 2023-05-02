@@ -274,7 +274,7 @@ namespace FixingIt.GameLobby
 
         private async void DeleteLobby()
         {
-            if (_joinedLobby == null)
+            if (!IsLobbyHost())
                 return;
 
             try {
@@ -293,6 +293,10 @@ namespace FixingIt.GameLobby
                 return;
 
             try {
+                //if (IsLobbyHost()) {
+                //    DeleteLobby();
+                //}
+
                 await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
                 _joinedLobby = null;
