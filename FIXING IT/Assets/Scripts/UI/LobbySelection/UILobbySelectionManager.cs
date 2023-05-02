@@ -1,5 +1,7 @@
 using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
+using ProgramadorCastellano.Funcs;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,11 +16,16 @@ namespace FixingIt.UI.LobbySelection
         }
 
         [SerializeField] InputReaderSO _inputReaderSO;
+        [SerializeField] TMP_InputField _playerNameInputField;
         private PanelShowing _panelShowing;
 
         [Header("Panels")]
         [SerializeField] private UILobbyOptions _lobbyOptions;
         [SerializeField] private UIPopUpPanel _popUpPanel;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private StringEventChannelSO _setPlayerNameEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -35,6 +42,10 @@ namespace FixingIt.UI.LobbySelection
         private VoidEventChannelSO _cancelJoinByCodeEvent;
         [SerializeField]
         private VoidEventChannelSO _acceptedLobbyErrorEvent;
+
+        [Header("Invoking Func")]
+        [SerializeField]
+        private StringFuncSO _getPlayerNameFunc;
 
         private void OnEnable()
         {
@@ -67,6 +78,9 @@ namespace FixingIt.UI.LobbySelection
         private void Start()
         {
             _inputReaderSO.EnableMenuInput();
+
+            _playerNameInputField.text = _getPlayerNameFunc.RaiseFunc();
+            _playerNameInputField.onValueChanged.AddListener((newName) => _setPlayerNameEvent.RaiseEvent(newName));
 
             EventSystem.current.SetSelectedGameObject(_lobbyOptions.FirstSelected);
             _panelShowing = PanelShowing.Normal;

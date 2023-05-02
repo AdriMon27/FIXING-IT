@@ -3,6 +3,7 @@ using FixingIt.PlayerGame;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
 using ProgramadorCastellano.MyEvents;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace FixingIt.CharacterSelection
     {
         [SerializeField] private int _playerIndex;
         [SerializeField] private GameObject _readyGameObject;
+        [SerializeField] private TextMeshPro _playerNameText;
         [SerializeField] private PlayerVisualComponent _playerVisualComp;
         [SerializeField] private Button _kickButton;
 
@@ -35,6 +37,8 @@ namespace FixingIt.CharacterSelection
         private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndexFunc;
         [SerializeField]
         private IntColorFuncSO _getPlayerColorFunc;
+        [SerializeField]
+        private StringFuncSO _getPlayerNameFunc;
 
         private void Awake()
         {
@@ -68,6 +72,9 @@ namespace FixingIt.CharacterSelection
                 PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
                 bool isReady = _isPlayerReadyFunc.RaiseFunc(playerData.ClientId);
                 _readyGameObject.SetActive(isReady);
+
+                // show name
+                _playerNameText.text = playerData.PlayerName.ToString();
 
                 // show color
                 Color playerColor = _getPlayerColorFunc.RaiseFunc(playerData.ColorId);

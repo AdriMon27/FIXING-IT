@@ -13,12 +13,15 @@ namespace FixingIt.Multiplayer
 {
     public class FixingGameMultiplayer : NetworkBehaviour
     {
+        private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
+
         public static FixingGameMultiplayer Instance { get; private set; }
 
         [SerializeField] private GameSceneSO _characterSelectionSceneSO;
         [SerializeField] private Color[] _playerColorArray;
 
         private NetworkList<PlayerData> _playerDataNetworkList;
+        private string _playerName;
 
         [Header("Broadcasting To")]
         [SerializeField]
@@ -41,6 +44,8 @@ namespace FixingIt.Multiplayer
         private VoidEventChannelSO _leaveGameToMainMenuEvent;
         [SerializeField]
         private ULongEventChannelSO _kickPlayerEvent;
+        [SerializeField]
+        private StringEventChannelSO _setPlayerNameEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -55,6 +60,8 @@ namespace FixingIt.Multiplayer
         private IntColorFuncSO _getPlayerColorFunc;
         [SerializeField]
         private PlayerdataFuncSO _getClientPlayerData;
+        [SerializeField]
+        private StringFuncSO _getPlayerNameFunc;
 
         private void Awake()
         {
@@ -67,6 +74,8 @@ namespace FixingIt.Multiplayer
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
+            // si sobra tiempo, refactorizar a un FuncSO y que el sistema de guardado sea externo
+            _playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, $"PlayerName{Random.Range(100, 1000)}");
 
             _playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
             _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
@@ -75,6 +84,7 @@ namespace FixingIt.Multiplayer
             _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
             _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
             _getClientPlayerData.TrySetOnFuncRaised(GetPlayerData);
+            _getPlayerNameFunc.TrySetOnFuncRaised(GetPlayerName);
         }
 
         private void OnEnable()
@@ -87,6 +97,8 @@ namespace FixingIt.Multiplayer
             _leaveGameToMainMenuEvent.OnEventRaised += LeaveToMainMenu;
 
             _kickPlayerEvent.OnEventRaised += KickPlayer;
+
+            _setPlayerNameEvent.OnEventRaised += SetPlayerName;
         }
 
         private void OnDisable()
@@ -99,6 +111,8 @@ namespace FixingIt.Multiplayer
             _leaveGameToMainMenuEvent.OnEventRaised -= LeaveToMainMenu;
 
             _kickPlayerEvent.OnEventRaised += KickPlayer;
+
+            _setPlayerNameEvent.OnEventRaised -= SetPlayerName;
         }
 
         private void StartHost()
@@ -114,6 +128,7 @@ namespace FixingIt.Multiplayer
 
         private void StartClient()
         {
+            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
             NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
             NetworkManager.Singleton.StartClient();
         }
@@ -203,6 +218,34 @@ namespace FixingIt.Multiplayer
             playerData.ColorId = colorId;
             _playerDataNetworkList[playerDataIndex] = playerData;
         }
+
+        private string GetPlayerName()
+        {
+            return _playerName;
+        }
+
+        private void SetPlayerName(string playerName)
+        {
+            // no dejar nombres vacios
+            if (playerName == string.Empty)
+                return;
+
+            _playerName = playerName;
+            // si sobra tiempo, refactorizar a un FuncSO y que el sistema de guardado sea externo
+            PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, playerName);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerNameServerRpc(string playerName, ServerRpcParams serverRpcParams = default)
+        {
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.PlayerName = playerName;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
         #endregion
 
         #region Color
@@ -266,7 +309,9 @@ namespace FixingIt.Multiplayer
             {
                 ClientId = clientId,
                 ColorId = GetFirstUnusedColorId(),
+                //PlayerName = _playerName,
             });
+            SetPlayerNameServerRpc(GetPlayerName());
         }
 
         private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
@@ -278,6 +323,11 @@ namespace FixingIt.Multiplayer
                     _playerDataNetworkList.RemoveAt(i);
                 }
             }
+        }
+
+        private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
+        {
+            SetPlayerNameServerRpc(GetPlayerName());
         }
 
         private void NetworkManager_Client_OnClientDisconnectCallback(ulong obj)
