@@ -2,10 +2,16 @@ using FixingIt.Events;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 
 namespace FixingIt.GameLobby
@@ -13,6 +19,10 @@ namespace FixingIt.GameLobby
     // It is a Singleton just to work through scenes and delete it whenever I want
     public class LobbyManager : MonoBehaviour
     {
+        private const int MAX_PLAYER_AMOUNT = 4;
+        private const string DTLS_CONNECTION_TYPE = "dtls"; //type that Unity docummentation recommends
+        private const string RELAY_JOIN_CODE = "RelayJoinCode";
+
         public static LobbyManager Instance { get; private set;}
 
         private const string PLAYER_NAME = "PlayerName";
@@ -199,23 +209,87 @@ namespace FixingIt.GameLobby
             }
         }
 
+        private async Task<Allocation> AllocateRelay()
+        {
+            try {
+                // max players - the host
+                Allocation allocation = await RelayService.Instance.CreateAllocationAsync(MAX_PLAYER_AMOUNT - 1);
+                
+                return allocation;
+            }
+            catch (RelayServiceException e) {
+                ManageRelayErrors(e);
+                
+                return default;
+            }
+        }
+
+        private async Task<string> GetRelayJoinCode(Allocation allocation)
+        {
+            try { 
+            
+                string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+                return relayJoinCode;
+            }
+            catch(RelayServiceException e) {
+                ManageRelayErrors(e);
+
+                return default;
+            }
+        }
+
+        private async Task<JoinAllocation> JoinRelay(string joinCode)
+        {
+            try {
+                JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+
+                return joinAllocation;
+            }
+            catch (RelayServiceException e) {
+                ManageRelayErrors(e);
+
+                return default;
+            }
+        }
+
+        private async Task JoinRelayTransport(Lobby lobbyJoined)
+        {
+            string relayJoinCode = lobbyJoined.Data[RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, DTLS_CONNECTION_TYPE));
+        }
+
         private async void CreateLobby(string lobbyName, bool isPrivate)
         {
             try
             {
-                int maxPlayers = 4;
                 CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
                 {
                     IsPrivate = isPrivate,
                     Player = GetPlayer(),
                 };
 
-                Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
+                Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYER_AMOUNT, createLobbyOptions);
 
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
 
                 Debug.Log($"Created lobby! {lobby.Name}, {lobby.MaxPlayers}, {lobby.Id}, {lobby.LobbyCode}");
+
+                // create relay
+                Allocation allocation = await AllocateRelay();
+
+                string relayJoinCode = await GetRelayJoinCode(allocation);
+
+                await LobbyService.Instance.UpdateLobbyAsync(_joinedLobby.Id, new UpdateLobbyOptions {
+                   Data = new Dictionary<string, DataObject> {
+                       {RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode)}
+                   } 
+                });
+
+                NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, DTLS_CONNECTION_TYPE));
 
                 // send event
                 _lobbyCreatedEvent.RaiseEvent();
@@ -240,6 +314,9 @@ namespace FixingIt.GameLobby
 
                 Debug.Log($"Joined Lobby with id: {lobbyId}");
 
+                // join relay
+                await JoinRelayTransport(_joinedLobby);
+                
                 // send event
                 _lobbyJoinedEvent.RaiseEvent();
             }
@@ -261,7 +338,8 @@ namespace FixingIt.GameLobby
                 Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions);
                 _joinedLobby = lobby;
 
-                Debug.Log($"Joined Lobby with code: {lobbyCode}");
+                // join relay
+                await JoinRelayTransport(_joinedLobby);
 
                 // send event
                 _lobbyJoinedEvent.RaiseEvent();
@@ -332,6 +410,16 @@ namespace FixingIt.GameLobby
         #endregion
 
         private void ManageLobbyErrors(LobbyServiceException e)
+        {
+            Debug.LogException(e);
+
+            string userErrorMsg = e.Message;
+            userErrorMsg = userErrorMsg[0].ToString().ToUpper() + userErrorMsg.Substring(1);
+
+            _lobbyErrorCatchedEvent.RaiseEvent(userErrorMsg);
+        }
+
+        private void ManageRelayErrors(RelayServiceException e)
         {
             Debug.LogException(e);
 
