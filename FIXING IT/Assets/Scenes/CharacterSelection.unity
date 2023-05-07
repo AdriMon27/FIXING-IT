@@ -352,9 +352,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7de891c3244014c928b6b456a833ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeCountdownMax: 5
   _allPlayersReadyEvent: {fileID: 11400000, guid: baa8043ccfcfc094d999ee659fed7201,
     type: 2}
   _clientReadyChangedEvent: {fileID: 11400000, guid: 1dcaeb7a2341a9243b234945b1f2da6a,
+    type: 2}
+  _countdownEvent: {fileID: 11400000, guid: d931a06d2324366429a47f9ff9e9f168, type: 2}
+  _allPlayersReadyCancelledEvent: {fileID: 11400000, guid: 19abb75e4b4ace94ab6f59ce09336421,
     type: 2}
   _readyButtonEvent: {fileID: 11400000, guid: d74a000e05b9943448e76dadcb50d853, type: 2}
   _isPlayerReadyFunc: {fileID: 11400000, guid: 238beda1638b2ae4cb3ae0696d7d1919, type: 2}

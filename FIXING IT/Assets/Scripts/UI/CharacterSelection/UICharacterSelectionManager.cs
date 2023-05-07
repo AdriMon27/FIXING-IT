@@ -1,6 +1,7 @@
 using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,6 +23,8 @@ namespace FixingIt.UI.CharacterSelection
         [SerializeField] private TextMeshProUGUI _lobbyNameText;
         [SerializeField] private TextMeshProUGUI _lobbyCodeText;
 
+        [SerializeField] private TextMeshProUGUI _countdownText;
+
         [Header("Panels")]
         [SerializeField]
         private UILeaveToMenuPanel _leaveToMainMenuPanel;
@@ -35,6 +38,10 @@ namespace FixingIt.UI.CharacterSelection
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _cancelLeaveToMainMenuEvent;
+        [SerializeField]
+        private FloatEventChannelSO _countdownEvent;
+        [SerializeField]
+        private VoidEventChannelSO _allPlayersReadyCancelledEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -59,6 +66,9 @@ namespace FixingIt.UI.CharacterSelection
             _inputReaderSO.MenuCancelEvent += HideLeaveToMainMenuPopup;
 
             _cancelLeaveToMainMenuEvent.OnEventRaised += HideLeaveToMainMenuPopup;
+
+            _countdownEvent.OnEventRaised += ShowCountdown;
+            _allPlayersReadyCancelledEvent.OnEventRaised += HideCountdown;
         }
 
         private void OnDisable()
@@ -66,6 +76,9 @@ namespace FixingIt.UI.CharacterSelection
             _inputReaderSO.MenuCancelEvent -= HideLeaveToMainMenuPopup;
 
             _cancelLeaveToMainMenuEvent.OnEventRaised -= HideLeaveToMainMenuPopup;
+
+            _countdownEvent.OnEventRaised -= ShowCountdown;
+            _allPlayersReadyCancelledEvent.OnEventRaised -= HideCountdown;
         }
 
         private void ReadyButtonAction()
@@ -106,6 +119,19 @@ namespace FixingIt.UI.CharacterSelection
         private GameObject GetFirstSelected()
         {
             return _readyButton.gameObject;
+        }
+
+        private void ShowCountdown(float secondsRemaining)
+        {
+            float secondsCeil = Mathf.Ceil(secondsRemaining);
+
+            _countdownText.gameObject.SetActive(true);
+            _countdownText.text = secondsCeil.ToString();
+        }
+
+        private void HideCountdown()
+        {
+            _countdownText.gameObject.SetActive(false);
         }
     }
 }

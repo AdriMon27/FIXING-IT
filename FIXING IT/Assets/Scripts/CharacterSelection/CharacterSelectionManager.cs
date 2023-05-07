@@ -8,13 +8,22 @@ namespace FixingIt.CharacterSelection
 {
     public class CharacterSelectionManager : NetworkBehaviour
     {
+        [SerializeField] private float _timeCountdownMax = 5f;
+        private float _timeCountdownTimer;
+
         private Dictionary<ulong, bool> _playerReadyDictionary;
+
+        private bool _allPlayersReady;
 
         [Header("Broadcasting To")]
         [SerializeField]
         private VoidEventChannelSO _allPlayersReadyEvent;
         [SerializeField]
         private VoidEventChannelSO _clientReadyChangedEvent;
+        [SerializeField]
+        private FloatEventChannelSO _countdownEvent;
+        [SerializeField]
+        private VoidEventChannelSO _allPlayersReadyCancelledEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -26,7 +35,10 @@ namespace FixingIt.CharacterSelection
 
         private void Awake()
         {
+            _timeCountdownTimer = _timeCountdownMax;
+
             _playerReadyDictionary = new Dictionary<ulong, bool>();
+            _allPlayersReady = false;
 
             // clear func just in case
             _isPlayerReadyFunc.ClearOnFuncRaised();
@@ -43,6 +55,11 @@ namespace FixingIt.CharacterSelection
         private void OnDisable()
         {
             _readyButtonEvent.OnEventRaised -= TogglePlayerReady;
+        }
+
+        private void Update()
+        {
+            HandleCountdown();
         }
 
         #region SetPlayerReady
@@ -76,8 +93,14 @@ namespace FixingIt.CharacterSelection
             }
 
             if (allClientsReady) {
+                _timeCountdownTimer = _timeCountdownMax;
+                _allPlayersReady = true;
+            }
+            else {
+                _allPlayersReady = false;
+
                 // send event
-                _allPlayersReadyEvent.RaiseEvent();
+                _allPlayersReadyCancelledEvent.RaiseEvent();
             }
         }
 
@@ -94,6 +117,21 @@ namespace FixingIt.CharacterSelection
         private bool IsPlayerReady(ulong clientId)
         {
             return _playerReadyDictionary.ContainsKey(clientId) && _playerReadyDictionary[clientId];
+        }
+
+        private void HandleCountdown()
+        {
+            if (!_allPlayersReady) {
+                return;
+            }
+
+            _timeCountdownTimer -= Time.deltaTime;
+            _countdownEvent.RaiseEvent(_timeCountdownTimer);
+            if (_timeCountdownTimer < 0f) {
+                
+                // send event
+                _allPlayersReadyEvent.RaiseEvent();
+            }
         }
     }
 }
