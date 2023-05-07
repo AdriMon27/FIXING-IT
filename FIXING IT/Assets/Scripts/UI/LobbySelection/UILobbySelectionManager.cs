@@ -1,7 +1,10 @@
+using FixingIt.Events;
 using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
+using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,7 +15,8 @@ namespace FixingIt.UI.LobbySelection
         private enum PanelShowing
         {
             Normal,
-            PopUp
+            PopUp,
+            Waiting
         }
 
         [SerializeField] InputReaderSO _inputReaderSO;
@@ -42,6 +46,10 @@ namespace FixingIt.UI.LobbySelection
         private VoidEventChannelSO _cancelJoinByCodeEvent;
         [SerializeField]
         private VoidEventChannelSO _acceptedLobbyErrorEvent;
+        [SerializeField]
+        private StringEventChannelSO _lobbyStateUpdated;
+        [SerializeField]
+        private LobbiesChannelSO _lobbiesListedEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -59,6 +67,9 @@ namespace FixingIt.UI.LobbySelection
             _cancelLobbyCreationEvent.OnEventRaised += HidePopUp;
             _cancelJoinByCodeEvent.OnEventRaised += HidePopUp;
             _acceptedLobbyErrorEvent.OnEventRaised += HidePopUp;
+            _lobbiesListedEvent.OnEventRaised += HidePopUp;
+
+            _lobbyStateUpdated.OnEventRaised += ShowStateUpdated;
         }
 
         private void OnDisable()
@@ -73,6 +84,9 @@ namespace FixingIt.UI.LobbySelection
             _cancelLobbyCreationEvent.OnEventRaised -= HidePopUp;
             _cancelJoinByCodeEvent.OnEventRaised -= HidePopUp;
             _acceptedLobbyErrorEvent.OnEventRaised -= HidePopUp;
+            _lobbiesListedEvent.OnEventRaised -= HidePopUp;
+
+            _lobbyStateUpdated.OnEventRaised -= ShowStateUpdated;
         }
 
         private void Start()
@@ -107,12 +121,24 @@ namespace FixingIt.UI.LobbySelection
             _panelShowing = PanelShowing.PopUp;
         }
 
+        private void ShowStateUpdated(string stateMsg)
+        {
+            _popUpPanel.ShowPopUp(UIPopUpPanel.PopUpMode.LobbyState, stateMsg);
+
+            _panelShowing = PanelShowing.Waiting;
+        }
+
         private void HidePopUp()
         {
             _popUpPanel.HidePopUp();
 
             EventSystem.current.SetSelectedGameObject(_lobbyOptions.FirstSelected);
             _panelShowing = PanelShowing.Normal;
+        }
+
+        private void HidePopUp(List<Lobby> lobbies)
+        {
+            HidePopUp();
         }
 
         private void GoBackAPanel()

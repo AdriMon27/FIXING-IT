@@ -362,6 +362,7 @@ MonoBehaviour:
   _lobbyJoinedEvent: {fileID: 11400000, guid: 7868ae1b7165cbe408418020a9404173, type: 2}
   _lobbyErrorCatchedEvent: {fileID: 11400000, guid: bd39c7cb56f6fc5419e8fbd4a416947d,
     type: 2}
+  _lobbyStateUpdated: {fileID: 11400000, guid: 9e07aadae8af1ac4099516056ab3e0b7, type: 2}
   _refreshLobbiesListEvent: {fileID: 11400000, guid: 368b8ae929d984948930fa3c672a7fbf,
     type: 2}
   _createLobbyChannel: {fileID: 11400000, guid: c9f88ff0c4135ba468307a72626cb5da,
@@ -962,6 +963,31 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877747905277457071, guid: 6dc38b8e6eb881c4d92995834d7c9644,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056680400359466044, guid: 6dc38b8e6eb881c4d92995834d7c9644,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056680400359466044, guid: 6dc38b8e6eb881c4d92995834d7c9644,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056680400359466044, guid: 6dc38b8e6eb881c4d92995834d7c9644,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056680400359466044, guid: 6dc38b8e6eb881c4d92995834d7c9644,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056680400359466044, guid: 6dc38b8e6eb881c4d92995834d7c9644,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0

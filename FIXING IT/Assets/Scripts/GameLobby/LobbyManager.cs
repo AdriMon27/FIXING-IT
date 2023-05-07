@@ -23,6 +23,12 @@ namespace FixingIt.GameLobby
         private const string DTLS_CONNECTION_TYPE = "dtls"; //type that Unity docummentation recommends
         private const string RELAY_JOIN_CODE = "RelayJoinCode";
 
+        private const string CREATE_LOBBY_MSG = "Creating lobby...";
+        private const string CREATE_RELAY_MSG = "Creating relay...";
+        private const string JOIN_LOBBY_MSG = "Joining lobby...";
+        private const string JOIN_RELAY_MSG = "Joining relay...";
+        private const string SEARCHING_LOBBIES_MSG = "Searching for public lobbies...";
+
         public static LobbyManager Instance { get; private set;}
 
         private const string PLAYER_NAME = "PlayerName";
@@ -42,6 +48,8 @@ namespace FixingIt.GameLobby
         private VoidEventChannelSO _lobbyJoinedEvent;
         [SerializeField]
         private StringEventChannelSO _lobbyErrorCatchedEvent;
+        [SerializeField]
+        private StringEventChannelSO _lobbyStateUpdated;
 
         [Header("Listening To")]
         [SerializeField]
@@ -185,6 +193,8 @@ namespace FixingIt.GameLobby
         {
             try
             {
+                _lobbyStateUpdated.RaiseEvent(SEARCHING_LOBBIES_MSG);
+
                 // lobbies with al least 1 slot and sorted in created order
                 QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
                 {
@@ -209,6 +219,7 @@ namespace FixingIt.GameLobby
             }
         }
 
+        #region Relay
         private async Task<Allocation> AllocateRelay()
         {
             try {
@@ -260,11 +271,14 @@ namespace FixingIt.GameLobby
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, DTLS_CONNECTION_TYPE));
         }
+        #endregion
 
         private async void CreateLobby(string lobbyName, bool isPrivate)
         {
             try
             {
+                _lobbyStateUpdated.RaiseEvent(CREATE_LOBBY_MSG);
+
                 CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
                 {
                     IsPrivate = isPrivate,
@@ -279,6 +293,8 @@ namespace FixingIt.GameLobby
                 Debug.Log($"Created lobby! {lobby.Name}, {lobby.MaxPlayers}, {lobby.Id}, {lobby.LobbyCode}");
 
                 // create relay
+                _lobbyStateUpdated.RaiseEvent(CREATE_RELAY_MSG);
+
                 Allocation allocation = await AllocateRelay();
 
                 string relayJoinCode = await GetRelayJoinCode(allocation);
@@ -304,6 +320,8 @@ namespace FixingIt.GameLobby
         {
             try
             {
+                _lobbyStateUpdated.RaiseEvent(JOIN_LOBBY_MSG);
+
                 JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
                 {
                     Player = GetPlayer()
@@ -315,6 +333,8 @@ namespace FixingIt.GameLobby
                 Debug.Log($"Joined Lobby with id: {lobbyId}");
 
                 // join relay
+                _lobbyStateUpdated.RaiseEvent(JOIN_RELAY_MSG);
+
                 await JoinRelayTransport(_joinedLobby);
                 
                 // send event
@@ -330,6 +350,8 @@ namespace FixingIt.GameLobby
         {
             try
             {
+                _lobbyStateUpdated.RaiseEvent(JOIN_LOBBY_MSG);
+
                 JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
                 {
                     Player = GetPlayer()
@@ -339,6 +361,8 @@ namespace FixingIt.GameLobby
                 _joinedLobby = lobby;
 
                 // join relay
+                _lobbyStateUpdated.RaiseEvent(JOIN_RELAY_MSG);
+
                 await JoinRelayTransport(_joinedLobby);
 
                 // send event
