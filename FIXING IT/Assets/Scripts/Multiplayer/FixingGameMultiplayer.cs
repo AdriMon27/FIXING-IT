@@ -82,6 +82,14 @@ namespace FixingIt.Multiplayer
             _playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
             _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
 
+            // clear funcs just in case
+            _isPlayerIndexConnected.ClearOnFuncRaised();
+            _getPlayerDataFromPlayerIndex.ClearOnFuncRaised();
+            _getPlayerColorFunc.ClearOnFuncRaised();
+            _getClientPlayerData.ClearOnFuncRaised();
+            _getPlayerNameFunc.ClearOnFuncRaised();
+
+            // set funcs
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
             _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
             _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
@@ -115,6 +123,8 @@ namespace FixingIt.Multiplayer
             _kickPlayerEvent.OnEventRaised += KickPlayer;
 
             _setPlayerNameEvent.OnEventRaised -= SetPlayerName;
+
+            //_playerDataNetworkList.Dispose();
         }
 
         private void StartHost()

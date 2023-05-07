@@ -28,6 +28,10 @@ namespace FixingIt.CharacterSelection
         {
             _playerReadyDictionary = new Dictionary<ulong, bool>();
 
+            // clear func just in case
+            _isPlayerReadyFunc.ClearOnFuncRaised();
+
+            // set func
             _isPlayerReadyFunc.TrySetOnFuncRaised(IsPlayerReady);
         }
 

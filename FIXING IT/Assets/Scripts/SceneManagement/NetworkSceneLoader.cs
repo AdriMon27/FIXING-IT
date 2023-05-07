@@ -35,9 +35,11 @@ namespace FixingIt.SceneManagement
                 DontDestroyOnLoad(this);
             }
 
+            // clear funcs
             _loadNewNetworkSceneByNameFunc.ClearOnFuncRaised();
             _unloadNetworkSceneByNameFunc.ClearOnFuncRaised();
 
+            // set funcs
             _loadNewNetworkSceneByNameFunc.TrySetOnFuncRaised(LoadNewNetworkScene);
             _unloadNetworkSceneByNameFunc.TrySetOnFuncRaised(UnloadNetworkScene);
         }

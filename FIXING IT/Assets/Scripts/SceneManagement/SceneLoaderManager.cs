@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 namespace FixingIt.SceneManagement
 {
     /// <summary>
-    /// Persistent Manager, doesn´t need an Instance
+    /// Persistent Manager, doesn´t need an Instance or to clear the funcs
     /// </summary>
     public class SceneLoaderManager : MonoBehaviour
     {

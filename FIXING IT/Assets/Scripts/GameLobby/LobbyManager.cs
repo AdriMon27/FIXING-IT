@@ -87,6 +87,11 @@ namespace FixingIt.GameLobby
                 DontDestroyOnLoad(gameObject);
             }
 
+            // clear funcs just in case
+            _getLobbyNameFunc.ClearOnFuncRaised();
+            _getLobbyCodeFunc.ClearOnFuncRaised();
+
+            // set funcs
             _getLobbyNameFunc.TrySetOnFuncRaised(() => _joinedLobby.Name);
             _getLobbyCodeFunc.TrySetOnFuncRaised(() => _joinedLobby.LobbyCode);
         }
