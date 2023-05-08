@@ -99,9 +99,16 @@ namespace FixingIt.CharacterSelection
             else {
                 _allPlayersReady = false;
 
+                AllPlayersReadyCancelledClientRpc();
                 // send event
-                _allPlayersReadyCancelledEvent.RaiseEvent();
+                //_allPlayersReadyCancelledEvent.RaiseEvent();
             }
+        }
+
+        [ClientRpc]
+        private void AllPlayersReadyCancelledClientRpc()
+        {
+            _allPlayersReadyCancelledEvent.RaiseEvent();
         }
 
         [ClientRpc]
@@ -126,12 +133,19 @@ namespace FixingIt.CharacterSelection
             }
 
             _timeCountdownTimer -= Time.deltaTime;
-            _countdownEvent.RaiseEvent(_timeCountdownTimer);
+            //_countdownEvent.RaiseEvent(_timeCountdownTimer);
+            RaiseCountdownEventClientRpc(_timeCountdownTimer);
             if (_timeCountdownTimer < 0f) {
                 
                 // send event
                 _allPlayersReadyEvent.RaiseEvent();
             }
+        }
+
+        [ClientRpc]
+        private void RaiseCountdownEventClientRpc(float remainingTime)
+        {
+            _countdownEvent.RaiseEvent(remainingTime);
         }
     }
 }
