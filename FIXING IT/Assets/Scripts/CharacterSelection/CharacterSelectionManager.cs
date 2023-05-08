@@ -133,7 +133,6 @@ namespace FixingIt.CharacterSelection
             }
 
             _timeCountdownTimer -= Time.deltaTime;
-            //_countdownEvent.RaiseEvent(_timeCountdownTimer);
             RaiseCountdownEventClientRpc(_timeCountdownTimer);
             if (_timeCountdownTimer < 0f) {
                 
