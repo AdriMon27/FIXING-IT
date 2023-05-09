@@ -120,7 +120,7 @@ namespace FixingIt.Multiplayer
 
             _leaveGameToMainMenuEvent.OnEventRaised -= LeaveToMainMenu;
 
-            _kickPlayerEvent.OnEventRaised += KickPlayer;
+            _kickPlayerEvent.OnEventRaised -= KickPlayer;
 
             _setPlayerNameEvent.OnEventRaised -= SetPlayerName;
 

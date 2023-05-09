@@ -108,7 +108,7 @@ namespace FixingIt.GameLobby
             _toMainMenuScreenEvent.OnEventRaised += LeaveLobby;
             _leaveGameToMainMenuEvent.OnEventRaised += LeaveLobby;
 
-            _kickPlayerPlayerIdEvent.OnEventRaised += KickPlayer;
+            //_kickPlayerPlayerIdEvent.OnEventRaised += KickPlayer;
             _playerIdDisconnectedEvent.OnEventRaised += KickPlayer;
         }
 
@@ -124,7 +124,7 @@ namespace FixingIt.GameLobby
             _toMainMenuScreenEvent.OnEventRaised -= LeaveLobby;
             _leaveGameToMainMenuEvent.OnEventRaised -= LeaveLobby;
 
-            _kickPlayerPlayerIdEvent.OnEventRaised -= KickPlayer;
+            //_kickPlayerPlayerIdEvent.OnEventRaised -= KickPlayer;
             _playerIdDisconnectedEvent.OnEventRaised -= KickPlayer;
         }
 
@@ -413,6 +413,7 @@ namespace FixingIt.GameLobby
             }
         }
 
+        // When player kicked, managed by the FixingGameMultiplayer, NetworkManager
         private async void KickPlayer(string playerId)
         {
             if (!IsLobbyHost())

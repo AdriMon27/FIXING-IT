@@ -90,8 +90,8 @@ namespace FixingIt.CharacterSelection
         private void KickPlayer()
         {
             PlayerData playerData = _getPlayerDataFromPlayerIndexFunc.RaiseFunc(_playerIndex);
+            //_kickPlayerPlayerIdEvent.RaiseEvent(playerData.PlayerId.ToString());
             _kickPlayerClientIdEvent.RaiseEvent(playerData.ClientId);
-            _kickPlayerPlayerIdEvent.RaiseEvent(playerData.PlayerId.ToString());
         }
 
         private void Show()
