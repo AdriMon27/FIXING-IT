@@ -49,6 +49,10 @@ MonoBehaviour:
   _animationComp: {fileID: 124067792349763362}
   _moveSpeed: 5
   _rotateSpeed: 10
+  _interactDistance: 2
+  _countersLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &1657177632480200261
 PrefabInstance:
   m_ObjectHideFlags: 0
