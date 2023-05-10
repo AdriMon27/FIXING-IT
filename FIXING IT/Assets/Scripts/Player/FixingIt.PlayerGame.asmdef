@@ -1,9 +1,10 @@
 {
-    "name": "FixingIt.Player",
+    "name": "FixingIt.PlayerGame",
     "rootNamespace": "FixingIt.PlayerGame",
     "references": [
         "GUID:1491147abca9d7d4bb7105af628b223e",
-        "GUID:e0cd26848372d4e5c891c569017e11f1"
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:cf51dea1ea740ff468087729ba2f5b03"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
