@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FixingIt.PlayerGame
 {
-    public class PlayerVisualComponent : MonoBehaviour
+    public class PlayerVisualComp : MonoBehaviour
     {
         [SerializeField] private MeshRenderer _headMeshRenderer;
         [SerializeField] private MeshRenderer _bodyMeshRenderer;

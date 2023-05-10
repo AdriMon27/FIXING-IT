@@ -14,7 +14,7 @@ namespace FixingIt.CharacterSelection
         [SerializeField] private int _playerIndex;
         [SerializeField] private GameObject _readyGameObject;
         [SerializeField] private TextMeshPro _playerNameText;
-        [SerializeField] private PlayerVisualComponent _playerVisualComp;
+        [SerializeField] private PlayerVisualComp _playerVisualComp;
         [SerializeField] private Button _kickButton;
 
         [Header("Broadcasting To")]

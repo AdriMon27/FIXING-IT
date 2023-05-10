@@ -7,6 +7,9 @@ namespace FixingIt.PlayerGame
     {
         [SerializeField] InputReaderSO _inputReaderSO;
 
+        [Header("Player Comps")]
+        [SerializeField] private PlayerAnimationComp _animationComp;
+
         [Header("Player Stats")]
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _rotateSpeed = 10f;
@@ -35,6 +38,8 @@ namespace FixingIt.PlayerGame
             velocity *= _moveSpeed;
 
             transform.position += velocity * Time.deltaTime;
+
+            _animationComp.SetIsWalking(velocity != Vector3.zero);
         }
 
         private void HandleRotation()

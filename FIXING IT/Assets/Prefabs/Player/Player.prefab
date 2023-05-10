@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
+  _animationComp: {fileID: 124067792349763362}
   _moveSpeed: 5
   _rotateSpeed: 10
 --- !u!1001 &1657177632480200261
@@ -121,6 +122,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad27d27b1a537748af0b62171d99918, type: 3}
+--- !u!114 &124067792349763362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1677516889555177831, guid: 3ad27d27b1a537748af0b62171d99918,
+    type: 3}
+  m_PrefabInstance: {fileID: 1657177632480200261}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dde74892ddc284e9d69f2d641cd9af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2862712479328839970 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3550278601663164263, guid: 3ad27d27b1a537748af0b62171d99918,
