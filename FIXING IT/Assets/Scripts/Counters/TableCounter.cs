@@ -20,7 +20,6 @@ namespace FixingIt.Counters
                 TryToGiveRoomObject(roomObjectParent);
             }
             else {
-                // try to receive roomObject from roomObjectParent
                 TryToReceiveRoomObject(roomObjectParent);
             }
 
