@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace FixingIt.PlayerGame
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] InputReaderSO _inputReaderSO;
@@ -17,7 +18,13 @@ namespace FixingIt.PlayerGame
         [SerializeField] private float _interactDistance = 2f;
         [SerializeField] private LayerMask _countersLayerMask;
 
+        private Rigidbody _rb;
         private Vector2 _direction;
+
+        private void Awake()
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
 
         private void OnEnable()
         {
@@ -31,9 +38,13 @@ namespace FixingIt.PlayerGame
             _inputReaderSO.InteractEvent -= HandleInteraction;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             HandleMovement();
+        }
+
+        private void Update()
+        {
             HandleRotation();
         }
 
@@ -42,7 +53,8 @@ namespace FixingIt.PlayerGame
             Vector3 velocity = new Vector3(_direction.x, 0f, _direction.y);
             velocity *= _moveSpeed;
 
-            transform.position += velocity * Time.deltaTime;
+            //transform.position += velocity * Time.deltaTime;
+            _rb.velocity = velocity;
 
             _animationComp.SetIsWalking(velocity != Vector3.zero);
         }
