@@ -26,6 +26,20 @@ namespace FixingIt.Minigame.RoomObject
             // set transform
             transform.parent = newRoomObjectParent.GetRoomObjectTransform();
             transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
         }
+
+        #region Static
+        // TODO: cambiar por sistema de pooling como extra
+        public static RoomObject SpawnRoomObject(RoomObjectSO roomObjectSO, IRoomObjectParent roomObjectParent)
+        {
+            GameObject roomObjectGO = Instantiate(roomObjectSO.RoomObjectPrefab);
+
+            RoomObject roomObject = roomObjectGO.GetComponent<RoomObject>();
+            roomObject.SetRoomObjectParent(roomObjectParent);
+
+            return roomObject;
+        }
+        #endregion
     }
 }

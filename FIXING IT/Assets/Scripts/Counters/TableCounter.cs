@@ -5,15 +5,6 @@ namespace FixingIt.Counters
 {
     public class TableCounter : BaseCounter
     {
-        //[SerializeField] private RoomObjectSO _testRoomObjectSO;
-
-        //private void Start()
-        //{
-        //    var go = Instantiate(_testRoomObjectSO.RoomObjectPrefab);
-
-        //    go.GetComponent<RoomObject>().SetRoomObjectParent(this);
-        //}
-
         public override void AlternateInteract()
         {
             return;
