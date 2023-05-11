@@ -1,8 +1,8 @@
 {
-    "name": "FixingIt.Counters",
-    "rootNamespace": "FixingIt.Counters",
+    "name": "FixingIt.Minigame",
+    "rootNamespace": "FixingIt.Minigame",
     "references": [
-        "GUID:328ff2d8b0875eb42b3365ecba03a0c0"
+        "GUID:cf51dea1ea740ff468087729ba2f5b03"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

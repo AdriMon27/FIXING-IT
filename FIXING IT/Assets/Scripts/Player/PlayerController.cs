@@ -1,13 +1,16 @@
 using FixingIt.Counters;
 using FixingIt.InputSystem;
+using FixingIt.Minigame.RoomObject;
 using UnityEngine;
 
 namespace FixingIt.PlayerGame
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IRoomObjectParent
     {
         [SerializeField] InputReaderSO _inputReaderSO;
+
+        [SerializeField] private Transform _holdingPoint;
 
         [Header("Player Comps")]
         [SerializeField] private PlayerAnimationComp _animationComp;
@@ -19,6 +22,7 @@ namespace FixingIt.PlayerGame
         [SerializeField] private LayerMask _countersLayerMask;
 
         private Rigidbody _rb;
+        private RoomObject _roomObject;
         private Vector2 _direction;
 
         private void Awake()
@@ -73,7 +77,7 @@ namespace FixingIt.PlayerGame
 
             if (Physics.Raycast(rayOrigin, rayDir, out RaycastHit rayHit, _interactDistance, _countersLayerMask)) {
                 if (rayHit.transform.TryGetComponent(out BaseCounter baseCounter)) {
-                    baseCounter.Interact();
+                    baseCounter.Interact(this);
                 }
             }
 
@@ -84,5 +88,32 @@ namespace FixingIt.PlayerGame
         {
             _direction = directionInput;
         }
+
+        #region IRoomObjectParent
+        public Transform GetRoomObjectTransform()
+        {
+            return _holdingPoint;
+        }
+
+        public RoomObject GetRoomObject()
+        {
+            return _roomObject;
+        }
+
+        public void SetRoomObject(RoomObject roomObject)
+        {
+            _roomObject = roomObject;
+        }
+
+        public bool HasRoomObject()
+        {
+            return _roomObject != null;
+        }
+
+        public void ClearRoomObject()
+        {
+            _roomObject = null;
+        }
+        #endregion
     }
 }

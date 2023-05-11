@@ -1,7 +1,7 @@
 using FixingIt.InputSystem;
 using UnityEngine;
 
-namespace FixingIt
+namespace FixingIt.Minigame
 {
     public class FixingGameManager : MonoBehaviour
     {

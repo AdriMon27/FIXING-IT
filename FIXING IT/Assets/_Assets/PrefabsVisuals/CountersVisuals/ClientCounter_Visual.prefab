@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5851742232368219316}
   m_Layer: 0
-  m_Name: TableCounter_Visual
+  m_Name: ClientCounter_Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 288e0f8763b17724c9db829a9c2b9efb, type: 2}
+  - {fileID: 2100000, guid: 0a81dc31e9cc92d46b97fe2deecd6e9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
