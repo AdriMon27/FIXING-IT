@@ -1,5 +1,4 @@
 using FixingIt.Minigame.RoomObject;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ namespace FixingIt.Counters
 {
     public class ToolCreatorCounter : BaseCounter
     {
+        [SerializeField] private ToolRecipeManagerSO _toolRecipeManagerSO;
         [SerializeField] private Transform[] _piecesTransform;
         private List<RoomObjectSO> _piecesSO;
 
@@ -17,7 +17,10 @@ namespace FixingIt.Counters
 
         public override void AlternateInteract()
         {
-            Debug.Log("Trying to create a new tool");
+            if (HasRoomObject())
+                return;
+
+            TryToCraftTool();
         }
 
         public override void Interact(IRoomObjectParent roomObjectParent)
@@ -26,11 +29,51 @@ namespace FixingIt.Counters
                 return;
 
             if (HasRoomObject()) {
-                // try to give tool to roomObjectParent
+                TryToGiveRoomObject(roomObjectParent);
             }
             else {
                 TryToReceivePiece(roomObjectParent);
             }
+        }
+
+        private void TryToCraftTool()
+        {
+            RoomObjectSO toolCreated = _toolRecipeManagerSO.TryRecipe(_piecesSO);
+
+            if (toolCreated == null) {
+                ClearPieces();
+            }
+            else {
+                RoomObject.SpawnRoomObject(toolCreated, this);
+                ClearPieces();
+            }
+        }
+
+        private void ClearPieces()
+        {
+            // delete all pieces visual
+            foreach (Transform pieceTransform in _piecesTransform)
+            {
+                for (int i = pieceTransform.childCount - 1; i >= 0; i--)
+                {
+                    // Get the child transform
+                    Transform childTransform = pieceTransform.GetChild(i);
+
+                    // Destroy the child transform
+                    DestroyImmediate(childTransform.gameObject);
+                }
+            }
+
+            // delete all pieces logic
+            _piecesSO.Clear();
+        }
+
+        private void TryToGiveRoomObject(IRoomObjectParent roomObjectParent)
+        {
+            if (roomObjectParent.HasRoomObject())
+                return;
+
+            GetRoomObject().SetRoomObjectParent(roomObjectParent);
         }
 
         private void TryToReceivePiece(IRoomObjectParent roomObjectParent)

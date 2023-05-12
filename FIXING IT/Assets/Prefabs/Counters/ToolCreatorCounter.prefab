@@ -243,6 +243,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _topPoint: {fileID: 2350035344469211417}
+  _toolRecipeManagerSO: {fileID: 11400000, guid: d057cefc2a5771840b7e9a0f8a6e7330,
+    type: 2}
   _piecesTransform:
   - {fileID: 3782212011464226537}
   - {fileID: 7303092492313285777}
