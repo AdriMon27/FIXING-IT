@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f315e7d7e1e2d654b8435fd77e0ed597, type: 3}
+  m_Name: HammerHeadPiece
+  m_EditorClassIdentifier: 
+  _objectName: HammerHead
+  _type: 0
+  _roomObjetPrefab: {fileID: 3781946027497459326, guid: 213cf6df7f1e1b948b5d42bd6a2f9047,
+    type: 3}
+  _sprite: {fileID: 21300000, guid: 207dcb3cf75812044aa8399ed7737bae, type: 3}

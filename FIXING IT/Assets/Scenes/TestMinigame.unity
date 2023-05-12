@@ -434,6 +434,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PieceCounter_1
       objectReference: {fileID: 0}
+    - target: {fileID: 8932115231399967329, guid: d9cfb6b6ab89d164b8639b0b75f45e8e,
+        type: 3}
+      propertyPath: _roomObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 39aa394a419ccd94999c6c1193f80912,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -924,7 +930,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _roomObjectSO
       value: 
-      objectReference: {fileID: 11400000, guid: 39aa394a419ccd94999c6c1193f80912,
+      objectReference: {fileID: 11400000, guid: 858751c52e0a93143a72548be1616d60,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2737,7 +2743,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _roomObjectSO
       value: 
-      objectReference: {fileID: 11400000, guid: 39aa394a419ccd94999c6c1193f80912,
+      objectReference: {fileID: 11400000, guid: 3ec63a19de2e4af4a9661838b014344e,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3383,7 +3389,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _roomObjectSO
       value: 
-      objectReference: {fileID: 11400000, guid: 39aa394a419ccd94999c6c1193f80912,
+      objectReference: {fileID: 11400000, guid: fa6c35a39ffef3040ab50f22a8ec7430,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

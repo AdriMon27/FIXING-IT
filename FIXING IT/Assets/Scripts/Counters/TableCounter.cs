@@ -1,5 +1,4 @@
 using FixingIt.Minigame.RoomObject;
-using UnityEngine;
 
 namespace FixingIt.Counters
 {
@@ -22,8 +21,6 @@ namespace FixingIt.Counters
             else {
                 TryToReceiveRoomObject(roomObjectParent);
             }
-
-            Debug.Log($"{roomObjectParent} has interacted with {name}, topPoint at {GetRoomObjectTransform().position} and RoomObject: {GetRoomObject()}");
         }
 
         private void TryToGiveRoomObject(IRoomObjectParent roomObjectParent)
