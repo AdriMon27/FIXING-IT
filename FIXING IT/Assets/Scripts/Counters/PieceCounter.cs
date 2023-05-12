@@ -7,6 +7,14 @@ namespace FixingIt.Counters
     {
         [SerializeField] private RoomObjectSO _roomObjectSO;
 
+        [Header("Components")]
+        [SerializeField] private PieceCounterVisualComp _pieceCounterVisualComp;
+
+        private void Start()
+        {
+            _pieceCounterVisualComp.SetSprite(_roomObjectSO.Sprite);
+        }
+
         public override void AlternateInteract()
         {
             return;
