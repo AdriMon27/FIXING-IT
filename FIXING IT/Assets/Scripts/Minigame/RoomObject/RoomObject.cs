@@ -9,6 +9,9 @@ namespace FixingIt.Minigame.RoomObject
         
         private IRoomObjectParent _roomObjectParent;
 
+        public RoomObjectSO RoomObjectSO => _roomObjectSO;
+        public GameObject RoomObjectVisualPrefab => transform.GetChild(0).gameObject;
+
         public void SetRoomObjectParent(IRoomObjectParent newRoomObjectParent)
         {
             // clear parent info
@@ -27,6 +30,12 @@ namespace FixingIt.Minigame.RoomObject
             transform.parent = newRoomObjectParent.GetRoomObjectTransform();
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+        }
+
+        // TODO: cambiar por sistema de pooling como extra
+        public void Broke()
+        {
+            Destroy(gameObject);
         }
 
         #region Static

@@ -34,12 +34,14 @@ namespace FixingIt.PlayerGame
         {
             _inputReaderSO.MoveEvent += SetPlayerDirection;
             _inputReaderSO.InteractEvent += HandleInteraction;
+            _inputReaderSO.AlternateInteractEvent += HandleAlternateInteraction;
         }
 
         private void OnDisable()
         {
             _inputReaderSO.MoveEvent -= SetPlayerDirection;
             _inputReaderSO.InteractEvent -= HandleInteraction;
+            _inputReaderSO.AlternateInteractEvent -= HandleAlternateInteraction;
         }
 
         private void FixedUpdate()
@@ -70,24 +72,44 @@ namespace FixingIt.PlayerGame
             transform.forward = Vector3.Slerp(transform.forward, desiredRotation, Time.deltaTime * _rotateSpeed);
         }
 
+        #region InputActions
+        private void SetPlayerDirection(Vector2 directionInput)
+        {
+            _direction = directionInput;
+        }
+
         private void HandleInteraction()
         {
-            Vector3 rayOrigin = transform.position; // origin in floor
+            Vector3 rayOrigin = transform.position;
             Vector3 rayDir = transform.forward;
 
             if (Physics.Raycast(rayOrigin, rayDir, out RaycastHit rayHit, _interactDistance, _countersLayerMask)) {
                 if (rayHit.transform.TryGetComponent(out BaseCounter baseCounter)) {
                     baseCounter.Interact(this);
                 }
+
+                Debug.DrawRay(rayHit.point, rayDir * _interactDistance, Color.green, 5f);
             }
 
             Debug.DrawRay(rayOrigin, rayDir * _interactDistance, Color.red, 5f);
         }
 
-        private void SetPlayerDirection(Vector2 directionInput)
+        private void HandleAlternateInteraction()
         {
-            _direction = directionInput;
+            Vector3 rayOrigin = transform.position;
+            Vector3 rayDir = transform.forward;
+
+            if (Physics.Raycast(rayOrigin, rayDir, out RaycastHit rayHit, _interactDistance, _countersLayerMask)) {
+                if (rayHit.transform.TryGetComponent(out BaseCounter baseCounter)) {
+                    baseCounter.AlternateInteract();
+                }
+
+                Debug.DrawRay(rayHit.point, rayDir * _interactDistance, Color.green, 5f);
+            }
+
+            Debug.DrawRay(rayOrigin, rayDir * _interactDistance, Color.blue, 5f);
         }
+        #endregion
 
         #region IRoomObjectParent
         public Transform GetRoomObjectTransform()
