@@ -5,6 +5,7 @@ namespace FixingIt.Minigame.RoomObject
 {
     public class ToFixRoomObject : RoomObject
     {
+        [SerializeField] private ToFixRoomObjectVisualComp _toFixRoomObjectVisualComp;
         [SerializeField] private RoomObjectSO[] _toolsToBeFixedSO;
         private bool[] _toolsUsedSO;
 
@@ -15,15 +16,22 @@ namespace FixingIt.Minigame.RoomObject
             _toolsUsedSO = new bool[_toolsToBeFixedSO.Length];
         }
 
-        private void FixObject()
+        private void Start()
         {
-            // change visual?
-
-            Debug.Log("FixObject");
+            _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
         }
 
-        public bool TryToFix(RoomObjectSO toolUsed)
+        //private void FixObject()
+        //{
+        //    // change visual?
+        //    _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
+        //    Debug.Log("FixObject");
+        //}
+
+        public bool TryToFix(RoomObjectSO toolUsed, out bool toolBeenUsed)
         {
+            toolBeenUsed = false;
+
             // should be check from outside but just in case
             if (IsFixed) {
                 Debug.Log("cannot fix a object that is already fixed");
@@ -36,14 +44,16 @@ namespace FixingIt.Minigame.RoomObject
 
                 if (toolUsed == _toolsToBeFixedSO[i]) {
                     _toolsUsedSO[i] = true;
+                    toolBeenUsed = true;
                     break;
                 }
             }
 
+            _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
+
             if (!IsFixed)
                 return false;
 
-            FixObject();
             return true;
         }
     }

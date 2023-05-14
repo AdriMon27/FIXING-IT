@@ -223,7 +223,7 @@ MonoBehaviour:
   _playerIndex: 0
   _readyGameObject: {fileID: 7464402596422442118}
   _playerNameText: {fileID: 8373990572548916628}
-  _playerVisualComp: {fileID: 5710223044873797130}
+  _playerVisualComp: {fileID: 966388347987233157}
   _kickButton: {fileID: 2988587943416255680}
   _kickPlayerClientIdEvent: {fileID: 11400000, guid: 1dde50a307c32004085338522ed033c9,
     type: 2}
@@ -746,9 +746,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad27d27b1a537748af0b62171d99918, type: 3}
---- !u!114 &5710223044873797130 stripped
+--- !u!114 &966388347987233157 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2735217656512367736, guid: 3ad27d27b1a537748af0b62171d99918,
+  m_CorrespondingSourceObject: {fileID: 7467801030477183991, guid: 3ad27d27b1a537748af0b62171d99918,
     type: 3}
   m_PrefabInstance: {fileID: 7695447168969634418}
   m_PrefabAsset: {fileID: 0}

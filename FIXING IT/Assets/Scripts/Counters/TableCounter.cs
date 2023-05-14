@@ -30,11 +30,9 @@ namespace FixingIt.Counters
                 return;
             }
 
-            // try to fix the ObjectToFix
-
             // check if roomObjectParent.RoomObject is inside necesaryTools to fix object
             ToFixRoomObject toFixRoomObject = (GetRoomObject() as ToFixRoomObject);
-            if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO)) {
+            if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, out bool toolBeenUsed)) {
                 // send event object fixed
 
                 Debug.Log("object fixed");
@@ -44,8 +42,9 @@ namespace FixingIt.Counters
                 Debug.Log("Trying to fix object");
             }
 
-            // use roomObjectParent.RoomObject
-            roomObjectParent.GetRoomObject().Use();
+            if (toolBeenUsed) { 
+                roomObjectParent.GetRoomObject().Use();
+            }
         }
         public override void Interact(IRoomObjectParent roomObjectParent)
         {
