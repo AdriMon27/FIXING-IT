@@ -2,7 +2,9 @@
     "name": "FixingIt.Minigame",
     "rootNamespace": "FixingIt.Minigame",
     "references": [
-        "GUID:cf51dea1ea740ff468087729ba2f5b03"
+        "GUID:cf51dea1ea740ff468087729ba2f5b03",
+        "GUID:39a53fcf163849642bf3d091692f6a2c",
+        "GUID:283b35537e61caa4da56ec25fcff0660"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

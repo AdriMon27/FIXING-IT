@@ -1,8 +1,10 @@
 {
-    "name": "ProgramadorCastellano.Funcs",
-    "rootNamespace": "ProgramadorCastellano.Funcs",
+    "name": "FixingIt.Customer",
+    "rootNamespace": "FixingIt.Customer",
     "references": [
-        "GUID:39a53fcf163849642bf3d091692f6a2c"
+        "GUID:39a53fcf163849642bf3d091692f6a2c",
+        "GUID:283b35537e61caa4da56ec25fcff0660",
+        "GUID:328ff2d8b0875eb42b3365ecba03a0c0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
