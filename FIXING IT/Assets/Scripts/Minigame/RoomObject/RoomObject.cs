@@ -32,9 +32,20 @@ namespace FixingIt.Minigame.RoomObject
             transform.localRotation = Quaternion.identity;
         }
 
+        public void Use()
+        {
+            _numberOfUses--;
+
+            if (_numberOfUses <= 0) {
+                Broke();
+            }
+        }
+
         // TODO: cambiar por sistema de pooling como extra
         public void Broke()
         {
+            _roomObjectParent.ClearRoomObject();
+
             Destroy(gameObject);
         }
 

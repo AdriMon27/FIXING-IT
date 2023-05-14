@@ -101,7 +101,7 @@ namespace FixingIt.PlayerGame
 
             if (Physics.Raycast(rayOrigin, rayDir, out RaycastHit rayHit, _interactDistance, _countersLayerMask)) {
                 if (rayHit.transform.TryGetComponent(out BaseCounter baseCounter)) {
-                    baseCounter.AlternateInteract();
+                    baseCounter.AlternateInteract(this);
                 }
 
                 Debug.DrawRay(rayHit.point, rayDir * _interactDistance, Color.green, 5f);

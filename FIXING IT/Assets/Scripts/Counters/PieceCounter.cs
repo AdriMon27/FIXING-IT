@@ -15,7 +15,7 @@ namespace FixingIt.Counters
             _pieceCounterVisualComp.SetSprite(_roomObjectSO.Sprite);
         }
 
-        public override void AlternateInteract()
+        public override void AlternateInteract(IRoomObjectParent roomObjectParent)
         {
             return;
         }

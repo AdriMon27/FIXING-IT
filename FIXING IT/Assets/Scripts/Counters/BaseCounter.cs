@@ -10,7 +10,7 @@ namespace FixingIt.Counters
         private RoomObject _roomObject;
 
         public abstract void Interact(IRoomObjectParent roomObjectParent);
-        public abstract void AlternateInteract();
+        public abstract void AlternateInteract(IRoomObjectParent roomObjectParent);
 
         public Transform GetRoomObjectTransform()
         {

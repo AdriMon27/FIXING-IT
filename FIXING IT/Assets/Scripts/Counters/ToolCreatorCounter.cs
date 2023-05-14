@@ -15,7 +15,7 @@ namespace FixingIt.Counters
             _piecesSO = new List<RoomObjectSO>();
         }
 
-        public override void AlternateInteract()
+        public override void AlternateInteract(IRoomObjectParent roomObjectParent)
         {
             if (HasRoomObject())
                 return;
@@ -99,8 +99,8 @@ namespace FixingIt.Counters
             Instantiate(visualPiece, _piecesTransform[_piecesSO.Count - 1]);
 
             // clear piece from roomObjectParent
-            roomObjectParent.ClearRoomObject();
-            pieceToSet.Broke();
+            // roomObjectParent.ClearRoomObject() is managed by pieceToSet.Broke
+            pieceToSet.Broke(); 
         }
     }
 }
