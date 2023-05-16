@@ -48,7 +48,7 @@ namespace FixingIt.Customer
                     {
                         _clientState = ClientState.Waiting;
                         _roomObject.SetRoomObjectParent(_parentToLeaveBrokenObject);
-                        Invoke(nameof(LeaveCounter), 5f);
+                        //Invoke(nameof(LeaveCounter), 5f);
                     }
                     break;
                 case ClientState.LeavingCounter:
@@ -70,7 +70,7 @@ namespace FixingIt.Customer
             _clientState = ClientState.GoingToCounter;
         }
 
-        private void LeaveCounter()
+        public void LeaveCounter()
         {
             _agent.SetDestination(_startTransform.position);
             _clientState = ClientState.LeavingCounter;

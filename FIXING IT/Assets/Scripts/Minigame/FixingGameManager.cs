@@ -38,6 +38,7 @@ namespace FixingIt.Minigame
             }
 
             customerController.InitCustomer(_customerStartPosition, _customerCounters[TestIndex], _objectsToFixSO[TestIndex]);
+            _customerCounters[TestIndex].SetCustomerAssigned(customerController);
         }
     }
 }

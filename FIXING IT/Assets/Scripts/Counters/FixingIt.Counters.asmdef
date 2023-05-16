@@ -2,7 +2,8 @@
     "name": "FixingIt.Counters",
     "rootNamespace": "FixingIt.Counters",
     "references": [
-        "GUID:328ff2d8b0875eb42b3365ecba03a0c0"
+        "GUID:328ff2d8b0875eb42b3365ecba03a0c0",
+        "GUID:0a9e618358780614397ea2f177b081c8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

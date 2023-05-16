@@ -3696,7 +3696,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f1e9d08d50432f543bd688eb505477f8, type: 2}
   - {fileID: 11400000, guid: 1b933f8fc3c45fa418a6c6f4f18eafad, type: 2}
   - {fileID: 11400000, guid: 9ed919263c1494b44822f15154f3866b, type: 2}
-  TestIndex: 0
+  TestIndex: 2
   _customerPrefab: {fileID: 6781459996236134245, guid: 38d727d4b1ccaf343bab71140712585d,
     type: 3}
   _customerStartPosition: {fileID: 5198500}
