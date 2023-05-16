@@ -1,6 +1,6 @@
 using FixingIt.Counters;
 using FixingIt.InputSystem;
-using FixingIt.Minigame.RoomObject;
+using FixingIt.RoomObjects;
 using UnityEngine;
 
 namespace FixingIt.PlayerGame

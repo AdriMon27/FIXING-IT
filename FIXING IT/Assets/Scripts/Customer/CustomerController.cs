@@ -1,4 +1,4 @@
-using FixingIt.Minigame.RoomObject;
+using FixingIt.RoomObjects;
 using ProgramadorCastellano.Funcs;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,14 +17,13 @@ namespace FixingIt.Customer
 
         [SerializeField] Transform _holdingPoint;
 
-        [Header("Invoking Func")]
-        [SerializeField] TransformFuncSO _getCustomerStartPositionFunc;
-        [SerializeField] TransformFuncSO _getFreeCounterPosition;
-
         private NavMeshAgent _agent;
         private ClientState _clientState;
 
         private RoomObject _roomObject;
+
+        private Transform _startTransform;
+        private IRoomObjectParent _parentToLeaveBrokenObject;
 
         private void Awake()
         {
@@ -48,6 +47,7 @@ namespace FixingIt.Customer
                     if (_agent.remainingDistance < _agent.stoppingDistance)
                     {
                         _clientState = ClientState.Waiting;
+                        _roomObject.SetRoomObjectParent(_parentToLeaveBrokenObject);
                         Invoke(nameof(LeaveCounter), 5f);
                     }
                     break;
@@ -66,16 +66,22 @@ namespace FixingIt.Customer
 
         private void GoToCounter()
         {
-            Debug.Log("going to counter");
-            _agent.SetDestination(_getFreeCounterPosition.RaiseFunc().position);
+            _agent.SetDestination(_parentToLeaveBrokenObject.transform.position);
             _clientState = ClientState.GoingToCounter;
         }
 
         private void LeaveCounter()
         {
-            Debug.Log("leaving counter");
-            _agent.SetDestination(_getCustomerStartPositionFunc.RaiseFunc().position);
+            _agent.SetDestination(_startTransform.position);
             _clientState = ClientState.LeavingCounter;
+        }
+
+        public void InitCustomer(Transform startTransform, IRoomObjectParent parentToLeaveBrokenObject, RoomObjectSO _objectToFixSO)
+        {
+            _startTransform = startTransform;
+            _parentToLeaveBrokenObject = parentToLeaveBrokenObject;
+
+            RoomObject.SpawnRoomObject(_objectToFixSO, this);
         }
 
         #region RoomObjectParent

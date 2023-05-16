@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f315e7d7e1e2d654b8435fd77e0ed597, type: 3}
+  m_Name: PCToFixSO
+  m_EditorClassIdentifier: 
+  _objectName: PC
+  _type: 2
+  _roomObjetPrefab: {fileID: 8191089910826673616, guid: c6fb21db418ce5041ac82c20b38c5d0f,
+    type: 3}
+  _sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}

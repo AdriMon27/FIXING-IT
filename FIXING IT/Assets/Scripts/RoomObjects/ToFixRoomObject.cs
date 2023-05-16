@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace FixingIt.Minigame.RoomObject
+namespace FixingIt.RoomObjects
 {
     public class ToFixRoomObject : RoomObject
     {

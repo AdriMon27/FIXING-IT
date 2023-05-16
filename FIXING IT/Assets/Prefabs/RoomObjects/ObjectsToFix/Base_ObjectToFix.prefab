@@ -282,12 +282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c59253b01ff83d4ba42113bdcd206cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomObjectSO: {fileID: 11400000, guid: 1b933f8fc3c45fa418a6c6f4f18eafad, type: 2}
+  _roomObjectSO: {fileID: 0}
   _numberOfUses: 1
   _toFixRoomObjectVisualComp: {fileID: 1056682529805087505}
-  _toolsToBeFixedSO:
-  - {fileID: 11400000, guid: 51ff29f8373b5e54285c1f3d95dfa4b0, type: 2}
-  - {fileID: 11400000, guid: 51ff29f8373b5e54285c1f3d95dfa4b0, type: 2}
+  _toolsToBeFixedSO: []
 --- !u!114 &1056682529805087505
 MonoBehaviour:
   m_ObjectHideFlags: 0

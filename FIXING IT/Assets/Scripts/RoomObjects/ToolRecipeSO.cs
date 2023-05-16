@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FixingIt.Minigame.RoomObject
+namespace FixingIt.RoomObjects
 {
     [CreateAssetMenu()]
     public class ToolRecipeSO : ScriptableObject

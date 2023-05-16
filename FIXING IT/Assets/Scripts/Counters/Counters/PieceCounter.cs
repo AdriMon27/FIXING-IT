@@ -1,4 +1,4 @@
-using FixingIt.Minigame.RoomObject;
+using FixingIt.RoomObjects;
 using UnityEngine;
 
 namespace FixingIt.Counters

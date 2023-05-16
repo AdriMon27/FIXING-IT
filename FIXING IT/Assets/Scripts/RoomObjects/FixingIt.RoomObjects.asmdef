@@ -1,9 +1,7 @@
 {
-    "name": "FixingIt.Minigame.RoomObject",
-    "rootNamespace": "FixingIt.Minigame.RoomObject",
-    "references": [
-        "GUID:1f603d9ab94ac8645ad50ea51e4c697a"
-    ],
+    "name": "FixingIt.RoomObjects",
+    "rootNamespace": "FixingIt.RoomObjects",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

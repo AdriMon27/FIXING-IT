@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FixingIt.Minigame.RoomObject
+namespace FixingIt.RoomObjects
 {
     public class ToFixRoomObjectVisualComp : MonoBehaviour
     {

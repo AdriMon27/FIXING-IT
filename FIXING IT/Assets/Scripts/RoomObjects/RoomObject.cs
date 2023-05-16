@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace FixingIt.Minigame.RoomObject
+namespace FixingIt.RoomObjects
 {
     public class RoomObject : MonoBehaviour
     {
         [SerializeField] private RoomObjectSO _roomObjectSO;
         [SerializeField] private int _numberOfUses = 1;
-        
+
         private IRoomObjectParent _roomObjectParent;
 
         public RoomObjectSO RoomObjectSO => _roomObjectSO;
@@ -20,7 +20,8 @@ namespace FixingIt.Minigame.RoomObject
             // set new parent
             _roomObjectParent = newRoomObjectParent;
 
-            if (newRoomObjectParent.HasRoomObject()) {
+            if (newRoomObjectParent.HasRoomObject())
+            {
                 Debug.LogError("IRoomObjectParent already has a RoomObject");
             }
 
@@ -36,7 +37,8 @@ namespace FixingIt.Minigame.RoomObject
         {
             _numberOfUses--;
 
-            if (_numberOfUses <= 0) {
+            if (_numberOfUses <= 0)
+            {
                 Broke();
             }
         }

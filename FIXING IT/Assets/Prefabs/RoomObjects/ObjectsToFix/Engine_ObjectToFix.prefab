@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3560502733478779697, guid: a299688d2883d7343b69fd402aafda54,
         type: 3}
       propertyPath: m_Name
-      value: Engine_ObjectToFix Variant
+      value: Engine_ObjectToFix
       objectReference: {fileID: 0}
     - target: {fileID: 3587459588773329710, guid: a299688d2883d7343b69fd402aafda54,
         type: 3}
@@ -68,6 +68,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
+        type: 3}
+      propertyPath: _roomObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b933f8fc3c45fa418a6c6f4f18eafad,
+        type: 2}
+    - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
+        type: 3}
+      propertyPath: _toolsToBeFixedSO.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
+        type: 3}
+      propertyPath: _toolsToBeFixedSO.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 51ff29f8373b5e54285c1f3d95dfa4b0,
+        type: 2}
+    - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
+        type: 3}
+      propertyPath: _toolsToBeFixedSO.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 51ff29f8373b5e54285c1f3d95dfa4b0,
+        type: 2}
+    - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
+        type: 3}
+      propertyPath: _toolsToBeFixedSO.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 51ff29f8373b5e54285c1f3d95dfa4b0,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

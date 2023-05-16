@@ -80,7 +80,7 @@ NavMeshAgent:
   m_Acceleration: 4
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -101,10 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _holdingPoint: {fileID: 7807497627164204853}
-  _getCustomerStartPositionFunc: {fileID: 11400000, guid: 6feff1921dba7504992203067a1e1c74,
-    type: 2}
-  _getFreeCounterPosition: {fileID: 11400000, guid: fc2af37f020c36c44889bd60edd20703,
-    type: 2}
 --- !u!1001 &8037776634209968896
 PrefabInstance:
   m_ObjectHideFlags: 0

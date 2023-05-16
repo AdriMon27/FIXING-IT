@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace FixingIt.Minigame.RoomObject
+namespace FixingIt.RoomObjects
 {
     //[CreateAssetMenu()]
     public class ToolRecipeManagerSO : ScriptableObject
