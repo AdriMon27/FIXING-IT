@@ -5,8 +5,16 @@ namespace FixingIt.UI.Minigame
 {
     public class UIMinigameManager : MonoBehaviour
     {
+        [Header("Panels")]
+        [SerializeField] private UIManualPanel _toolRecipesPanel;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _inMenuEvent;
+
         [Header("Listening To")]
-        [SerializeField] VoidEventChannelSO _manualCounterUsedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _manualCounterUsedEvent;
 
         private void OnEnable()
         {
@@ -18,9 +26,15 @@ namespace FixingIt.UI.Minigame
             _manualCounterUsedEvent.OnEventRaised -= ShowManualPanel;
         }
 
+        private void Start()
+        {
+            _toolRecipesPanel.Hide();
+        }
+
         private void ShowManualPanel()
         {
-            Debug.Log("UI manual panel jeje");
+            _toolRecipesPanel.Show();
+            _inMenuEvent.RaiseEvent();
         }
     }
 }
