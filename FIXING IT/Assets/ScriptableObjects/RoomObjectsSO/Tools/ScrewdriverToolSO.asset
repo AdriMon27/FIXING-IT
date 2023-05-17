@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f315e7d7e1e2d654b8435fd77e0ed597, type: 3}
-  m_Name: ScrewPieceSO
+  m_Name: ScrewdriverToolSO
   m_EditorClassIdentifier: 
-  _objectName: Screw
-  _type: 0
-  _roomObjetPrefab: {fileID: 3781946027497459326, guid: cf50312e0fef74840a8c3c49689b915b,
+  _objectName: Screwdriver
+  _type: 1
+  _roomObjetPrefab: {fileID: 3781946027497459326, guid: 947fc4d37d15b9545a18c1d7c6863826,
     type: 3}
-  _sprite: {fileID: 21300000, guid: 441743f58c2b7de4eb5e923b42bb8e68, type: 3}
+  _sprite: {fileID: 21300000, guid: b1d8f88c27c0cdc489b9566854ad2c8d, type: 3}
