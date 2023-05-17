@@ -150,7 +150,7 @@ namespace FixingIt.GameLobby
         private void Update()
         {
             HandleLobbyHeartBeat();
-            HandleLobbyPollForUpdates();
+            //HandleLobbyPollForUpdates();
         }
 
         #region HandleLobby
