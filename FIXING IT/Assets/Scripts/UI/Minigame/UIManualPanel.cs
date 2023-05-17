@@ -1,5 +1,7 @@
 using FixingIt.RoomObjects;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace FixingIt.UI.Minigame
 {
@@ -8,27 +10,79 @@ namespace FixingIt.UI.Minigame
         [SerializeField] private GameObject _manualItemPrefab;
         [SerializeField] private Transform[] _recipesParents;
 
+        [SerializeField] private Button _previousPageButton;
+        [SerializeField] private Button _nextPageButton;
+
         //[Header("Invoking Func")]
         [SerializeField] private ToolRecipeManagerSO _toolRecipeManagerSO;
 
-        private int _currentGroup;  // for manage pages
+        private int _currentGroupIndex;  // for manage pages
+
+        public GameObject FirstSelected => _previousPageButton.gameObject;
+
+        private void Awake()
+        {
+            _previousPageButton.onClick.AddListener(() => {
+                _currentGroupIndex--;
+                ShowCurrentGroup();
+            });
+
+            _nextPageButton.onClick.AddListener(() => {
+                _currentGroupIndex++;
+                ShowCurrentGroup();
+            });
+        }
+
+        private void OnEnable()
+        {
+            _currentGroupIndex = 0;
+        }
 
         private void ShowCurrentGroup()
         {
-            // avoid overflow
+            // clear previous transforms
+            foreach (Transform parent in _recipesParents) {
+                for (int i = parent.childCount - 1; i >= 0; i--) {
+                    // Get the child transform
+                    Transform childTransform = parent.GetChild(i);
+
+                    // Destroy the child transform
+                    DestroyImmediate(childTransform.gameObject);
+                }
+            }
+
+            _previousPageButton.gameObject.SetActive(true);
+            _nextPageButton.gameObject.SetActive(true);
+
+            int numberOfGroups = _toolRecipeManagerSO.Recipes.Length / _recipesParents.Length + 1;
+
+            // avoid overflow just in case
+            _currentGroupIndex %= numberOfGroups;
+
+            // hide buttons
+            if (_currentGroupIndex == 0)
+                _previousPageButton.gameObject.SetActive(false);
+
+            if (_currentGroupIndex >= numberOfGroups - 1)
+                _nextPageButton.gameObject.SetActive(false);
 
             // set images per group
-            for (int i = 0; i < _recipesParents.Length && i < _toolRecipeManagerSO.Recipes.Length; i++) {
+            int realIndex = 0 + (_currentGroupIndex * _recipesParents.Length);
+            for (int i = 0; i < _recipesParents.Length && realIndex < _toolRecipeManagerSO.Recipes.Length; i++) {
                 UIManualItem manualItem = Instantiate(_manualItemPrefab, _recipesParents[i]).GetComponent<UIManualItem>();
+                manualItem.InitManualItem(_toolRecipeManagerSO.Recipes[realIndex]);
 
-                manualItem.InitManualItem(_toolRecipeManagerSO.Recipes[i]);
+                realIndex = i + (_currentGroupIndex * _recipesParents.Length);
             }
+
+            // set focus
+            EventSystem.current.SetSelectedGameObject(_previousPageButton.gameObject.activeSelf ? 
+                _previousPageButton.gameObject : _nextPageButton.gameObject // if nextpageButton also deactivated it doesnt matter
+            );
         }
 
         public void Show()
         {
-            _currentGroup = 0;
-
             ShowCurrentGroup();
 
             gameObject.SetActive(true);

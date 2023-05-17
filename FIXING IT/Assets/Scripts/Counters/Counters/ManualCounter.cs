@@ -16,7 +16,8 @@ namespace FixingIt.Counters
 
         public override void Interact(IRoomObjectParent roomObjectParent)
         {
-            ManualCounterUsed();
+            //ManualCounterUsed(); // it gave errors when the ui pops
+            return;
         }
 
         private void ManualCounterUsed()
