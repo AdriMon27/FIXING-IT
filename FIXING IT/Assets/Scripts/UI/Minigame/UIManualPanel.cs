@@ -75,12 +75,20 @@ namespace FixingIt.UI.Minigame
                 _nextPageButton.gameObject.SetActive(false);
 
             // set images per group
+            int loopIndex = 0;
             int realIndex = 0 + (_currentGroupIndex * _recipesParents.Length);
-            for (int i = 0; i < _recipesParents.Length && realIndex < _toolRecipeManagerSO.Recipes.Length; i++) {
-                UIManualItem manualItem = Instantiate(_manualItemPrefab, _recipesParents[i]).GetComponent<UIManualItem>();
+            //for (int i = 0; i < _recipesParents.Length && realIndex < _toolRecipeManagerSO.Recipes.Length; i++) {
+            //    UIManualItem manualItem = Instantiate(_manualItemPrefab, _recipesParents[i]).GetComponent<UIManualItem>();
+            //    manualItem.InitManualItem(_toolRecipeManagerSO.Recipes[realIndex]);
+
+            //    realIndex = i + (_currentGroupIndex * _recipesParents.Length);
+            //}
+            while (loopIndex < _recipesParents.Length && realIndex < _toolRecipeManagerSO.Recipes.Length) {
+                UIManualItem manualItem = Instantiate(_manualItemPrefab, _recipesParents[loopIndex]).GetComponent<UIManualItem>();
                 manualItem.InitManualItem(_toolRecipeManagerSO.Recipes[realIndex]);
 
-                realIndex = i + (_currentGroupIndex * _recipesParents.Length);
+                loopIndex++;
+                realIndex = loopIndex + (_currentGroupIndex * _recipesParents.Length);
             }
 
             // set focus
