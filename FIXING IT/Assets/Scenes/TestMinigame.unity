@@ -3992,6 +3992,7 @@ MonoBehaviour:
     type: 3}
   _customerStartPosition: {fileID: 5198500}
   _inMenuEvent: {fileID: 11400000, guid: c7e7fd062a1f3564aa1846fac8f9cdc5, type: 2}
+  _outMenuEvent: {fileID: 11400000, guid: de4110a85cc469e43b1ae4e2298f7936, type: 2}
 --- !u!4 &1318106621
 Transform:
   m_ObjectHideFlags: 0

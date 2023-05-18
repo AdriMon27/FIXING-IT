@@ -24,15 +24,19 @@ namespace FixingIt.Minigame
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _inMenuEvent;
+        [SerializeField]
+        private VoidEventChannelSO _outMenuEvent;
 
         private void OnEnable()
         {
             _inMenuEvent.OnEventRaised += ToMenuMode;
+            _outMenuEvent.OnEventRaised += ToGameplayMode;
         }
 
         private void OnDisable()
         {
             _inMenuEvent.OnEventRaised -= ToMenuMode;
+            _outMenuEvent.OnEventRaised -= ToGameplayMode;
         }
 
         private void Start()
@@ -55,6 +59,11 @@ namespace FixingIt.Minigame
         private void ToMenuMode()
         {
             _inputReaderSO.EnableMenuInput();
+        }
+
+        private void ToGameplayMode()
+        {
+            _inputReaderSO.EnableGameplayInput();
         }
     }
 }

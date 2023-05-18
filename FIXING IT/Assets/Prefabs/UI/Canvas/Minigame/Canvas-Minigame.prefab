@@ -699,8 +699,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade36e15477aa014d83de997a703cf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
   _toolRecipesPanel: {fileID: 1472476066549612251}
   _inMenuEvent: {fileID: 11400000, guid: c7e7fd062a1f3564aa1846fac8f9cdc5, type: 2}
+  _outMenuEvent: {fileID: 11400000, guid: de4110a85cc469e43b1ae4e2298f7936, type: 2}
   _manualCounterUsedEvent: {fileID: 11400000, guid: 0f26af80b72f2f64aa7eadcb96b91b90,
     type: 2}
 --- !u!1 &8034810966401410021
