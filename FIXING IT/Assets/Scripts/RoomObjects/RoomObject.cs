@@ -1,3 +1,4 @@
+using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.RoomObjects
@@ -6,6 +7,12 @@ namespace FixingIt.RoomObjects
     {
         [SerializeField] private RoomObjectSO _roomObjectSO;
         [SerializeField] private int _numberOfUses = 1;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _roomObjectUsedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
 
         private IRoomObjectParent _roomObjectParent;
 
@@ -37,9 +44,12 @@ namespace FixingIt.RoomObjects
         {
             _numberOfUses--;
 
-            if (_numberOfUses <= 0)
-            {
+            if (_numberOfUses <= 0) {
+                _roomObjectBrokenAfterUseEvent.RaiseEvent();
                 Broke();
+            }
+            else {
+                _roomObjectUsedEvent.RaiseEvent();
             }
         }
 

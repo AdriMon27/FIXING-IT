@@ -284,6 +284,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomObjectSO: {fileID: 0}
   _numberOfUses: 1
+  _roomObjectUsedEvent: {fileID: 11400000, guid: 99087d66af7555149a5db624b97919fd,
+    type: 2}
+  _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
+    type: 2}
   _toFixRoomObjectVisualComp: {fileID: 1056682529805087505}
   _toolsToBeFixedSO: []
 --- !u!114 &1056682529805087505

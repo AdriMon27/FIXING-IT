@@ -47,6 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomObjectSO: {fileID: 11400000, guid: 39aa394a419ccd94999c6c1193f80912, type: 2}
   _numberOfUses: 1
+  _roomObjectUsedEvent: {fileID: 11400000, guid: 99087d66af7555149a5db624b97919fd,
+    type: 2}
+  _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
+    type: 2}
 --- !u!1001 &3668617972091491180
 PrefabInstance:
   m_ObjectHideFlags: 0
