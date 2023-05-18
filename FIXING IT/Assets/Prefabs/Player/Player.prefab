@@ -138,6 +138,7 @@ MonoBehaviour:
   _countersLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _playerMovingEvent: {fileID: 11400000, guid: 084f079b69f5ce04a8988dd2d12b3762, type: 2}
 --- !u!1001 &1657177632480200261
 PrefabInstance:
   m_ObjectHideFlags: 0

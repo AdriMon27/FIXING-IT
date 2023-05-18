@@ -1,6 +1,7 @@
 using FixingIt.Counters;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
+using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.PlayerGame
@@ -20,6 +21,10 @@ namespace FixingIt.PlayerGame
         [SerializeField] private float _rotateSpeed = 10f;
         [SerializeField] private float _interactDistance = 2f;
         [SerializeField] private LayerMask _countersLayerMask;
+
+        //[Header("Broadcasting To")]
+        //[SerializeField]
+        //private VoidEventChannelSO _playerMovingEvent;
 
         private Rigidbody _rb;
         private RoomObject _roomObject;
@@ -62,7 +67,12 @@ namespace FixingIt.PlayerGame
             //transform.position += velocity * Time.deltaTime;
             _rb.velocity = velocity;
 
-            _animationComp.SetIsWalking(velocity != Vector3.zero);
+            bool isMoving = velocity != Vector3.zero;
+            _animationComp.SetIsWalking(isMoving);
+
+            //if (isMoving) {
+            //    _playerMovingEvent.RaiseEvent();  // calling comps instead of events
+            //}
         }
 
         private void HandleRotation()

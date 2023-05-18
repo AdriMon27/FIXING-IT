@@ -1,5 +1,4 @@
 using FixingIt.RoomObjects;
-using ProgramadorCastellano.Funcs;
 using UnityEngine;
 using UnityEngine.AI;
 
