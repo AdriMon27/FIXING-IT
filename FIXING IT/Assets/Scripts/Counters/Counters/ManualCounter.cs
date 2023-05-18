@@ -1,11 +1,14 @@
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
+using System.Collections;
 using UnityEngine;
 
 namespace FixingIt.Counters
 {
     public class ManualCounter : BaseCounter
     {
+        private delegate void Function();
+
         [Header("Broadcasting To")]
         [SerializeField] private VoidEventChannelSO _manualCounterUsedEvent;
 
@@ -16,13 +19,20 @@ namespace FixingIt.Counters
 
         public override void Interact(IRoomObjectParent roomObjectParent)
         {
-            //ManualCounterUsed(); // it gave errors when the ui pops
+            StartCoroutine(InvokeNextFrame(ManualCounterUsed)); // necessary wait to avoid errors
             return;
         }
 
         private void ManualCounterUsed()
         {
             _manualCounterUsedEvent.RaiseEvent();
+        }
+
+        // This function could be exernalised but it is only used here so it is not necessary
+        private IEnumerator InvokeNextFrame(Function function)
+        {
+            yield return null;
+            function();
         }
     }
 }

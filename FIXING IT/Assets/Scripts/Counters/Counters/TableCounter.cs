@@ -1,10 +1,20 @@
+using FixingIt.Events;
 using FixingIt.RoomObjects;
+using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.Counters
 {
     public class TableCounter : BaseCounter
     {
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
+        [SerializeField]
+        private VoidEventChannelSO _objectFixedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _objectFixingEvent;
+
         public override void AlternateInteract(IRoomObjectParent roomObjectParent)
         {
             if (roomObjectParent == null)
@@ -12,15 +22,15 @@ namespace FixingIt.Counters
 
             if (!HasRoomObject()
                 || GetRoomObject().RoomObjectSO.Type != RoomObjectSO.RoomObjectType.ObjectToFix) {
-                // lanzar evento jugador confuso
-
+                
+                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
                 return;
             }
 
             if (!roomObjectParent.HasRoomObject()
                 || roomObjectParent.GetRoomObject().RoomObjectSO.Type == RoomObjectSO.RoomObjectType.ObjectToFix) {
-                // lanzar evento jugador confuso
-
+                
+                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
                 return;
             }
 
@@ -33,13 +43,12 @@ namespace FixingIt.Counters
             // check if roomObjectParent.RoomObject is inside necesaryTools to fix object
             ToFixRoomObject toFixRoomObject = (GetRoomObject() as ToFixRoomObject);
             if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, out bool toolBeenUsed)) {
-                // send event object fixed
-
-                Debug.Log("object fixed");
+                
+                _objectFixedEvent.RaiseEvent();
             }
             else {
-                // send event fixing
-                Debug.Log("Trying to fix object");
+
+                _objectFixingEvent.RaiseEvent();
             }
 
             if (toolBeenUsed) { 

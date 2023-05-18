@@ -247,6 +247,9 @@ MonoBehaviour:
   - {fileID: 3782212011464226537}
   - {fileID: 7303092492313285777}
   - {fileID: 6798749249380144749}
+  _confusedRoomObjectParentEvent: {fileID: 11400000, guid: 5d6d9d0389336f74cb251236f7aa6afa,
+    type: 2}
+  _toolCreatedEvent: {fileID: 11400000, guid: 71f140365f6c67a49aa2fc4b86bbd55d, type: 2}
   _getLevelToolRecipeManagerSOFunc: {fileID: 11400000, guid: 3251177692f941642baaa14ca93101bc,
     type: 2}
 --- !u!1001 &8449641818325912857

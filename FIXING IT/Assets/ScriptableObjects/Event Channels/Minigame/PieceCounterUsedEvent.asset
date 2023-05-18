@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b53bc7d5a552b4a96abaced4cfc4f5, type: 3}
-  m_Name: TestToolRecipeManagerSO
+  m_Script: {fileID: 11500000, guid: 4bfd4c946de87b340ac66596f395e613, type: 3}
+  m_Name: PieceCounterUsedEvent
   m_EditorClassIdentifier: 
-  _recipes:
-  - {fileID: 11400000, guid: 37119b7934a18c14aa9be18ab9203542, type: 2}
-  - {fileID: 11400000, guid: f860d12167e9c8b41ae971c3d33a917f, type: 2}
+  _description: 

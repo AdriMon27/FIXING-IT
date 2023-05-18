@@ -112,6 +112,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _topPoint: {fileID: 120010350893127170}
+  _confusedRoomObjectParentEvent: {fileID: 11400000, guid: 5d6d9d0389336f74cb251236f7aa6afa,
+    type: 2}
+  _customerWithObjectFixedEvent: {fileID: 11400000, guid: b6cc959549e5784418ea36846525a3d6,
+    type: 2}
 --- !u!1001 &8792773502566844287
 PrefabInstance:
   m_ObjectHideFlags: 0

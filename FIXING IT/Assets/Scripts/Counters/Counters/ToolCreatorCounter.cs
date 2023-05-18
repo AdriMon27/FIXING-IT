@@ -1,5 +1,7 @@
+using FixingIt.Events;
 using FixingIt.Funcs;
 using FixingIt.RoomObjects;
+using ProgramadorCastellano.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +10,12 @@ namespace FixingIt.Counters
     public class ToolCreatorCounter : BaseCounter
     {
         [SerializeField] private Transform[] _piecesTransform;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
+        [SerializeField]
+        private RoomObjectParentChannelSO _toolCreatedEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -31,7 +39,7 @@ namespace FixingIt.Counters
             if (HasRoomObject())
                 return;
 
-            TryToCraftTool();
+            TryToCraftTool(roomObjectParent);
         }
 
         public override void Interact(IRoomObjectParent roomObjectParent)
@@ -47,16 +55,18 @@ namespace FixingIt.Counters
             }
         }
 
-        private void TryToCraftTool()
+        private void TryToCraftTool(IRoomObjectParent roomObjectParent)
         {
             RoomObjectSO toolCreated = _toolRecipeManagerSO.TryRecipe(_piecesSO);
 
             if (toolCreated == null) {
                 ClearPieces();
+                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
             }
             else {
                 RoomObject.SpawnRoomObject(toolCreated, this);
                 ClearPieces();
+                _toolCreatedEvent.RaiseEvent(this);
             }
         }
 
@@ -92,11 +102,15 @@ namespace FixingIt.Counters
             if (!roomObjectParent.HasRoomObject())
                 return;
 
-            if (roomObjectParent.GetRoomObject().RoomObjectSO.Type != RoomObjectSO.RoomObjectType.Piece)
+            if (roomObjectParent.GetRoomObject().RoomObjectSO.Type != RoomObjectSO.RoomObjectType.Piece) {
+                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
                 return;
+            }
 
-            if (_piecesSO.Count >= _piecesTransform.Length)
+            if (_piecesSO.Count >= _piecesTransform.Length) {
+                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
                 return;
+            }
 
             // receive piece
             RoomObject pieceToSet = roomObjectParent.GetRoomObject();

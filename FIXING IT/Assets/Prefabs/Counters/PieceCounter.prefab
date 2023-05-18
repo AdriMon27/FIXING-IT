@@ -114,6 +114,8 @@ MonoBehaviour:
   _topPoint: {fileID: 3073897246115217892}
   _roomObjectSO: {fileID: 11400000, guid: 9afe81ad3f8c3a6459df64e0c3ad2712, type: 2}
   _pieceCounterVisualComp: {fileID: 8493201752336090268}
+  _pieceCounterUsedEvent: {fileID: 11400000, guid: d218b9946f7397e44869266212c1c67f,
+    type: 2}
 --- !u!1001 &6836967143096766232
 PrefabInstance:
   m_ObjectHideFlags: 0

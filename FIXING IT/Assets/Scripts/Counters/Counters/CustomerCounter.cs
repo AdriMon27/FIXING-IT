@@ -1,4 +1,5 @@
 using FixingIt.Customer;
+using FixingIt.Events;
 using FixingIt.RoomObjects;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ namespace FixingIt.Counters
 {
     public class CustomerCounter : BaseCounter
     {
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
+        [SerializeField]
+        private RoomObjectParentChannelSO _customerWithObjectFixedEvent;
+
         private CustomerController _customerAssigned;
 
         public override void AlternateInteract(IRoomObjectParent roomObjectParent)
@@ -29,8 +36,6 @@ namespace FixingIt.Counters
                 // intentar entregar objeto arreglado
                 TryToReceiveObjectFixed(roomObjectParent);
             }
-
-            Debug.Log("interacting with a CustomerCounter");
         }
 
         private void TryToGiveObjectToFix(IRoomObjectParent roomObjectParent)
@@ -44,12 +49,16 @@ namespace FixingIt.Counters
         {
             RoomObject roomObject = roomObjectParent.GetRoomObject();
 
-            if (roomObject is not ToFixRoomObject)
+            if (roomObject is not ToFixRoomObject) {
+                _confusedRoomObjectParentEvent.RaiseEvent(_customerAssigned);
                 return;
+            }
 
             ToFixRoomObject objectToFix = roomObject as ToFixRoomObject;
-            if (!objectToFix.IsFixed)
+            if (!objectToFix.IsFixed) {
+                _confusedRoomObjectParentEvent.RaiseEvent(_customerAssigned);
                 return;
+            }
 
             // give to object fixed to customer
             roomObjectParent.GetRoomObject().SetRoomObjectParent(_customerAssigned);
@@ -57,7 +66,7 @@ namespace FixingIt.Counters
             _customerAssigned = null;
 
             // send event object given back to customer
-
+            _customerWithObjectFixedEvent.RaiseEvent(_customerAssigned);
         }
 
         public void SetCustomerAssigned(CustomerController customerAssigned)
