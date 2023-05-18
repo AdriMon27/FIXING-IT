@@ -1,3 +1,4 @@
+using FixingIt.Funcs;
 using FixingIt.RoomObjects;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,23 @@ namespace FixingIt.Counters
 {
     public class ToolCreatorCounter : BaseCounter
     {
-        [SerializeField] private ToolRecipeManagerSO _toolRecipeManagerSO;
         [SerializeField] private Transform[] _piecesTransform;
+
+        [Header("Invoking Func")]
+        [SerializeField]
+        private ToolRecipeManagerFuncSO _getLevelToolRecipeManagerSOFunc;
+        
+        private ToolRecipeManagerSO _toolRecipeManagerSO;
         private List<RoomObjectSO> _piecesSO;
 
         private void Awake()
         {
             _piecesSO = new List<RoomObjectSO>();
+        }
+
+        private void Start()
+        {
+            _toolRecipeManagerSO = _getLevelToolRecipeManagerSOFunc.RaiseFunc();
         }
 
         public override void AlternateInteract(IRoomObjectParent roomObjectParent)

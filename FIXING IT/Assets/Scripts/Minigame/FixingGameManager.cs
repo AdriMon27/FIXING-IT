@@ -1,5 +1,6 @@
 using FixingIt.Counters;
 using FixingIt.Customer;
+using FixingIt.Funcs;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
@@ -11,21 +12,34 @@ namespace FixingIt.Minigame
     {
         [SerializeField] InputReaderSO _inputReaderSO;
 
+        [SerializeField] ToolRecipeManagerSO _levelToolRecipeManagerSO;
+
+        [Header("Customers")]
+        [SerializeField] GameObject _customerPrefab;
+        [SerializeField] Transform _customerStartPosition;
+
+        [Header("Customer Counters")]
         [SerializeField]
         private CustomerCounter[] _customerCounters;
         [SerializeField]
         private RoomObjectSO[] _objectsToFixSO;
         public int TestIndex;
 
-        [Header("Customers")]
-        [SerializeField] GameObject _customerPrefab;
-        [SerializeField] Transform _customerStartPosition;
-
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _inMenuEvent;
         [SerializeField]
         private VoidEventChannelSO _outMenuEvent;
+
+        [Header("Setting Func")]
+        [SerializeField]
+        private ToolRecipeManagerFuncSO _getLevelToolRecipeManagerSOFunc;
+
+        private void Awake()
+        {
+            _getLevelToolRecipeManagerSOFunc.ClearOnFuncRaised();
+            _getLevelToolRecipeManagerSOFunc.TrySetOnFuncRaised(() => _levelToolRecipeManagerSO);
+        }
 
         private void OnEnable()
         {

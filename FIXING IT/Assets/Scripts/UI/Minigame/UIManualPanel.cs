@@ -1,3 +1,4 @@
+using FixingIt.Funcs;
 using FixingIt.RoomObjects;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,9 +14,11 @@ namespace FixingIt.UI.Minigame
         [SerializeField] private Button _previousPageButton;
         [SerializeField] private Button _nextPageButton;
 
-        //[Header("Invoking Func")]
-        [SerializeField] private ToolRecipeManagerSO _toolRecipeManagerSO;
+        [Header("Invoking Func")]
+        [SerializeField]
+        private ToolRecipeManagerFuncSO _getLevelToolRecipeManagerSOFunc;
 
+        private ToolRecipeManagerSO _toolRecipeManagerSO;
         private int _currentGroupIndex;  // for manage pages
 
         public GameObject FirstSelected => _previousPageButton.gameObject;
@@ -36,6 +39,11 @@ namespace FixingIt.UI.Minigame
         private void OnEnable()
         {
             _currentGroupIndex = 0;
+        }
+
+        private void Start()
+        {
+            _toolRecipeManagerSO = _getLevelToolRecipeManagerSOFunc.RaiseFunc();
         }
 
         private void ShowCurrentGroup()
