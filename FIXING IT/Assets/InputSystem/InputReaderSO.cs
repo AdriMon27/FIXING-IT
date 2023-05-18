@@ -20,6 +20,7 @@ namespace FixingIt.InputSystem
         // Menu
         public event UnityAction MenuConfirmEvent = delegate { };
         public event UnityAction MenuCancelEvent = delegate { };
+        public event UnityAction<Vector2> MenuNavigationEvent = delegate { };
 
         /*
          * On Enable/Disable Functions
@@ -108,6 +109,13 @@ namespace FixingIt.InputSystem
         {
             if (context.phase == InputActionPhase.Performed) {
                 MenuCancelEvent.Invoke();
+            }
+        }
+
+        public void OnNavigation(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed) {
+                MenuNavigationEvent.Invoke(context.ReadValue<Vector2>());
             }
         }
         #endregion

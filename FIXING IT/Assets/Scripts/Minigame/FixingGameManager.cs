@@ -25,11 +25,6 @@ namespace FixingIt.Minigame
         [SerializeField]
         private VoidEventChannelSO _inMenuEvent;
 
-        private void Awake()
-        {
-            _inputReaderSO.EnableGameplayInput();
-        }
-
         private void OnEnable()
         {
             _inMenuEvent.OnEventRaised += ToMenuMode;
@@ -42,6 +37,8 @@ namespace FixingIt.Minigame
 
         private void Start()
         {
+            _inputReaderSO.EnableGameplayInput();
+
             GameObject customerGO = Instantiate(_customerPrefab, _customerStartPosition.position, Quaternion.identity);
 
             CustomerController customerController = customerGO.GetComponent<CustomerController>();
