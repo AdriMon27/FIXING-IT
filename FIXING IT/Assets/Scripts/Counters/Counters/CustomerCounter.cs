@@ -63,10 +63,11 @@ namespace FixingIt.Counters
             // give to object fixed to customer
             roomObjectParent.GetRoomObject().SetRoomObjectParent(_customerAssigned);
             _customerAssigned.LeaveCounter();
-            _customerAssigned = null;
 
             // send event object given back to customer
             _customerWithObjectFixedEvent.RaiseEvent(_customerAssigned);
+            
+            _customerAssigned = null;
         }
 
         public void SetCustomerAssigned(CustomerController customerAssigned)
