@@ -11,8 +11,6 @@ namespace FixingIt.Settings
         [SerializeField] AudioClip _pieceCounterUsed;
         [SerializeField] AudioClip _roomObjectUsed;
         [SerializeField] AudioClip _roomObjectBroken;
-        [SerializeField] AudioClip _playerMoving;
-        [SerializeField] AudioClip _customerMoving;
 
         public AudioClip ObjectFixed => _objectFixed;
         public AudioClip ObjectFixing => _objectFixing;
@@ -20,7 +18,5 @@ namespace FixingIt.Settings
         public AudioClip PieceCounterUsed => _pieceCounterUsed;
         public AudioClip RoomObjectUsed => _roomObjectUsed;
         public AudioClip RoomObjectBroken => _roomObjectBroken;
-        public AudioClip PlayerMoving => _playerMoving;
-        public AudioClip CustomerMoving => _customerMoving;
     }
 }

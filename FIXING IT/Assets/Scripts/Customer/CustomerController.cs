@@ -1,3 +1,4 @@
+using FixingIt.CharacterComponents;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
 using UnityEngine;
@@ -25,9 +26,9 @@ namespace FixingIt.Customer
         private Transform _startTransform;
         private IRoomObjectParent _parentToLeaveBrokenObject;
 
-        [Header("Broadcasting To")]
+        [Header("Customer Comps")]
         [SerializeField]
-        private VoidEventChannelSO _customerMovingEvent;
+        private AudioComponent _audioComp;
 
         private void Awake()
         {
@@ -52,8 +53,10 @@ namespace FixingIt.Customer
                     {
                         _clientState = ClientState.Waiting;
                         _roomObject.SetRoomObjectParent(_parentToLeaveBrokenObject);
+
+                        _audioComp.StopSound();
                     }
-                    _customerMovingEvent.RaiseEvent();
+                    _audioComp.PlaySound();
                     break;
                 case ClientState.LeavingCounter:
                     if (_agent.remainingDistance < _agent.stoppingDistance)
@@ -61,7 +64,7 @@ namespace FixingIt.Customer
                         // si da tiempo cambiarlo por un sistema de pooling
                         Destroy(gameObject);
                     }
-                    _customerMovingEvent.RaiseEvent();
+                    _audioComp.PlaySound();
                     break;
                 default:
                     Debug.LogWarning($"{_clientState} is not implemented");

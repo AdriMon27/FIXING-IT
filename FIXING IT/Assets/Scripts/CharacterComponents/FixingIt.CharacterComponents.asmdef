@@ -1,0 +1,14 @@
+{
+    "name": "FixingIt.CharacterComponents",
+    "rootNamespace": "FixingIt.CharacterComponents",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

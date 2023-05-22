@@ -36,10 +36,6 @@ namespace FixingIt.Settings
         private VoidEventChannelSO _roomObjectUsedEvent;
         [SerializeField]
         private VoidEventChannelSO _roomObjectBrokenEvent;
-        [SerializeField]
-        private VoidEventChannelSO _playerMovingEvent;
-        [SerializeField]
-        private VoidEventChannelSO _customerMovingEvent;
 
         [Header("Broadcast To")]
         [SerializeField]
@@ -66,9 +62,6 @@ namespace FixingIt.Settings
             _pieceCounterUsedEvent.OnEventRaised += PlayPieceCounterUsedSound;
             _roomObjectUsedEvent.OnEventRaised += PlayRoomObjectUsedSound;
             _roomObjectBrokenEvent.OnEventRaised += PlayRoomObjectBrokenSound;
-
-            _playerMovingEvent.OnEventRaised += PlayPlayerSteps;
-            _customerMovingEvent.OnEventRaised += PlayCustomerSteps;
         }
 
         private void OnDisable()
@@ -85,9 +78,6 @@ namespace FixingIt.Settings
             _pieceCounterUsedEvent.OnEventRaised -= PlayPieceCounterUsedSound;
             _roomObjectUsedEvent.OnEventRaised -= PlayRoomObjectUsedSound;
             _roomObjectBrokenEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
-
-            _playerMovingEvent.OnEventRaised -= PlayPlayerSteps;
-            _customerMovingEvent.OnEventRaised -= PlayCustomerSteps;
         }
 
         private void OnSceneLoaded()
@@ -192,16 +182,6 @@ namespace FixingIt.Settings
         private void PlayRoomObjectBrokenSound()
         {
             PlaySound(_sfxClipsSO.RoomObjectBroken);
-        }
-
-        private void PlayPlayerSteps()
-        {
-            PlayRecycleSound(_sfxClipsSO.PlayerMoving);
-        }
-
-        private void PlayCustomerSteps()
-        {
-            PlayRecycleSound(_sfxClipsSO.CustomerMoving);
         }
         #endregion
     }

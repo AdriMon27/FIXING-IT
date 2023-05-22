@@ -1,3 +1,4 @@
+using FixingIt.CharacterComponents;
 using FixingIt.Counters;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
@@ -15,16 +16,13 @@ namespace FixingIt.PlayerGame
 
         [Header("Player Comps")]
         [SerializeField] private PlayerAnimationComp _animationComp;
+        [SerializeField] private AudioComponent _audioComp;
 
         [Header("Player Stats")]
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _rotateSpeed = 10f;
         [SerializeField] private float _interactDistance = 2f;
         [SerializeField] private LayerMask _countersLayerMask;
-
-        [Header("Broadcasting To")]
-        [SerializeField]
-        private VoidEventChannelSO _playerMovingEvent;
 
         private Rigidbody _rb;
         private RoomObject _roomObject;
@@ -70,7 +68,10 @@ namespace FixingIt.PlayerGame
             _animationComp.SetIsWalking(isMoving);
 
             if (isMoving) {
-                _playerMovingEvent.RaiseEvent();
+                _audioComp.PlaySound();
+            }
+            else {
+                _audioComp.StopSound();
             }
         }
 
