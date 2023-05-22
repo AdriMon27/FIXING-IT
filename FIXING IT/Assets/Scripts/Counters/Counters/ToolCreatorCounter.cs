@@ -15,7 +15,7 @@ namespace FixingIt.Counters
         [SerializeField]
         private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
         [SerializeField]
-        private RoomObjectParentChannelSO _toolCreatedEvent;
+        private VoidEventChannelSO _toolCreatedEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -66,7 +66,7 @@ namespace FixingIt.Counters
             else {
                 RoomObject.SpawnRoomObject(toolCreated, this);
                 ClearPieces();
-                _toolCreatedEvent.RaiseEvent(this);
+                _toolCreatedEvent.RaiseEvent();
             }
         }
 

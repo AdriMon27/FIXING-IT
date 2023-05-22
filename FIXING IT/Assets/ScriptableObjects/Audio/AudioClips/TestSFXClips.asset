@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbb758cf73a7c14c9293f3dfe4be4e5, type: 3}
+  m_Name: TestSFXClips
+  m_EditorClassIdentifier: 
+  _objectFixed: {fileID: 8300000, guid: 0ed95c9f32fc8fa459ea2d2ccc524803, type: 3}
+  _objectFixing: {fileID: 8300000, guid: d72f53b5847d40d498257d795baba246, type: 3}
+  _toolCreated: {fileID: 8300000, guid: d2d3ce06669d6a644994878e5c19f7dc, type: 3}
+  _pieceCounterUsed: {fileID: 8300000, guid: 23088ec9efd02c34e8d5175fa293f8d3, type: 3}
+  _roomObjectUsed: {fileID: 8300000, guid: edecab71887d8f647b50486005a6b76c, type: 3}
+  _roomObjectBroken: {fileID: 8300000, guid: 7133aced8641c9b448db24a08e155240, type: 3}
+  _playerMoving: {fileID: 8300000, guid: 867ac9f601eb0ab49ab07fb398bddf6e, type: 3}
+  _customerMoving: {fileID: 8300000, guid: 5428ead2726659a44aa0b2a0d9e30f0c, type: 3}

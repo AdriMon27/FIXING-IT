@@ -1,4 +1,5 @@
 using FixingIt.RoomObjects;
+using ProgramadorCastellano.Events;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,6 +25,10 @@ namespace FixingIt.Customer
         private Transform _startTransform;
         private IRoomObjectParent _parentToLeaveBrokenObject;
 
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _customerMovingEvent;
+
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
@@ -47,8 +52,8 @@ namespace FixingIt.Customer
                     {
                         _clientState = ClientState.Waiting;
                         _roomObject.SetRoomObjectParent(_parentToLeaveBrokenObject);
-                        //Invoke(nameof(LeaveCounter), 5f);
                     }
+                    _customerMovingEvent.RaiseEvent();
                     break;
                 case ClientState.LeavingCounter:
                     if (_agent.remainingDistance < _agent.stoppingDistance)
@@ -56,6 +61,7 @@ namespace FixingIt.Customer
                         // si da tiempo cambiarlo por un sistema de pooling
                         Destroy(gameObject);
                     }
+                    _customerMovingEvent.RaiseEvent();
                     break;
                 default:
                     Debug.LogWarning($"{_clientState} is not implemented");

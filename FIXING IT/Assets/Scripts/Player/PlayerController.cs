@@ -22,9 +22,9 @@ namespace FixingIt.PlayerGame
         [SerializeField] private float _interactDistance = 2f;
         [SerializeField] private LayerMask _countersLayerMask;
 
-        //[Header("Broadcasting To")]
-        //[SerializeField]
-        //private VoidEventChannelSO _playerMovingEvent;
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _playerMovingEvent;
 
         private Rigidbody _rb;
         private RoomObject _roomObject;
@@ -64,15 +64,14 @@ namespace FixingIt.PlayerGame
             Vector3 velocity = new Vector3(_direction.x, 0f, _direction.y);
             velocity *= _moveSpeed;
 
-            //transform.position += velocity * Time.deltaTime;
             _rb.velocity = velocity;
 
             bool isMoving = velocity != Vector3.zero;
             _animationComp.SetIsWalking(isMoving);
 
-            //if (isMoving) {
-            //    _playerMovingEvent.RaiseEvent();  // calling comps instead of events
-            //}
+            if (isMoving) {
+                _playerMovingEvent.RaiseEvent();
+            }
         }
 
         private void HandleRotation()

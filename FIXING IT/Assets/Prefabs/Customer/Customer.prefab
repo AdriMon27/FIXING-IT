@@ -102,6 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _holdingPoint: {fileID: 7807497627164204853}
+  _customerMovingEvent: {fileID: 11400000, guid: e571ebb864544934fae629dabfbf798f,
+    type: 2}
 --- !u!1001 &1003873889835501303
 PrefabInstance:
   m_ObjectHideFlags: 0
