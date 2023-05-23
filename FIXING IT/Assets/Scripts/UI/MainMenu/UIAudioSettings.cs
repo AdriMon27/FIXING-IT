@@ -1,4 +1,5 @@
 using FixingIt.Events;
+using FixingIt.Funcs;
 using FixingIt.Structs;
 using ProgramadorCastellano.Events;
 using UnityEngine;
@@ -29,6 +30,10 @@ namespace FixingIt.UI.MainMenu
         [SerializeField]
         private FloatEventChannelSO _sfxNormalVolumeChannel;
 
+        [Header("Invoking Func")]
+        [SerializeField]
+        private AudioNormalVolumesFuncSO _getAllNormalVolumes;
+
         private void OnEnable()
         {
             _generalVolumeSlider.onValueChanged.AddListener(GeneralSliderChanged);
@@ -45,12 +50,8 @@ namespace FixingIt.UI.MainMenu
 
         private void Start()
         {
-            _allNormalVolumeChannel.OnEventRaised += SetVisuals;
-        }
-
-        private void OnDestroy()
-        {
-            _allNormalVolumeChannel.OnEventRaised -= SetVisuals;
+            AudioNormalVolumes audioNormalVolumes = _getAllNormalVolumes.RaiseFunc();
+            SetVisuals(audioNormalVolumes);
         }
 
         private void GeneralSliderChanged(float normalizedVolume)

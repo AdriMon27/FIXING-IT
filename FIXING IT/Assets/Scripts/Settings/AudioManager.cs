@@ -1,4 +1,5 @@
 using FixingIt.Events;
+using FixingIt.Funcs;
 using FixingIt.Structs;
 using ProgramadorCastellano.Events;
 using System.Collections.Generic;
@@ -17,8 +18,6 @@ namespace FixingIt.Settings
 
         [Header("Listening To")]
         [SerializeField]
-        private VoidEventChannelSO _sceneLoadedEvent;
-        [SerializeField]
         private FloatEventChannelSO _generalNormalVolumeChannel;
         [SerializeField]
         private FloatEventChannelSO _musicNormalVolumeChannel;
@@ -31,17 +30,22 @@ namespace FixingIt.Settings
         [SerializeField]
         private AudioVolumeChannelSO _allNormalVolumeChannel;
 
+        [Header("Setting Func")]
+        [SerializeField]
+        private AudioNormalVolumesFuncSO _getAllNormalVolumes;
+
         private Dictionary<AudioClip, AudioSource> _recyleClips;
 
         private void Awake()
         {
+            _getAllNormalVolumes.ClearOnFuncRaised();
+            _getAllNormalVolumes.TrySetOnFuncRaised(GetAllNormalVolumes);
+
             _recyleClips = new Dictionary<AudioClip, AudioSource>();
         }
 
         private void OnEnable()
         {
-            _sceneLoadedEvent.OnEventRaised += OnSceneLoaded;
-
             _generalNormalVolumeChannel.OnEventRaised += SetGeneralVolume;
             _musicNormalVolumeChannel.OnEventRaised += SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised += SetSFXVolume;
@@ -51,8 +55,6 @@ namespace FixingIt.Settings
 
         private void OnDisable()
         {
-            _sceneLoadedEvent.OnEventRaised -= OnSceneLoaded;
-
             _generalNormalVolumeChannel.OnEventRaised -= SetGeneralVolume;
             _musicNormalVolumeChannel.OnEventRaised -= SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised -= SetSFXVolume;
@@ -60,7 +62,7 @@ namespace FixingIt.Settings
             _roomObjectBrokenAfterUseEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
         }
 
-        private void OnSceneLoaded()
+        private AudioNormalVolumes GetAllNormalVolumes()
         {
             float general, music, sfx;
             _mainAudioMixerSO.Mixer.GetFloat(GENERAL_VOLUME, out general);
@@ -71,8 +73,7 @@ namespace FixingIt.Settings
             NormalizeVolume(ref music);
             NormalizeVolume(ref sfx);
 
-            AudioNormalVolumes audioNormalVolumes = new AudioNormalVolumes(general, music, sfx);
-            _allNormalVolumeChannel.RaiseEvent(audioNormalVolumes);
+            return new AudioNormalVolumes(general, music, sfx);
         }
 
         #region SetVolumes
