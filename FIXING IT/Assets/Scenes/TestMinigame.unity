@@ -4213,7 +4213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainAudioMixerSO: {fileID: 11400000, guid: 44c32598fb6ada349bda9d3d5d44914d, type: 2}
   _sfxClipsSO: {fileID: 11400000, guid: 1211b559a4deb284d8658d9653875bc8, type: 2}
-  _sceneLoadedEvent: {fileID: 11400000, guid: 89677e0ba0d3f73458af243467382bd0, type: 2}
   _generalNormalVolumeChannel: {fileID: 11400000, guid: aa43522ad35dd8546b466f192f229fb8,
     type: 2}
   _musicNormalVolumeChannel: {fileID: 11400000, guid: 3cfa4584f08af024c87669751bbfd31d,
@@ -4223,6 +4222,8 @@ MonoBehaviour:
   _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
     type: 2}
   _allNormalVolumeChannel: {fileID: 11400000, guid: ea1c7a2ae7ad907419c0d015ed716f42,
+    type: 2}
+  _getAllNormalVolumes: {fileID: 11400000, guid: bcd90f9dbad622849a7e4e1a110ec4c5,
     type: 2}
 --- !u!4 &1430866128
 Transform:

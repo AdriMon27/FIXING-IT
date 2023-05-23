@@ -74,5 +74,10 @@ namespace FixingIt.Counters
         {
             _customerAssigned = customerAssigned;
         }
+
+        public bool HasCustomerAssigned()
+        {
+            return _customerAssigned != null;
+        }
     }
 }

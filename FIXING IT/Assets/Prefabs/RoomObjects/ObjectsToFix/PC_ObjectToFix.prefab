@@ -77,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
         type: 3}
       propertyPath: _toolsToBeFixedSO.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8965538489847129958, guid: a299688d2883d7343b69fd402aafda54,
         type: 3}

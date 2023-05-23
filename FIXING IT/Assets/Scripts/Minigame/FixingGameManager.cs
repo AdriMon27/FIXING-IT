@@ -14,6 +14,8 @@ namespace FixingIt.Minigame
 
         [SerializeField] ToolRecipeManagerSO _levelToolRecipeManagerSO;
 
+        private float _customerSpawnerTimer;
+
         [Header("Customers")]
         [SerializeField] GameObject _customerPrefab;
         [SerializeField] Transform _customerStartPosition;
@@ -57,17 +59,18 @@ namespace FixingIt.Minigame
         {
             _inputReaderSO.EnableGameplayInput();
 
-            GameObject customerGO = Instantiate(_customerPrefab, _customerStartPosition.position, Quaternion.identity);
+            //SpawnNewCustomer();
+        }
 
-            CustomerController customerController = customerGO.GetComponent<CustomerController>();
+        private void Update()
+        {
+            _customerSpawnerTimer -= Time.deltaTime;
+            if (_customerSpawnerTimer < 0f) {
+                float customerSpawnerTimerMax = 10f;
+                _customerSpawnerTimer = customerSpawnerTimerMax;
 
-            if (customerController == null) {
-                Debug.LogError($"The prefab {_customerPrefab} is not a Customer Controller");
-                return;
+                SpawnNewCustomer();
             }
-
-            customerController.InitCustomer(_customerStartPosition, _customerCounters[TestIndex], _objectsToFixSO[TestIndex]);
-            _customerCounters[TestIndex].SetCustomerAssigned(customerController);
         }
 
         private void ToMenuMode()
@@ -78,6 +81,44 @@ namespace FixingIt.Minigame
         private void ToGameplayMode()
         {
             _inputReaderSO.EnableGameplayInput();
+        }
+
+        private CustomerCounter GetFirstCustomerCounterFree()
+        {
+            foreach (CustomerCounter counter in _customerCounters) {
+                if (!counter.HasCustomerAssigned()) {
+                    return counter;
+                }
+            }
+
+            return null;
+        }
+
+        private RoomObjectSO GetRandomObjecToFixSO()
+        {
+            int randIndex = Random.Range(0, _objectsToFixSO.Length);
+
+            return _objectsToFixSO[randIndex];
+        }
+
+        private void SpawnNewCustomer()
+        {
+            CustomerCounter freeCounter = GetFirstCustomerCounterFree();
+            if (freeCounter == null) {
+                return;
+            }
+
+            GameObject customerGO = Instantiate(_customerPrefab, _customerStartPosition.position, Quaternion.identity);
+
+            CustomerController customerController = customerGO.GetComponent<CustomerController>();
+
+            if (customerController == null) {
+                Debug.LogError($"The prefab {_customerPrefab} is not a Customer Controller");
+                return;
+            }
+
+            customerController.InitCustomer(_customerStartPosition, freeCounter, GetRandomObjecToFixSO());
+            freeCounter.SetCustomerAssigned(customerController);
         }
     }
 }
