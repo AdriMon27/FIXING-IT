@@ -1,8 +1,8 @@
 using FixingIt.Events;
+using FixingIt.Structs;
 using ProgramadorCastellano.Events;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace FixingIt.Settings
 {
