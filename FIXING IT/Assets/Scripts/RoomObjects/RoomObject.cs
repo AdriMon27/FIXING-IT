@@ -13,11 +13,11 @@ namespace FixingIt.RoomObjects
         [SerializeField] private AudioComponent _roomObjectUsedAudioComp;
         [SerializeField] private AudioComponent _roomObjectBrokenAudioComp;
 
-        //[Header("Broadcasting To")]
+        [Header("Broadcasting To")]
         //[SerializeField]
         //private VoidEventChannelSO _roomObjectUsedEvent;
-        //[SerializeField]
-        //private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
+        [SerializeField]
+        private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
 
         private IRoomObjectParent _roomObjectParent;
 
@@ -50,11 +50,23 @@ namespace FixingIt.RoomObjects
             _numberOfUses--;
 
             if (_numberOfUses <= 0) {
-                //_roomObjectBrokenAfterUseEvent.RaiseEvent();
+                _roomObjectBrokenAfterUseEvent.RaiseEvent();
+
+                //if (_roomObjectBrokenAudioComp == null) {
+                //    Debug.LogWarning("Only Tools should be broken");
+                //}
+                //else {
+                //    _roomObjectBrokenAudioComp.PlaySound();
+                //}
                 Broke();
             }
             else {
-                //_roomObjectUsedEvent.RaiseEvent();
+                if (_roomObjectUsedAudioComp == null) {
+                    Debug.LogWarning("Only Tools should be used");
+                }
+                else {
+                    _roomObjectUsedAudioComp.PlaySound(false);
+                }
             }
         }
 

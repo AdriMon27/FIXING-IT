@@ -12,9 +12,9 @@ namespace FixingIt.ActorComponents
             _audioSource = GetComponent<AudioSource>();
         }
 
-        public void PlaySound()
+        public void PlaySound(bool checkIsPlaying = true)
         {
-            if (_audioSource.isPlaying)
+            if (checkIsPlaying && _audioSource.isPlaying)
                 return;
 
             _audioSource.PlayOneShot(_audioSource.clip);

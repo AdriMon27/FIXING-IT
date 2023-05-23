@@ -25,9 +25,7 @@ namespace FixingIt.Settings
         [SerializeField]
         private FloatEventChannelSO _sfxNormalVolumeChannel;
         [SerializeField]
-        private VoidEventChannelSO _roomObjectUsedEvent;
-        [SerializeField]
-        private VoidEventChannelSO _roomObjectBrokenEvent;
+        private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
 
         [Header("Broadcast To")]
         [SerializeField]
@@ -48,8 +46,7 @@ namespace FixingIt.Settings
             _musicNormalVolumeChannel.OnEventRaised += SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised += SetSFXVolume;
 
-            _roomObjectUsedEvent.OnEventRaised += PlayRoomObjectUsedSound;
-            _roomObjectBrokenEvent.OnEventRaised += PlayRoomObjectBrokenSound;
+            _roomObjectBrokenAfterUseEvent.OnEventRaised += PlayRoomObjectBrokenSound;
         }
 
         private void OnDisable()
@@ -60,8 +57,7 @@ namespace FixingIt.Settings
             _musicNormalVolumeChannel.OnEventRaised -= SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised -= SetSFXVolume;
 
-            _roomObjectUsedEvent.OnEventRaised -= PlayRoomObjectUsedSound;
-            _roomObjectBrokenEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
+            _roomObjectBrokenAfterUseEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
         }
 
         private void OnSceneLoaded()
@@ -137,12 +133,7 @@ namespace FixingIt.Settings
             audioSource.PlayOneShot(sound);
         }
 
-        #region SFX Functions
-        private void PlayRoomObjectUsedSound()
-        {
-            PlaySound(_sfxClipsSO.RoomObjectUsed);
-        }
-
+        #region SFX Sounds
         private void PlayRoomObjectBrokenSound()
         {
             PlaySound(_sfxClipsSO.RoomObjectBroken);

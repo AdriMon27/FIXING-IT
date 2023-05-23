@@ -9,7 +9,7 @@ namespace FixingIt.Counters
     {
         [Header("Components")]
         [SerializeField] private AudioComponent _objectFixedAudioComp;
-        [SerializeField] private AudioComponent _objectFixingAudioComp;
+        //[SerializeField] private AudioComponent _objectFixingAudioComp;
 
         [Header("Broadcasting To")]
         [SerializeField]
@@ -52,7 +52,7 @@ namespace FixingIt.Counters
                 //_objectFixedEvent.RaiseEvent();
             }
             else {
-                _objectFixingAudioComp.PlaySound();
+                //_objectFixingAudioComp.PlaySound();
                 //_objectFixingEvent.RaiseEvent();
             }
 
