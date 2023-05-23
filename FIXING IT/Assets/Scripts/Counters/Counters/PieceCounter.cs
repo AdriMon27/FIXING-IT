@@ -1,5 +1,5 @@
+using FixingIt.ActorComponents;
 using FixingIt.RoomObjects;
-using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.Counters
@@ -10,10 +10,11 @@ namespace FixingIt.Counters
 
         [Header("Components")]
         [SerializeField] private PieceCounterVisualComp _pieceCounterVisualComp;
+        [SerializeField] private AudioComponent _audioComp;
 
-        [Header("Broadcasting To")]
-        [SerializeField]
-        private VoidEventChannelSO _pieceCounterUsedEvent;
+        //[Header("Broadcasting To")]
+        //[SerializeField]
+        //private VoidEventChannelSO _pieceCounterUsedEvent;
 
         private void Start()
         {
@@ -34,7 +35,8 @@ namespace FixingIt.Counters
                 return;
 
             RoomObject.SpawnRoomObject(_roomObjectSO, roomObjectParent);
-            _pieceCounterUsedEvent.RaiseEvent();
+            _audioComp.PlaySound();
+            //_pieceCounterUsedEvent.RaiseEvent();
         }
     }
 }

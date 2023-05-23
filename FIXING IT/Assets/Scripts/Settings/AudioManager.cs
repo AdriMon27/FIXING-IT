@@ -25,14 +25,6 @@ namespace FixingIt.Settings
         [SerializeField]
         private FloatEventChannelSO _sfxNormalVolumeChannel;
         [SerializeField]
-        private VoidEventChannelSO _objectFixedEvent;
-        [SerializeField]
-        private VoidEventChannelSO _objectFixingEvent;
-        [SerializeField]
-        private VoidEventChannelSO _toolCreatedEvent;
-        [SerializeField]
-        private VoidEventChannelSO _pieceCounterUsedEvent;
-        [SerializeField]
         private VoidEventChannelSO _roomObjectUsedEvent;
         [SerializeField]
         private VoidEventChannelSO _roomObjectBrokenEvent;
@@ -56,10 +48,6 @@ namespace FixingIt.Settings
             _musicNormalVolumeChannel.OnEventRaised += SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised += SetSFXVolume;
 
-            _objectFixedEvent.OnEventRaised += PlayObjectFixedSound;
-            _objectFixingEvent.OnEventRaised += PlayObjectFixingSound;
-            _toolCreatedEvent.OnEventRaised += PlayToolCreatedSound;
-            _pieceCounterUsedEvent.OnEventRaised += PlayPieceCounterUsedSound;
             _roomObjectUsedEvent.OnEventRaised += PlayRoomObjectUsedSound;
             _roomObjectBrokenEvent.OnEventRaised += PlayRoomObjectBrokenSound;
         }
@@ -72,10 +60,6 @@ namespace FixingIt.Settings
             _musicNormalVolumeChannel.OnEventRaised -= SetMusicVolume;
             _sfxNormalVolumeChannel.OnEventRaised -= SetSFXVolume;
 
-            _objectFixedEvent.OnEventRaised -= PlayObjectFixedSound;
-            _objectFixingEvent.OnEventRaised -= PlayObjectFixingSound;
-            _toolCreatedEvent.OnEventRaised -= PlayToolCreatedSound;
-            _pieceCounterUsedEvent.OnEventRaised -= PlayPieceCounterUsedSound;
             _roomObjectUsedEvent.OnEventRaised -= PlayRoomObjectUsedSound;
             _roomObjectBrokenEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
         }
@@ -154,26 +138,6 @@ namespace FixingIt.Settings
         }
 
         #region SFX Functions
-        private void PlayObjectFixedSound()
-        {
-            PlaySound(_sfxClipsSO.ObjectFixed);
-        }
-
-        private void PlayObjectFixingSound()
-        {
-            PlaySound(_sfxClipsSO.ObjectFixing);
-        }
-
-        private void PlayToolCreatedSound()
-        {
-            PlaySound(_sfxClipsSO.ToolCreated);
-        }
-
-        private void PlayPieceCounterUsedSound()
-        {
-            PlaySound(_sfxClipsSO.PieceCounterUsed);
-        }
-
         private void PlayRoomObjectUsedSound()
         {
             PlaySound(_sfxClipsSO.RoomObjectUsed);

@@ -1,3 +1,4 @@
+using FixingIt.ActorComponents;
 using ProgramadorCastellano.Events;
 using UnityEngine;
 
@@ -8,11 +9,15 @@ namespace FixingIt.RoomObjects
         [SerializeField] private RoomObjectSO _roomObjectSO;
         [SerializeField] private int _numberOfUses = 1;
 
-        [Header("Broadcasting To")]
-        [SerializeField]
-        private VoidEventChannelSO _roomObjectUsedEvent;
-        [SerializeField]
-        private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
+        [Header("Components")]
+        [SerializeField] private AudioComponent _roomObjectUsedAudioComp;
+        [SerializeField] private AudioComponent _roomObjectBrokenAudioComp;
+
+        //[Header("Broadcasting To")]
+        //[SerializeField]
+        //private VoidEventChannelSO _roomObjectUsedEvent;
+        //[SerializeField]
+        //private VoidEventChannelSO _roomObjectBrokenAfterUseEvent;
 
         private IRoomObjectParent _roomObjectParent;
 
@@ -45,11 +50,11 @@ namespace FixingIt.RoomObjects
             _numberOfUses--;
 
             if (_numberOfUses <= 0) {
-                _roomObjectBrokenAfterUseEvent.RaiseEvent();
+                //_roomObjectBrokenAfterUseEvent.RaiseEvent();
                 Broke();
             }
             else {
-                _roomObjectUsedEvent.RaiseEvent();
+                //_roomObjectUsedEvent.RaiseEvent();
             }
         }
 

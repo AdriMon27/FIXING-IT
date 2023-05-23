@@ -1,19 +1,23 @@
+using FixingIt.ActorComponents;
 using FixingIt.Events;
 using FixingIt.RoomObjects;
-using ProgramadorCastellano.Events;
 using UnityEngine;
 
 namespace FixingIt.Counters
 {
     public class TableCounter : BaseCounter
     {
+        [Header("Components")]
+        [SerializeField] private AudioComponent _objectFixedAudioComp;
+        [SerializeField] private AudioComponent _objectFixingAudioComp;
+
         [Header("Broadcasting To")]
         [SerializeField]
         private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
-        [SerializeField]
-        private VoidEventChannelSO _objectFixedEvent;
-        [SerializeField]
-        private VoidEventChannelSO _objectFixingEvent;
+        //[SerializeField]
+        //private VoidEventChannelSO _objectFixedEvent;
+        //[SerializeField]
+        //private VoidEventChannelSO _objectFixingEvent;
 
         public override void AlternateInteract(IRoomObjectParent roomObjectParent)
         {
@@ -43,12 +47,13 @@ namespace FixingIt.Counters
             // check if roomObjectParent.RoomObject is inside necesaryTools to fix object
             ToFixRoomObject toFixRoomObject = (GetRoomObject() as ToFixRoomObject);
             if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, out bool toolBeenUsed)) {
-                
-                _objectFixedEvent.RaiseEvent();
+
+                _objectFixedAudioComp.PlaySound();
+                //_objectFixedEvent.RaiseEvent();
             }
             else {
-
-                _objectFixingEvent.RaiseEvent();
+                _objectFixingAudioComp.PlaySound();
+                //_objectFixingEvent.RaiseEvent();
             }
 
             if (toolBeenUsed) { 

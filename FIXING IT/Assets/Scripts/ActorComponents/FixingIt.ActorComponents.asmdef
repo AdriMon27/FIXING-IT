@@ -1,6 +1,6 @@
 {
-    "name": "FixingIt.CharacterComponents",
-    "rootNamespace": "FixingIt.CharacterComponents",
+    "name": "FixingIt.ActorComponents",
+    "rootNamespace": "FixingIt.ActorComponents",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

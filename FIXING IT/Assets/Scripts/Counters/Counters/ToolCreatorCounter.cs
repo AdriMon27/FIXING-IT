@@ -1,3 +1,4 @@
+using FixingIt.ActorComponents;
 using FixingIt.Events;
 using FixingIt.Funcs;
 using FixingIt.RoomObjects;
@@ -11,11 +12,14 @@ namespace FixingIt.Counters
     {
         [SerializeField] private Transform[] _piecesTransform;
 
+        [Header("Components")]
+        [SerializeField] private AudioComponent _audioComp;
+
         [Header("Broadcasting To")]
         [SerializeField]
         private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
-        [SerializeField]
-        private VoidEventChannelSO _toolCreatedEvent;
+        //[SerializeField]
+        //private VoidEventChannelSO _toolCreatedEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -66,7 +70,8 @@ namespace FixingIt.Counters
             else {
                 RoomObject.SpawnRoomObject(toolCreated, this);
                 ClearPieces();
-                _toolCreatedEvent.RaiseEvent();
+                _audioComp.PlaySound();
+                //_toolCreatedEvent.RaiseEvent();
             }
         }
 

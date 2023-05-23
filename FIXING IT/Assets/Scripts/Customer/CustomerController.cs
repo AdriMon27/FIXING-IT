@@ -1,4 +1,4 @@
-using FixingIt.CharacterComponents;
+using FixingIt.ActorComponents;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
 using UnityEngine;

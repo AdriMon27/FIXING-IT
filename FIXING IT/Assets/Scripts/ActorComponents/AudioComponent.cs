@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FixingIt.CharacterComponents
+namespace FixingIt.ActorComponents
 {
     [RequireComponent(typeof(AudioSource))]
     public class AudioComponent : MonoBehaviour
