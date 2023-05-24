@@ -49,6 +49,7 @@ namespace FixingIt.Customer
                 case ClientState.Waiting:
                     break;
                 case ClientState.GoingToCounter:
+                    _audioComp.PlaySound();
                     if (_agent.remainingDistance < _agent.stoppingDistance)
                     {
                         _clientState = ClientState.Waiting;
@@ -56,15 +57,14 @@ namespace FixingIt.Customer
 
                         _audioComp.StopSound();
                     }
-                    _audioComp.PlaySound();
                     break;
                 case ClientState.LeavingCounter:
+                    _audioComp.PlaySound();
                     if (_agent.remainingDistance < _agent.stoppingDistance)
                     {
                         // si da tiempo cambiarlo por un sistema de pooling
                         Destroy(gameObject);
                     }
-                    _audioComp.PlaySound();
                     break;
                 default:
                     Debug.LogWarning($"{_clientState} is not implemented");
