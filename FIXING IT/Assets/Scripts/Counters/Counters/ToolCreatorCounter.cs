@@ -2,7 +2,6 @@ using FixingIt.ActorComponents;
 using FixingIt.Events;
 using FixingIt.Funcs;
 using FixingIt.RoomObjects;
-using ProgramadorCastellano.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ namespace FixingIt.Counters
 
         [Header("Components")]
         [SerializeField] private AudioComponent _audioComp;
+        [SerializeField] private ParticleSystem _particleSystem;
 
         [Header("Broadcasting To")]
         [SerializeField]
@@ -71,6 +71,7 @@ namespace FixingIt.Counters
                 RoomObject.SpawnRoomObject(toolCreated, this);
                 ClearPieces();
                 _audioComp.PlaySound();
+                _particleSystem.Play();
                 //_toolCreatedEvent.RaiseEvent();
             }
         }

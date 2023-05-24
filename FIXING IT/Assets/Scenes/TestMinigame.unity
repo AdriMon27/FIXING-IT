@@ -2041,6 +2041,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToolCreatorCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 5057464159770801670, guid: dd88d66e54b6bb146a1247a8e4df104a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ba7c7842bc9527b44a9f61654c6216de, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5238,6 +5243,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 4698955415668735496, guid: 8b1a5a0fd6d0e56488b4ade83473bcf6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6592,6 +6602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas-Minigame
       objectReference: {fileID: 0}
+    - target: {fileID: 7937961464703663410, guid: 07148b3a866698d4886050f8a79895d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9092925236322800272, guid: 07148b3a866698d4886050f8a79895d3,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6870,6 +6885,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GlobalVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519425068757522569, guid: fcdf9cacd6ed2594884d0be6bad5620f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
