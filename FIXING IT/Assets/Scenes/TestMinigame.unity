@@ -3981,6 +3981,9 @@ MonoBehaviour:
   _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
   _levelToolRecipeManagerSO: {fileID: 11400000, guid: d057cefc2a5771840b7e9a0f8a6e7330,
     type: 2}
+  _waitingToStartTimerMax: 5
+  _gameplayTimerMax: 60
+  _customerSpawnerTimerMax: 10
   _customerPrefab: {fileID: 6781459996236134245, guid: 38d727d4b1ccaf343bab71140712585d,
     type: 3}
   _customerStartPosition: {fileID: 5198500}

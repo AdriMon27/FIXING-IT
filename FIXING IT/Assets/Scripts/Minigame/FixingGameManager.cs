@@ -4,17 +4,33 @@ using FixingIt.Funcs;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace FixingIt.Minigame
 {
     public class FixingGameManager : MonoBehaviour
     {
+        private enum GameState
+        {
+            WaitingToStart,
+            Playing,
+            End
+        }
+
         [SerializeField] InputReaderSO _inputReaderSO;
 
         [SerializeField] ToolRecipeManagerSO _levelToolRecipeManagerSO;
 
+        private float _waitingToStartTimer;
+        private float _gameplayTimer;
         private float _customerSpawnerTimer;
+        private GameState _gameState;
+
+        [Header("Timers")]
+        [SerializeField] private float _waitingToStartTimerMax = 5f;
+        [SerializeField] private float _gameplayTimerMax = 60f;
+        [SerializeField] private float _customerSpawnerTimerMax = 10f;
 
         [Header("Customers")]
         [SerializeField] GameObject _customerPrefab;
@@ -41,6 +57,9 @@ namespace FixingIt.Minigame
         {
             _getLevelToolRecipeManagerSOFunc.ClearOnFuncRaised();
             _getLevelToolRecipeManagerSOFunc.TrySetOnFuncRaised(() => _levelToolRecipeManagerSO);
+
+            _waitingToStartTimer = _waitingToStartTimerMax;
+            _gameplayTimer = _gameplayTimerMax;
         }
 
         private void OnEnable()
@@ -57,20 +76,50 @@ namespace FixingIt.Minigame
 
         private void Start()
         {
-            _inputReaderSO.EnableGameplayInput();
-
-            //SpawnNewCustomer();
+            _gameState = GameState.WaitingToStart;
+            _inputReaderSO.DisableAllInput();
         }
 
         private void Update()
         {
-            _customerSpawnerTimer -= Time.deltaTime;
-            if (_customerSpawnerTimer < 0f) {
-                float customerSpawnerTimerMax = 10f;
-                _customerSpawnerTimer = customerSpawnerTimerMax;
+            switch (_gameState) {
+                case GameState.WaitingToStart:
+                    // esperar countdown to start
+                    _waitingToStartTimer -= Time.deltaTime;
+                    if (_waitingToStartTimer < 0f) {
+                        _gameState = GameState.Playing;
+                        _inputReaderSO.EnableGameplayInput();
+                    }
 
-                SpawnNewCustomer();
+                    Debug.Log($"Waiting To Start: {_waitingToStartTimer}");
+                    break;
+                case GameState.Playing:
+                    // timer juego
+                    _gameplayTimer -= Time.deltaTime;
+                    if (_gameplayTimer < 0f) {
+                        _gameState = GameState.End;
+                        _inputReaderSO.DisableAllInput();
+                    }
+
+                    // timer npcs
+                    _customerSpawnerTimer -= Time.deltaTime;
+                    if (_customerSpawnerTimer < 0f) {
+                        _customerSpawnerTimer = _customerSpawnerTimerMax;
+
+                        SpawnNewCustomer();
+                    }
+
+                    Debug.Log($"Gameplay Timer: {_gameplayTimer}");
+                    break;
+                case GameState.End:
+                    // mostrar puntuacion
+                    break;
+                default:
+                    Debug.LogWarning($"{_gameState} is not implemented");
+                    break;
             }
+
+            
         }
 
         private void ToMenuMode()
