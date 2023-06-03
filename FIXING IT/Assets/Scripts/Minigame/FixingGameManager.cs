@@ -46,6 +46,8 @@ namespace FixingIt.Minigame
         [Header("Broadcasting To")]
         [SerializeField]
         private FloatEventChannelSO _waitingToStartTimerEvent;
+        [SerializeField]
+        private FloatEventChannelSO _gameplayTimerNormalizedEvent;
 
         [Header("Listening To")]
         [SerializeField]
@@ -96,7 +98,6 @@ namespace FixingIt.Minigame
                     }
 
                     _waitingToStartTimerEvent.RaiseEvent(_waitingToStartTimer);
-                    Debug.Log($"Waiting To Start: {_waitingToStartTimer}");
                     break;
                 case GameState.Playing:
                     // timer juego
@@ -114,7 +115,7 @@ namespace FixingIt.Minigame
                         SpawnNewCustomer();
                     }
 
-                    Debug.Log($"Gameplay Timer: {_gameplayTimer}");
+                    _gameplayTimerNormalizedEvent.RaiseEvent(GetTimerNormalized(_gameplayTimer, _gameplayTimerMax));
                     break;
                 case GameState.End:
                     // mostrar puntuacion
@@ -125,6 +126,11 @@ namespace FixingIt.Minigame
             }
 
             
+        }
+
+        private float GetTimerNormalized(float timer, float timerMax)
+        {
+            return timer / timerMax;
         }
 
         private void ToMenuMode()
