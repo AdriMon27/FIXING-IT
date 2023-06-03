@@ -3996,6 +3996,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b933f8fc3c45fa418a6c6f4f18eafad, type: 2}
   - {fileID: 11400000, guid: 9ed919263c1494b44822f15154f3866b, type: 2}
   TestIndex: 2
+  _waitingToStartTimerEvent: {fileID: 11400000, guid: 3fe6cfa7e20bd7f4f8f4030fbb7dcbb3,
+    type: 2}
   _inMenuEvent: {fileID: 11400000, guid: c7e7fd062a1f3564aa1846fac8f9cdc5, type: 2}
   _outMenuEvent: {fileID: 11400000, guid: de4110a85cc469e43b1ae4e2298f7936, type: 2}
   _getLevelToolRecipeManagerSOFunc: {fileID: 11400000, guid: 3251177692f941642baaa14ca93101bc,

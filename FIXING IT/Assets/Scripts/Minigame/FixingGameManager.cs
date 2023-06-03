@@ -43,6 +43,10 @@ namespace FixingIt.Minigame
         private RoomObjectSO[] _objectsToFixSO;
         public int TestIndex;
 
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private FloatEventChannelSO _waitingToStartTimerEvent;
+
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _inMenuEvent;
@@ -91,6 +95,7 @@ namespace FixingIt.Minigame
                         _inputReaderSO.EnableGameplayInput();
                     }
 
+                    _waitingToStartTimerEvent.RaiseEvent(_waitingToStartTimer);
                     Debug.Log($"Waiting To Start: {_waitingToStartTimer}");
                     break;
                 case GameState.Playing:

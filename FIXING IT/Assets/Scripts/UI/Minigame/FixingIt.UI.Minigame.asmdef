@@ -2,6 +2,7 @@
     "name": "FixingIt.UI.Minigame",
     "rootNamespace": "FixingIt.UI.Minigame",
     "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:39a53fcf163849642bf3d091692f6a2c",
         "GUID:f1d564af88de86f4c96bc66bc695f2c5",
         "GUID:283b35537e61caa4da56ec25fcff0660",
