@@ -1,10 +1,10 @@
 using FixingIt.Counters;
 using FixingIt.Customer;
+using FixingIt.Events;
 using FixingIt.Funcs;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace FixingIt.Minigame
@@ -27,6 +27,8 @@ namespace FixingIt.Minigame
         private float _customerSpawnerTimer;
         private GameState _gameState;
 
+        private int _numberObjectsFixed = 0;
+
         [Header("Timers")]
         [SerializeField] private float _waitingToStartTimerMax = 5f;
         [SerializeField] private float _gameplayTimerMax = 60f;
@@ -48,12 +50,16 @@ namespace FixingIt.Minigame
         private FloatEventChannelSO _waitingToStartTimerEvent;
         [SerializeField]
         private FloatEventChannelSO _gameplayTimerNormalizedEvent;
+        [SerializeField]
+        private IntEventChannelSO _numberObjectsFixedEvent;
 
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _inMenuEvent;
         [SerializeField]
         private VoidEventChannelSO _outMenuEvent;
+        [SerializeField]
+        private RoomObjectParentChannelSO _customerWithObjectFixedEvent;
 
         [Header("Setting Func")]
         [SerializeField]
@@ -72,12 +78,16 @@ namespace FixingIt.Minigame
         {
             _inMenuEvent.OnEventRaised += ToMenuMode;
             _outMenuEvent.OnEventRaised += ToGameplayMode;
+
+            _customerWithObjectFixedEvent.OnEventRaised += ObjectFixedAndReturned;
         }
 
         private void OnDisable()
         {
             _inMenuEvent.OnEventRaised -= ToMenuMode;
             _outMenuEvent.OnEventRaised -= ToGameplayMode;
+
+            _customerWithObjectFixedEvent.OnEventRaised += ObjectFixedAndReturned;
         }
 
         private void Start()
@@ -104,7 +114,9 @@ namespace FixingIt.Minigame
                     _gameplayTimer -= Time.deltaTime;
                     if (_gameplayTimer < 0f) {
                         _gameState = GameState.End;
-                        _inputReaderSO.DisableAllInput();
+                        _inputReaderSO.EnableMenuInput();
+
+                        _numberObjectsFixedEvent.RaiseEvent(_numberObjectsFixed);
                     }
 
                     // timer npcs
@@ -119,6 +131,7 @@ namespace FixingIt.Minigame
                     break;
                 case GameState.End:
                     // mostrar puntuacion
+                    Debug.Log(_numberObjectsFixed);
                     break;
                 default:
                     Debug.LogWarning($"{_gameState} is not implemented");
@@ -133,6 +146,7 @@ namespace FixingIt.Minigame
             return timer / timerMax;
         }
 
+        #region GameplayMode
         private void ToMenuMode()
         {
             _inputReaderSO.EnableMenuInput();
@@ -142,7 +156,9 @@ namespace FixingIt.Minigame
         {
             _inputReaderSO.EnableGameplayInput();
         }
+        #endregion
 
+        #region Game Loop
         private CustomerCounter GetFirstCustomerCounterFree()
         {
             foreach (CustomerCounter counter in _customerCounters) {
@@ -180,5 +196,11 @@ namespace FixingIt.Minigame
             customerController.InitCustomer(_customerStartPosition, freeCounter, GetRandomObjecToFixSO());
             freeCounter.SetCustomerAssigned(customerController);
         }
+
+        private void ObjectFixedAndReturned(IRoomObjectParent customerWithObject)
+        {
+            _numberObjectsFixed++;
+        }
+        #endregion
     }
 }

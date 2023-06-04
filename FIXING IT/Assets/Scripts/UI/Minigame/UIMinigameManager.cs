@@ -10,6 +10,7 @@ namespace FixingIt.UI.Minigame
 
         [Header("Panels")]
         [SerializeField] private UIManualPanel _toolRecipesPanel;
+        [SerializeField] private UIEndGamePanel _endGamePanel;
 
         [Header("Broadcasting To")]
         [SerializeField]
@@ -20,12 +21,16 @@ namespace FixingIt.UI.Minigame
         [Header("Listening To")]
         [SerializeField]
         private VoidEventChannelSO _manualCounterUsedEvent;
+        [SerializeField]
+        private IntEventChannelSO _numberObjectsFixedEvent;
 
         private void OnEnable()
         {
             _inputReaderSO.MenuCancelEvent += GoBack;
 
             _manualCounterUsedEvent.OnEventRaised += ShowManualPanel;
+
+            _numberObjectsFixedEvent.OnEventRaised += ShowEndGamePanel;
         }
 
         private void OnDisable()
@@ -33,16 +38,19 @@ namespace FixingIt.UI.Minigame
             _inputReaderSO.MenuCancelEvent -= GoBack;
 
             _manualCounterUsedEvent.OnEventRaised -= ShowManualPanel;
+
+            _numberObjectsFixedEvent.OnEventRaised -= ShowEndGamePanel;
         }
 
         private void Start()
         {
             _toolRecipesPanel.Hide();
+            _endGamePanel.Hide();
         }
 
         private void GoBack()
         {
-            // hide all panels
+            // hide all gameplay panels
             _toolRecipesPanel.Hide();
 
             // send event
@@ -53,6 +61,11 @@ namespace FixingIt.UI.Minigame
         {
             _toolRecipesPanel.Show();
             _inMenuEvent.RaiseEvent();
+        }
+
+        private void ShowEndGamePanel(int numberOfObjecsFixed)
+        {
+            _endGamePanel.Show(numberOfObjecsFixed);
         }
     }
 }
