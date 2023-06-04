@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace FixingIt.SceneManagement
+namespace FixingIt.SceneManagement.Logic
 {
     public class NetworkSceneLoader : NetworkBehaviour
     {

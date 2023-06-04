@@ -5,7 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace FixingIt.SceneManagement
+namespace FixingIt.SceneManagement.Logic
 {
     public class InitialisationLoader : MonoBehaviour
     {

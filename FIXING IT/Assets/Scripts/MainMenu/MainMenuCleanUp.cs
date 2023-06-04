@@ -1,6 +1,6 @@
 using FixingIt.GameLobby;
 using FixingIt.Multiplayer;
-using FixingIt.SceneManagement;
+using FixingIt.SceneManagement.Logic;
 using Unity.Netcode;
 using UnityEngine;
 

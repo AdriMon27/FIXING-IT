@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-namespace FixingIt.SceneManagement
+namespace FixingIt.SceneManagement.Logic
 {
     /// <summary>
     /// Persistent Manager, doesn´t need an Instance or to clear the funcs

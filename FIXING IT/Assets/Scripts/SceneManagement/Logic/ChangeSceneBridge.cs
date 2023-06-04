@@ -3,7 +3,7 @@ using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.Events;
 using UnityEngine;
 
-namespace FixingIt.SceneManagement
+namespace FixingIt.SceneManagement.Logic
 {
     public class ChangeSceneBridge : MonoBehaviour
     {
