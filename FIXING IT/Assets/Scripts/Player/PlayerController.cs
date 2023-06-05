@@ -4,6 +4,7 @@ using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FixingIt.PlayerGame
 {
@@ -27,6 +28,8 @@ namespace FixingIt.PlayerGame
         private Rigidbody _rb;
         private RoomObject _roomObject;
         private Vector2 _direction;
+
+        private Outline _currentOutline;
 
         private void Awake()
         {
@@ -55,6 +58,44 @@ namespace FixingIt.PlayerGame
         private void Update()
         {
             HandleRotation();
+            HandleSelectionOutline();
+        }
+
+        private void HandleSelectionOutline()
+        {
+            Vector3 rayOrigin = transform.position;
+            Vector3 rayDir = transform.forward;
+
+            if (Physics.Raycast(rayOrigin, rayDir, out RaycastHit rayHit, _interactDistance, _countersLayerMask)) {
+                if (rayHit.transform.TryGetComponent(out Outline outline)) {
+                    if (_currentOutline == outline) {
+                        return;
+                    }
+
+                    if (_currentOutline != null) {
+                        _currentOutline.enabled = false;
+                    }
+
+                    _currentOutline = outline;
+                    _currentOutline.enabled = true;
+                }
+                else {
+                    if (_currentOutline == null) { 
+                        return;
+                    }
+
+                    _currentOutline.enabled = false;
+                    _currentOutline = null;
+                }
+            }
+            else {
+                if (_currentOutline == null) { 
+                    return;
+                }
+
+                _currentOutline.enabled = false;
+                _currentOutline = null;
+            }
         }
 
         private void HandleMovement()
