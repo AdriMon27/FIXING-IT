@@ -116,6 +116,7 @@ namespace FixingIt.SceneManagement.Logic
                 // locally cases
                 case SceneEventType.LoadComplete:
                     {
+                        SceneManager.SetActiveScene(sceneEvent.Scene);
                         Debug.Log($"Loaded the {sceneEvent.SceneName} scene on {clientOrServer}-({sceneEvent.ClientId}).");
                         break;
                     }

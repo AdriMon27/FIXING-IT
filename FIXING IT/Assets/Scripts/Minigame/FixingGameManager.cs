@@ -5,11 +5,14 @@ using FixingIt.Funcs;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FixingIt.Minigame
 {
-    public class FixingGameManager : MonoBehaviour
+    public class FixingGameManager : NetworkBehaviour
     {
         private enum GameState
         {
@@ -19,6 +22,7 @@ namespace FixingIt.Minigame
         }
 
         [SerializeField] InputReaderSO _inputReaderSO;
+        [SerializeField] GameObject _playerPrefab;
 
         [SerializeField] ToolRecipeManagerSO _levelToolRecipeManagerSO;
 
@@ -94,6 +98,21 @@ namespace FixingIt.Minigame
         {
             _gameState = GameState.WaitingToStart;
             _inputReaderSO.DisableAllInput();
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            if (IsServer) {
+                NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += NM_SM_OnLoadEventCompleted;
+            }
+        }
+
+        private void NM_SM_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+        {
+            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds) {
+                GameObject playerGO = Instantiate(_playerPrefab);
+                playerGO.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            }
         }
 
         private void Update()

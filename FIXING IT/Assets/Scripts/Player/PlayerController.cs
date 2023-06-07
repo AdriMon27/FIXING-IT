@@ -2,14 +2,13 @@ using FixingIt.ActorComponents;
 using FixingIt.Counters;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
-using ProgramadorCastellano.Events;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace FixingIt.PlayerGame
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour, IRoomObjectParent
+    public class PlayerController : NetworkBehaviour, IRoomObjectParent
     {
         [SerializeField] InputReaderSO _inputReaderSO;
 
