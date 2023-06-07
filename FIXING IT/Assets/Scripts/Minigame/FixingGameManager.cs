@@ -6,6 +6,7 @@ using FixingIt.InputSystem;
 using FixingIt.RoomObjects;
 using ProgramadorCastellano.Events;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,9 +23,9 @@ namespace FixingIt.Minigame
         }
 
         [SerializeField] InputReaderSO _inputReaderSO;
-        [SerializeField] GameObject _playerPrefab;
 
         [SerializeField] ToolRecipeManagerSO _levelToolRecipeManagerSO;
+        [SerializeField] Transform _baseTransformToSpawn;
 
         private float _waitingToStartTimer;
         private float _gameplayTimer;
@@ -32,6 +33,10 @@ namespace FixingIt.Minigame
         private GameState _gameState;
 
         private int _numberObjectsFixed = 0;
+
+        [Header("Player")]
+        [SerializeField] GameObject _playerPrefab;
+        [SerializeField] Transform[] _playerSpawnPositions;
 
         [Header("Timers")]
         [SerializeField] private float _waitingToStartTimerMax = 5f;
@@ -109,8 +114,10 @@ namespace FixingIt.Minigame
 
         private void NM_SM_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
         {
-            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds) {
-                GameObject playerGO = Instantiate(_playerPrefab);
+            for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsIds.Count; i++) {
+                ulong clientId = NetworkManager.Singleton.ConnectedClientsIds[i];
+                GameObject playerGO = Instantiate(_playerPrefab, _baseTransformToSpawn);
+                playerGO.transform.position = _playerSpawnPositions[i].position;
                 playerGO.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
             }
         }
