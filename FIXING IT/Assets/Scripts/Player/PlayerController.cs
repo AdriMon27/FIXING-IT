@@ -37,6 +37,13 @@ namespace FixingIt.PlayerGame
 
         private void OnEnable()
         {
+            // se maneja dentro de las funciones para evitar una condición de carrera
+            //if (OwnerClientId == NetworkManager.LocalClientId)
+            //    Debug.Log("ofnesoinfie");
+            //if (!IsOwner) {
+            //    return;
+            //}
+
             _inputReaderSO.MoveEvent += SetPlayerDirection;
             _inputReaderSO.InteractEvent += HandleInteraction;
             _inputReaderSO.AlternateInteractEvent += HandleAlternateInteraction;
@@ -44,6 +51,11 @@ namespace FixingIt.PlayerGame
 
         private void OnDisable()
         {
+            // si se deja ocurría una condición de carrera que bloqueaba el personaje
+            //if (!IsOwner) {
+            //    return;
+            //}
+
             _inputReaderSO.MoveEvent -= SetPlayerDirection;
             _inputReaderSO.InteractEvent -= HandleInteraction;
             _inputReaderSO.AlternateInteractEvent -= HandleAlternateInteraction;
@@ -51,11 +63,19 @@ namespace FixingIt.PlayerGame
 
         private void FixedUpdate()
         {
+            if (!IsOwner) {
+                return;
+            }
+
             HandleMovement();
         }
 
         private void Update()
         {
+            if (!IsOwner) {
+                return;
+            }
+
             HandleRotation();
             HandleSelectionOutline();
         }
@@ -125,11 +145,19 @@ namespace FixingIt.PlayerGame
         #region InputActions
         private void SetPlayerDirection(Vector2 directionInput)
         {
+            if (!IsOwner) {
+                return;
+            }
+
             _direction = directionInput;
         }
 
         private void HandleInteraction()
         {
+            if (!IsOwner) {
+                return;
+            }
+
             Vector3 rayOrigin = transform.position;
             Vector3 rayDir = transform.forward;
 
@@ -146,6 +174,10 @@ namespace FixingIt.PlayerGame
 
         private void HandleAlternateInteraction()
         {
+            if (!IsOwner) {
+                return;
+            }
+
             Vector3 rayOrigin = transform.position;
             Vector3 rayDir = transform.forward;
 

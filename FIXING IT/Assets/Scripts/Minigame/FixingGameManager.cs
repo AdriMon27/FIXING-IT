@@ -116,9 +116,12 @@ namespace FixingIt.Minigame
         {
             for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsIds.Count; i++) {
                 ulong clientId = NetworkManager.Singleton.ConnectedClientsIds[i];
+
                 GameObject playerGO = Instantiate(_playerPrefab, _baseTransformToSpawn);
                 playerGO.transform.position = _playerSpawnPositions[i].position;
                 playerGO.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+                Debug.Log(playerGO.GetComponent<NetworkObject>().OwnerClientId);
+                Debug.Log(NetworkManager.Singleton.LocalClientId);
             }
         }
 
