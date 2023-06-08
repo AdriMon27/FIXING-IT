@@ -30,9 +30,10 @@ namespace FixingIt.Minigame
         private float _waitingToStartTimer;
         private float _gameplayTimer;
         private float _customerSpawnerTimer;
-        private GameState _gameState;
+        //private GameState _gameState;
+        private NetworkVariable<GameState> _gameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
 
-        private int _numberObjectsFixed = 0;
+        private NetworkVariable<int> _numberObjectsFixed = new NetworkVariable<int>(0);
 
         [Header("Player")]
         [SerializeField] GameObject _playerPrefab;
@@ -101,14 +102,35 @@ namespace FixingIt.Minigame
 
         private void Start()
         {
-            _gameState = GameState.WaitingToStart;
+            //_gameState = GameState.WaitingToStart;
             _inputReaderSO.DisableAllInput();
         }
 
         public override void OnNetworkSpawn()
         {
+            _gameState.OnValueChanged += State_OnValueChanged;
+
             if (IsServer) {
                 NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += NM_SM_OnLoadEventCompleted;
+            }
+        }
+
+        private void State_OnValueChanged(GameState previousValue, GameState newValue)
+        {
+            switch (newValue)
+            {
+                case GameState.WaitingToStart:
+                    _inputReaderSO.DisableAllInput();
+                    break;
+                case GameState.Playing:
+                    _inputReaderSO.EnableGameplayInput();
+                    break;
+                case GameState.End:
+                    _inputReaderSO.EnableMenuInput();
+                    _numberObjectsFixedEvent.RaiseEvent(_numberObjectsFixed.Value);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -127,25 +149,30 @@ namespace FixingIt.Minigame
 
         private void Update()
         {
-            switch (_gameState) {
+            if (!IsServer) {
+                return;
+            }
+
+            switch (_gameState.Value) {
                 case GameState.WaitingToStart:
                     // esperar countdown to start
                     _waitingToStartTimer -= Time.deltaTime;
                     if (_waitingToStartTimer < 0f) {
-                        _gameState = GameState.Playing;
-                        _inputReaderSO.EnableGameplayInput();
+                        _gameState.Value = GameState.Playing;
+                        //_inputReaderSO.EnableGameplayInput();
                     }
 
-                    _waitingToStartTimerEvent.RaiseEvent(_waitingToStartTimer);
+                    WaitingToStartRaiseEventClientRpc(_waitingToStartTimer);
+                    //_waitingToStartTimerEvent.RaiseEvent(_waitingToStartTimer);
                     break;
                 case GameState.Playing:
                     // timer juego
                     _gameplayTimer -= Time.deltaTime;
                     if (_gameplayTimer < 0f) {
-                        _gameState = GameState.End;
-                        _inputReaderSO.EnableMenuInput();
+                        _gameState.Value = GameState.End;
+                        //_inputReaderSO.EnableMenuInput();
 
-                        _numberObjectsFixedEvent.RaiseEvent(_numberObjectsFixed);
+                        //_numberObjectsFixedEvent.RaiseEvent(_numberObjectsFixed);
                     }
 
                     // timer npcs
@@ -156,7 +183,9 @@ namespace FixingIt.Minigame
                         SpawnNewCustomer();
                     }
 
-                    _gameplayTimerNormalizedEvent.RaiseEvent(GetTimerNormalized(_gameplayTimer, _gameplayTimerMax));
+                    float gameplayTimerNormalized = GetTimerNormalized(_gameplayTimer, _gameplayTimerMax);
+                    GameplayTimerNormalizedRaiseEventClientRpc(gameplayTimerNormalized);
+                    //_gameplayTimerNormalizedEvent.RaiseEvent(GetTimerNormalized(_gameplayTimer, _gameplayTimerMax));
                     break;
                 case GameState.End:
                     // mostrar puntuacion
@@ -168,6 +197,18 @@ namespace FixingIt.Minigame
             }
 
             
+        }
+
+        [ClientRpc]
+        private void WaitingToStartRaiseEventClientRpc(float waitingToStartTimer)
+        {
+            _waitingToStartTimerEvent.RaiseEvent(waitingToStartTimer);
+        }
+
+        [ClientRpc]
+        private void GameplayTimerNormalizedRaiseEventClientRpc(float gameplayTimerNormalized)
+        {
+            _gameplayTimerNormalizedEvent.RaiseEvent(gameplayTimerNormalized);
         }
 
         private float GetTimerNormalized(float timer, float timerMax)
@@ -228,7 +269,7 @@ namespace FixingIt.Minigame
 
         private void ObjectFixedAndReturned(IRoomObjectParent customerWithObject)
         {
-            _numberObjectsFixed++;
+            _numberObjectsFixed.Value++;
         }
         #endregion
     }
