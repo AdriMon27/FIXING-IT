@@ -1,13 +1,13 @@
 {
-    "name": "FixingIt.Customer",
-    "rootNamespace": "FixingIt.Customer",
+    "name": "FixingIt.RoomObjects.Logic",
+    "rootNamespace": "FixingIt.RoomObjects.Logic",
     "references": [
         "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:39a53fcf163849642bf3d091692f6a2c",
         "GUID:f1d564af88de86f4c96bc66bc695f2c5",
-        "GUID:328ff2d8b0875eb42b3365ecba03a0c0",
-        "GUID:a13465e875251c44e8b6dbe34f88ceb5",
-        "GUID:498bc62bc890e874b8bcfe7d48b6e3c4"
+        "GUID:120f89811edc0054385e8ba53cd4d1e9",
+        "GUID:498bc62bc890e874b8bcfe7d48b6e3c4",
+        "GUID:a13465e875251c44e8b6dbe34f88ceb5"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

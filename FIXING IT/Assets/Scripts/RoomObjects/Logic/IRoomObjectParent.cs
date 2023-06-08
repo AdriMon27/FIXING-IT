@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-namespace FixingIt.RoomObjects
+namespace FixingIt.RoomObjects.Logic
 {
     public interface IRoomObjectParent
     {
@@ -11,5 +12,7 @@ namespace FixingIt.RoomObjects
         public void SetRoomObject(RoomObject roomObject);
         public bool HasRoomObject();
         public void ClearRoomObject();
+
+        public NetworkObject GetNetworkObject();
     }
 }

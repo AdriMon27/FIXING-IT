@@ -152,6 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6816900614484438840}
   - component: {fileID: 1657356591848193444}
+  - component: {fileID: 329225872836424220}
   m_Layer: 0
   m_Name: SpannerTool
   m_TagString: Untagged
@@ -195,6 +196,22 @@ MonoBehaviour:
   _roomObjectBrokenAudioComp: {fileID: 9074196790926191501}
   _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
     type: 2}
+--- !u!114 &329225872836424220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3781946027497459326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6714770589785959965
 GameObject:
   m_ObjectHideFlags: 0

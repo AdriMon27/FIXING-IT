@@ -1,5 +1,5 @@
 using FixingIt.Events;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,6 +1,6 @@
 using FixingIt.Customer;
 using FixingIt.Events;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
 using UnityEngine;
 
 namespace FixingIt.Counters

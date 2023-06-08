@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace FixingIt.RoomObjects
+namespace FixingIt.RoomObjects.SO
 {
     //[CreateAssetMenu()]
     public class ToolRecipeManagerSO : ScriptableObject
@@ -14,21 +14,25 @@ namespace FixingIt.RoomObjects
         // In the worst case is n^3
         public RoomObjectSO TryRecipe(List<RoomObjectSO> pieces)
         {
-            foreach (ToolRecipeSO toolRecipeSO in _recipes) {
+            foreach (ToolRecipeSO toolRecipeSO in _recipes)
+            {
 
                 if (toolRecipeSO.Pieces.Length != pieces.Count)
                     continue;
 
                 // check recipe
                 bool[] piecesUsed = new bool[pieces.Count];
-                foreach (RoomObjectSO pieceInRecipeSO in toolRecipeSO.Pieces) {
-                    
-                    for (int i = 0; i < pieces.Count; i++) {
+                foreach (RoomObjectSO pieceInRecipeSO in toolRecipeSO.Pieces)
+                {
+
+                    for (int i = 0; i < pieces.Count; i++)
+                    {
                         if (piecesUsed[i])
                             continue;
 
                         // compare to next pieceInRecipeSO
-                        if (pieceInRecipeSO == pieces[i]) {
+                        if (pieceInRecipeSO == pieces[i])
+                        {
                             piecesUsed[i] = true;
                             break;
                         }

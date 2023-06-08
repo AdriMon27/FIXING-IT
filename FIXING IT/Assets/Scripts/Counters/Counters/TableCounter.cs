@@ -1,6 +1,7 @@
 using FixingIt.ActorComponents;
 using FixingIt.Events;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
+using FixingIt.RoomObjects.SO;
 using UnityEngine;
 
 namespace FixingIt.Counters

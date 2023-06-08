@@ -1,4 +1,4 @@
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
 using ProgramadorCastellano.Events;
 using System.Collections;
 using UnityEngine;

@@ -1,4 +1,4 @@
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.SO;
 using UnityEngine;
 using UnityEngine.UI;
 

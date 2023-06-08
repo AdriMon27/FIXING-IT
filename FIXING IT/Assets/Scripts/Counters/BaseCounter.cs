@@ -1,9 +1,10 @@
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FixingIt.Counters
 {
-    public abstract class BaseCounter : MonoBehaviour, IRoomObjectParent
+    public abstract class BaseCounter : NetworkBehaviour, IRoomObjectParent
     {
         [SerializeField] private Transform _topPoint;
 
@@ -35,6 +36,11 @@ namespace FixingIt.Counters
         public void ClearRoomObject()
         {
             _roomObject = null;
+        }
+
+        public NetworkObject GetNetworkObject()
+        {
+            return NetworkObject;
         }
     }
 }

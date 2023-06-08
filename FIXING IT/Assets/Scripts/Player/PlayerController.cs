@@ -1,7 +1,7 @@
 using FixingIt.ActorComponents;
 using FixingIt.Counters;
 using FixingIt.InputSystem;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -217,6 +217,11 @@ namespace FixingIt.PlayerGame
         public void ClearRoomObject()
         {
             _roomObject = null;
+        }
+
+        public NetworkObject GetNetworkObject()
+        {
+            return NetworkObject;
         }
         #endregion
     }

@@ -1,7 +1,8 @@
+using FixingIt.RoomObjects.SO;
 using System.Linq;
 using UnityEngine;
 
-namespace FixingIt.RoomObjects
+namespace FixingIt.RoomObjects.Logic
 {
     public class ToFixRoomObject : RoomObject
     {
@@ -33,16 +34,19 @@ namespace FixingIt.RoomObjects
             toolBeenUsed = false;
 
             // should be check from outside but just in case
-            if (IsFixed) {
+            if (IsFixed)
+            {
                 Debug.Log("cannot fix a object that is already fixed");
                 return false;
             }
 
-            for (int i = 0; i < _toolsToBeFixedSO.Length; i++) {
+            for (int i = 0; i < _toolsToBeFixedSO.Length; i++)
+            {
                 if (_toolsUsedSO[i])
                     continue;
 
-                if (toolUsed == _toolsToBeFixedSO[i]) {
+                if (toolUsed == _toolsToBeFixedSO[i])
+                {
                     _toolsUsedSO[i] = true;
                     toolBeenUsed = true;
                     break;

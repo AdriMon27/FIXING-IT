@@ -1,7 +1,8 @@
+using FixingIt.RoomObjects.SO;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FixingIt.RoomObjects
+namespace FixingIt.RoomObjects.Logic
 {
     public class ToFixRoomObjectVisualComp : MonoBehaviour
     {
@@ -16,7 +17,8 @@ namespace FixingIt.RoomObjects
         public void UpdateTFROVisual(RoomObjectSO[] toolsToBeUsedSO, bool[] toolsUsed)
         {
             // Destroy all childs except template
-            foreach (Transform child in _imagesContainer) {
+            foreach (Transform child in _imagesContainer)
+            {
                 if (child == _templateImage)
                     continue;
 
@@ -24,7 +26,8 @@ namespace FixingIt.RoomObjects
             }
 
             // create new child for each tool not used
-            for (int i = 0; i < toolsToBeUsedSO.Length; i++) {
+            for (int i = 0; i < toolsToBeUsedSO.Length; i++)
+            {
                 if (toolsUsed[i])
                     continue;
 

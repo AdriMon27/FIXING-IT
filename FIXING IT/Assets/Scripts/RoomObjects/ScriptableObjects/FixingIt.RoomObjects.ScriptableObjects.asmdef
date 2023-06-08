@@ -1,11 +1,7 @@
 {
-    "name": "FixingIt.RoomObjects",
-    "rootNamespace": "FixingIt.RoomObjects",
-    "references": [
-        "GUID:39a53fcf163849642bf3d091692f6a2c",
-        "GUID:f1d564af88de86f4c96bc66bc695f2c5",
-        "GUID:498bc62bc890e874b8bcfe7d48b6e3c4"
-    ],
+    "name": "FixingIt.RoomObjects.SO",
+    "rootNamespace": "FixingIt.RoomObjects.SO",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

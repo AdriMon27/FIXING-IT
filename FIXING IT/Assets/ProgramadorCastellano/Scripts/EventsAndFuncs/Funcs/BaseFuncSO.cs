@@ -96,4 +96,49 @@ namespace ProgramadorCastellano.Funcs
             return true;
         }
     }
+
+    public abstract class BaseFuncSO<T0, T1, TResult> : DescriptionBaseSO, IMyFuncSO<T0, T1, TResult>
+    {
+        private Func<T0, T1, TResult> OnFuncRaised;
+
+        /// <summary>
+        /// Set the Func to null
+        /// </summary>
+        public void ClearOnFuncRaised()
+        {
+            OnFuncRaised = null;
+        }
+
+        /// <summary>
+        /// Tries to set a new Func to the internal Func
+        /// </summary>
+        /// <param name="arg0">First argument of the func</param>
+        /// <param name="arg1">Second argument of the func</param>
+        /// <returns>The <typeparamref name="TResult"/> output object if OnFuncRaised is not null or default if the Func is null</returns>
+        public TResult RaiseFunc(T0 arg0, T1 arg1)
+        {
+            if (OnFuncRaised != null) {
+                return OnFuncRaised.Invoke(arg0, arg1);
+            }
+            else {
+                Debug.LogWarning($"{errorMessage} with parameters {arg0} and {arg1}");
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// Tries to set a new Func to the internal Func
+        /// </summary>
+        /// <param name="newFunc"></param>
+        /// <returns>If it was possible to set the Func, if the Func was null</returns>
+        public bool TrySetOnFuncRaised(Func<T0, T1, TResult> newFunc)
+        {
+            if (OnFuncRaised != null) {
+                return false;
+            }
+
+            OnFuncRaised = newFunc;
+            return true;
+        }
+    }
 }

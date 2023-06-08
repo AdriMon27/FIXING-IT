@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6816900614484438840}
   - component: {fileID: 1657356591848193444}
+  - component: {fileID: -5022623349765506274}
   m_Layer: 0
   m_Name: ScrewdriverHeadPiece
   m_TagString: Untagged
@@ -47,10 +48,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomObjectSO: {fileID: 11400000, guid: fa6c35a39ffef3040ab50f22a8ec7430, type: 2}
   _numberOfUses: 1
-  _roomObjectUsedEvent: {fileID: 11400000, guid: 99087d66af7555149a5db624b97919fd,
-    type: 2}
+  _roomObjectUsedAudioComp: {fileID: 0}
+  _roomObjectBrokenAudioComp: {fileID: 0}
   _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
     type: 2}
+--- !u!114 &-5022623349765506274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3781946027497459326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &9079508069294253398
 PrefabInstance:
   m_ObjectHideFlags: 0

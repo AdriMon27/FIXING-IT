@@ -1,7 +1,8 @@
 using FixingIt.ActorComponents;
 using FixingIt.Events;
 using FixingIt.Funcs;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
+using FixingIt.RoomObjects.SO;
 using System.Collections.Generic;
 using UnityEngine;
 

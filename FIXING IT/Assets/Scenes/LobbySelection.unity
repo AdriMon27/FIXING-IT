@@ -481,6 +481,66 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: 213cf6df7f1e1b948b5d42bd6a2f9047,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: f154848257b61d24c8e0f4064c45ea32,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: 07de30b805e4049478881694754e961f,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: 1c6713dcab06ea84c8bbf222c0f592f3,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: cf50312e0fef74840a8c3c49689b915b,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: 947fc4d37d15b9545a18c1d7c6863826,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 3781946027497459326, guid: badcd73aecbbf604b95d7de7137e5bfc,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 410775821348959336, guid: 729c69d7b3a69254b819d8c75fbdf56f,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2479882800751303325, guid: 69f959c251380614a810b51c69e6aba3,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 8191089910826673616, guid: c6fb21db418ce5041ac82c20b38c5d0f,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 1
@@ -726,6 +786,8 @@ MonoBehaviour:
   - {r: 0.6117647, g: 0.26666668, b: 0.25490198, a: 1}
   - {r: 0.25490198, g: 0.6117647, b: 0.26666668, a: 1}
   - {r: 0.26666668, g: 0.25490198, b: 0.6117647, a: 1}
+  _allRoomObjectsSOListSO: {fileID: 11400000, guid: 66c19cfb77652dd49838e29d3889cd35,
+    type: 2}
   _hostStartedEvent: {fileID: 11400000, guid: dcf5f5d61aa970f459cdc57153a283d4, type: 2}
   _rejectedToServerEvent: {fileID: 11400000, guid: efa5b3d5cdbe70e4691904a210964551,
     type: 2}
@@ -743,6 +805,8 @@ MonoBehaviour:
     type: 2}
   _kickPlayerEvent: {fileID: 11400000, guid: 1dde50a307c32004085338522ed033c9, type: 2}
   _setPlayerNameEvent: {fileID: 11400000, guid: 3512096424a81074680972f660e17edd,
+    type: 2}
+  _tryToSpawnRoomObjectEvent: {fileID: 11400000, guid: fd4c3ef82ba1c4e44b4bafc1375f2fec,
     type: 2}
   _getCurrentSceneNameFunc: {fileID: 11400000, guid: daefc6e14ac8fe9448ea1ed75dea389a,
     type: 2}

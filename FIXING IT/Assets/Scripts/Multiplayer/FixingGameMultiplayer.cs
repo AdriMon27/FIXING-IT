@@ -1,5 +1,9 @@
+using FixingIt.Events;
 using FixingIt.Funcs;
+using FixingIt.Minigame;
 using FixingIt.PlayerGame;
+using FixingIt.RoomObjects.Logic;
+using FixingIt.RoomObjects.SO;
 using FixingIt.SceneManagement.ScriptableObjects;
 using ProgramadorCastellano.Events;
 using ProgramadorCastellano.Funcs;
@@ -19,6 +23,7 @@ namespace FixingIt.Multiplayer
 
         [SerializeField] private GameSceneSO _characterSelectionSceneSO;
         [SerializeField] private Color[] _playerColorArray;
+        [SerializeField] private RoomObjectsSOListSO _allRoomObjectsSOListSO;
 
         private NetworkList<PlayerData> _playerDataNetworkList;
         private string _playerName;
@@ -48,6 +53,8 @@ namespace FixingIt.Multiplayer
         private ULongEventChannelSO _kickPlayerEvent;
         [SerializeField]
         private StringEventChannelSO _setPlayerNameEvent;
+        [SerializeField]
+        private TryToSpawnRoomObjectChannelSO _tryToSpawnRoomObjectEvent;
 
         [Header("Invoking Func")]
         [SerializeField]
@@ -64,6 +71,8 @@ namespace FixingIt.Multiplayer
         private PlayerdataFuncSO _getClientPlayerData;
         [SerializeField]
         private StringFuncSO _getPlayerNameFunc;
+        //[SerializeField]
+        //private SpawnRoomObjectFuncSO _spawnRoomObjectFunc;
 
         private void Awake()
         {
@@ -88,6 +97,7 @@ namespace FixingIt.Multiplayer
             _getPlayerColorFunc.ClearOnFuncRaised();
             _getClientPlayerData.ClearOnFuncRaised();
             _getPlayerNameFunc.ClearOnFuncRaised();
+            //_spawnRoomObjectFunc.ClearOnFuncRaised();
 
             // set funcs
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
@@ -95,6 +105,7 @@ namespace FixingIt.Multiplayer
             _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
             _getClientPlayerData.TrySetOnFuncRaised(GetPlayerData);
             _getPlayerNameFunc.TrySetOnFuncRaised(GetPlayerName);
+            //_spawnRoomObjectFunc.TrySetOnFuncRaised(SpawnRoomObject);
         }
 
         private void OnEnable()
@@ -109,6 +120,8 @@ namespace FixingIt.Multiplayer
             _kickPlayerEvent.OnEventRaised += KickPlayer;
 
             _setPlayerNameEvent.OnEventRaised += SetPlayerName;
+
+            _tryToSpawnRoomObjectEvent.OnEventRaised += SpawnRoomObject;
         }
 
         private void OnDisable()
@@ -124,7 +137,7 @@ namespace FixingIt.Multiplayer
 
             _setPlayerNameEvent.OnEventRaised -= SetPlayerName;
 
-            //_playerDataNetworkList.Dispose();
+            _tryToSpawnRoomObjectEvent.OnEventRaised -= SpawnRoomObject;
         }
 
         private void StartHost()
@@ -294,6 +307,39 @@ namespace FixingIt.Multiplayer
             }
 
             return -1;
+        }
+        #endregion
+
+        #region Minigame
+        // TODO: cambiar por sistema de pooling como extra
+        private void SpawnRoomObject(RoomObjectSO roomObjectSO, NetworkObjectReference roomObjectParentNORef)
+        {
+            SpawnRoomObjectServerRpc(GetRoomObjectSOIndex(roomObjectSO), roomObjectParentNORef);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SpawnRoomObjectServerRpc(int roomObjectSOIndex, NetworkObjectReference roomObjectParentNORef)
+        {
+            GameObject roomObjectGO = Instantiate(GetRoomObjectSOFromIndex(roomObjectSOIndex).RoomObjectPrefab);
+
+            NetworkObject roomObjectNO = roomObjectGO.GetComponent<NetworkObject>();
+            roomObjectNO.Spawn();
+
+            RoomObject roomObject = roomObjectGO.GetComponent<RoomObject>();
+
+            roomObjectParentNORef.TryGet(out NetworkObject roomObjectParentNO);
+            IRoomObjectParent roomObjectParent = roomObjectParentNO.GetComponent<IRoomObjectParent>();
+            roomObject.SetRoomObjectParent(roomObjectParent);
+        }
+
+        private int GetRoomObjectSOIndex(RoomObjectSO roomObjectSO)
+        {
+            return _allRoomObjectsSOListSO.RoomObjectsSO.IndexOf(roomObjectSO);
+        }
+
+        private RoomObjectSO GetRoomObjectSOFromIndex(int index)
+        {
+            return _allRoomObjectsSOListSO.RoomObjectsSO[index];
         }
         #endregion
 

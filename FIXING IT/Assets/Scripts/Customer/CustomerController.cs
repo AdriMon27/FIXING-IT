@@ -1,6 +1,8 @@
 using FixingIt.ActorComponents;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.Logic;
+using FixingIt.RoomObjects.SO;
 using ProgramadorCastellano.Events;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -116,6 +118,11 @@ namespace FixingIt.Customer
         public void ClearRoomObject()
         {
             _roomObject = null;
+        }
+
+        public NetworkObject GetNetworkObject()
+        {
+            return null;
         }
         #endregion
     }

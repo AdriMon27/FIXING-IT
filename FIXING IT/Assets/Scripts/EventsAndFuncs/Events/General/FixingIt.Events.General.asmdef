@@ -1,7 +1,8 @@
 {
-    "name": "FixingIt.Events",
+    "name": "FixingIt.Events.General",
     "rootNamespace": "FixingIt.Events",
     "references": [
+        "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:39a53fcf163849642bf3d091692f6a2c",
         "GUID:f1d564af88de86f4c96bc66bc695f2c5",
         "GUID:6f08052231fa06a45900f1a97537e698",

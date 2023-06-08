@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FixingIt.RoomObjects
+namespace FixingIt.RoomObjects.SO
 {
     [CreateAssetMenu()]
     public class RoomObjectSO : ScriptableObject

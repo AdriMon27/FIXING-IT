@@ -1,5 +1,5 @@
 using FixingIt.Funcs;
-using FixingIt.RoomObjects;
+using FixingIt.RoomObjects.SO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

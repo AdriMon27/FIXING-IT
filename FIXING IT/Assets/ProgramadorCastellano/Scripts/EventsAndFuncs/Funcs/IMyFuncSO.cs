@@ -26,4 +26,10 @@ namespace ProgramadorCastellano.Funcs
         public bool TrySetOnFuncRaised(Func<T0, TResult> newFunc);
         public TResult RaiseFunc(T0 funcArg);
     }
+
+    internal interface IMyFuncSO<T0, T1, TResult> : IBaseMyFuncSO
+    {
+        public bool TrySetOnFuncRaised(Func<T0, T1, TResult> newFunc);
+        public TResult RaiseFunc(T0 funcArg0, T1 funcArg1);
+    }
 }
