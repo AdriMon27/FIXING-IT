@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 3920399090076565323}
   - component: {fileID: 5675542200571796896}
   - component: {fileID: 5420372244718994048}
+  - component: {fileID: 5035258339253430775}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -247,6 +248,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _holdingPoint: {fileID: 7807497627164204853}
   _audioComp: {fileID: 976447025723265256}
+--- !u!114 &5035258339253430775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781459996236134245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1003873889835501303
 PrefabInstance:
   m_ObjectHideFlags: 0

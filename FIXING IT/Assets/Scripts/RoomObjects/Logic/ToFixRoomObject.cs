@@ -12,8 +12,9 @@ namespace FixingIt.RoomObjects.Logic
 
         public bool IsFixed => _toolsUsedSO.All(valor => valor);
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _toolsUsedSO = new bool[_toolsToBeFixedSO.Length];
         }
 

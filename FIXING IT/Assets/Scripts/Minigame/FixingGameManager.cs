@@ -230,6 +230,8 @@ namespace FixingIt.Minigame
         #endregion
 
         #region Game Loop
+
+        #region CustomerCounters
         private CustomerCounter GetFirstCustomerCounterFree()
         {
             foreach (CustomerCounter counter in _customerCounters) {
@@ -241,6 +243,18 @@ namespace FixingIt.Minigame
             return null;
         }
 
+        private int GetCustomerCounterIndex(CustomerCounter customerCounter)
+        {
+            return System.Array.IndexOf(_customerCounters, customerCounter);
+        }
+
+        private CustomerCounter GetCustomerCounterFromIndex(int index)
+        {
+            return _customerCounters[index];
+        }
+        #endregion
+
+        #region ObjectToFixSO
         private RoomObjectSO GetRandomObjecToFixSO()
         {
             int randIndex = Random.Range(0, _objectsToFixSO.Length);
@@ -248,23 +262,50 @@ namespace FixingIt.Minigame
             return _objectsToFixSO[randIndex];
         }
 
+        private int GetObjectToFixSOIndex(RoomObjectSO roomObjectSO)
+        {
+            return System.Array.IndexOf(_objectsToFixSO, roomObjectSO);
+        }
+
+        private RoomObjectSO GetObjectToFixSOFromIndex(int index)
+        {
+            return _objectsToFixSO[index];
+        }
+        #endregion
+
         private void SpawnNewCustomer()
         {
             CustomerCounter freeCounter = GetFirstCustomerCounterFree();
             if (freeCounter == null) {
                 return;
             }
+            int freeCounterIndex = GetCustomerCounterIndex(freeCounter);
 
+            RoomObjectSO objectToFixSO = GetRandomObjecToFixSO();
+            int objectToFixSOIndex = GetObjectToFixSOIndex(objectToFixSO);
+
+            SpawnNewCustomerServerRpc(freeCounterIndex, objectToFixSOIndex);
+        }
+
+        [ServerRpc]
+        private void SpawnNewCustomerServerRpc(int freeCounterIndex, int objectToFixSOIndex)
+        {
             GameObject customerGO = Instantiate(_customerPrefab, _customerStartPosition.position, Quaternion.identity);
+
+            NetworkObject customerNO = customerGO.GetComponent<NetworkObject>();
+            customerNO.Spawn();
 
             CustomerController customerController = customerGO.GetComponent<CustomerController>();
 
             if (customerController == null) {
                 Debug.LogError($"The prefab {_customerPrefab} is not a Customer Controller");
+                customerNO.Despawn();
                 return;
             }
 
-            customerController.InitCustomer(_customerStartPosition, freeCounter, GetRandomObjecToFixSO());
+            CustomerCounter freeCounter = GetCustomerCounterFromIndex(freeCounterIndex);
+            RoomObjectSO objectToFixSO = GetObjectToFixSOFromIndex(objectToFixSOIndex);
+            customerController.InitCustomer(_customerStartPosition, freeCounter, objectToFixSO);
             freeCounter.SetCustomerAssigned(customerController);
         }
 

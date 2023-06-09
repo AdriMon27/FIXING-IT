@@ -34,7 +34,7 @@ namespace FixingIt.RoomObjects.Logic
         public RoomObjectSO RoomObjectSO => _roomObjectSO;
         public GameObject RoomObjectVisualPrefab => transform.GetChild(0).gameObject;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _followTransformComp = GetComponent<FollowTransformComponent>();
         }
@@ -124,12 +124,6 @@ namespace FixingIt.RoomObjects.Logic
         public static void SpawnRoomObject(RoomObjectSO roomObjectSO, IRoomObjectParent roomObjectParent)
         {
             _staticTryToSpawnRoomObjectEvent.RaiseEvent(roomObjectSO, roomObjectParent.GetNetworkObject());
-            //GameObject roomObjectGO = Instantiate(roomObjectSO.RoomObjectPrefab);
-
-            //RoomObject roomObject = roomObjectGO.GetComponent<RoomObject>();
-            //roomObject.SetRoomObjectParent(roomObjectParent);
-
-            //return roomObject;
         }
         #endregion
     }

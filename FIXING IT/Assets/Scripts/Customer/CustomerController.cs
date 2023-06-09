@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 namespace FixingIt.Customer
 {
-    public class CustomerController : MonoBehaviour, IRoomObjectParent
+    public class CustomerController : NetworkBehaviour, IRoomObjectParent
     {
         // could have be done with a state machine but this case is too simple
         private enum ClientState
@@ -122,7 +122,7 @@ namespace FixingIt.Customer
 
         public NetworkObject GetNetworkObject()
         {
-            return null;
+            return NetworkObject;
         }
         #endregion
     }
