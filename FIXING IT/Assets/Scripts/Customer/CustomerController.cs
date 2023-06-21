@@ -1,7 +1,6 @@
 using FixingIt.ActorComponents;
 using FixingIt.RoomObjects.Logic;
 using FixingIt.RoomObjects.SO;
-using ProgramadorCastellano.Events;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -41,11 +40,17 @@ namespace FixingIt.Customer
 
         private void Start()
         {
+            if (!IsServer)
+                return;
+
             GoToCounter();
         }
 
         private void Update()
         {
+            if (!IsServer)
+                return;
+
             switch (_clientState)
             {
                 case ClientState.Waiting:
@@ -76,6 +81,7 @@ namespace FixingIt.Customer
 
         private void GoToCounter()
         {
+            Debug.Log(_parentToLeaveBrokenObject != null);
             _agent.SetDestination(_parentToLeaveBrokenObject.transform.position);
             _clientState = ClientState.GoingToCounter;
         }
@@ -91,7 +97,10 @@ namespace FixingIt.Customer
             _startTransform = startTransform;
             _parentToLeaveBrokenObject = parentToLeaveBrokenObject;
 
-            RoomObject.SpawnRoomObject(_objectToFixSO, this);
+            transform.position = _startTransform.position;
+            transform.rotation = _startTransform.rotation;
+
+            //RoomObject.SpawnRoomObject(_objectToFixSO, this);
         }
 
         #region RoomObjectParent

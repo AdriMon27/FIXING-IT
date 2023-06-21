@@ -11,7 +11,7 @@ namespace FixingIt.RoomObjects.Logic
     public class RoomObject : NetworkBehaviour
     {
         private static TryToSpawnRoomObjectChannelSO _staticTryToSpawnRoomObjectEvent;
-        private static Transform _staticInSceneTransform;
+        public static Transform StaticInSceneTransform { get; private set; }
 
         [SerializeField] private RoomObjectSO _roomObjectSO;
         [SerializeField] private int _numberOfUses = 1;
@@ -43,7 +43,7 @@ namespace FixingIt.RoomObjects.Logic
         {
             if (_tryToSpawnRoomObjectEvent != null) { 
                 _staticTryToSpawnRoomObjectEvent = _tryToSpawnRoomObjectEvent;
-                _staticInSceneTransform = transform;
+                StaticInSceneTransform = transform;
             }
         }
 
@@ -55,6 +55,7 @@ namespace FixingIt.RoomObjects.Logic
         [ServerRpc(RequireOwnership = false)]
         private void SetRoomObjectParentServerRpc(NetworkObjectReference newRoomObjectParentNORef)
         {
+            transform.parent = StaticInSceneTransform;
             SetRoomObjectParentClientRpc(newRoomObjectParentNORef);
         }
 
@@ -78,7 +79,6 @@ namespace FixingIt.RoomObjects.Logic
             newRoomObjectParent.SetRoomObject(this);
 
             // set transform
-            transform.parent = _staticInSceneTransform;
             _followTransformComp.SetTargetTransform(newRoomObjectParent.GetRoomObjectTransform());
         }
 

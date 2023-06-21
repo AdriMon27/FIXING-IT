@@ -291,22 +291,28 @@ namespace FixingIt.Minigame
         private void SpawnNewCustomerServerRpc(int freeCounterIndex, int objectToFixSOIndex)
         {
             GameObject customerGO = Instantiate(_customerPrefab, _customerStartPosition.position, Quaternion.identity);
+            customerGO.transform.position = _customerStartPosition.position;
+            customerGO.transform.rotation = _customerStartPosition.rotation;
 
-            NetworkObject customerNO = customerGO.GetComponent<NetworkObject>();
-            customerNO.Spawn();
 
             CustomerController customerController = customerGO.GetComponent<CustomerController>();
 
             if (customerController == null) {
                 Debug.LogError($"The prefab {_customerPrefab} is not a Customer Controller");
-                customerNO.Despawn();
                 return;
             }
+
+            NetworkObject customerNO = customerGO.GetComponent<NetworkObject>();
+            customerNO.Spawn();
+            customerGO.transform.parent = RoomObject.StaticInSceneTransform;
 
             CustomerCounter freeCounter = GetCustomerCounterFromIndex(freeCounterIndex);
             RoomObjectSO objectToFixSO = GetObjectToFixSOFromIndex(objectToFixSOIndex);
             customerController.InitCustomer(_customerStartPosition, freeCounter, objectToFixSO);
             freeCounter.SetCustomerAssigned(customerController);
+            
+
+            RoomObject.SpawnRoomObject(objectToFixSO, customerController);
         }
 
         private void ObjectFixedAndReturned(IRoomObjectParent customerWithObject)
