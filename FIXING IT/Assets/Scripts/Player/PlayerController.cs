@@ -2,6 +2,7 @@ using FixingIt.ActorComponents;
 using FixingIt.Counters;
 using FixingIt.InputSystem;
 using FixingIt.RoomObjects.Logic;
+using ProgramadorCastellano.Funcs;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace FixingIt.PlayerGame
         [SerializeField] private Transform _holdingPoint;
 
         [Header("Player Comps")]
+        [SerializeField] private PlayerVisualComp _playerVisualComp;
         [SerializeField] private PlayerAnimationComp _animationComp;
         [SerializeField] private AudioComponent _audioComp;
 
@@ -23,6 +25,10 @@ namespace FixingIt.PlayerGame
         [SerializeField] private float _rotateSpeed = 10f;
         [SerializeField] private float _interactDistance = 2f;
         [SerializeField] private LayerMask _countersLayerMask;
+
+        [Header("Invoking Func")]
+        [SerializeField]
+        private ULongColorFuncSO _getColorFromClientIdFunc;
 
         private Rigidbody _rb;
         private RoomObject _roomObject;
@@ -59,6 +65,11 @@ namespace FixingIt.PlayerGame
             _inputReaderSO.MoveEvent -= SetPlayerDirection;
             _inputReaderSO.InteractEvent -= HandleInteraction;
             _inputReaderSO.AlternateInteractEvent -= HandleAlternateInteraction;
+        }
+
+        private void Start()
+        {
+            _playerVisualComp.SetPlayerColor(_getColorFromClientIdFunc.RaiseFunc(OwnerClientId));
         }
 
         private void FixedUpdate()
@@ -140,6 +151,11 @@ namespace FixingIt.PlayerGame
             Vector3 desiredRotation = new Vector3(_direction.x, 0f, _direction.y);
 
             transform.forward = Vector3.Slerp(transform.forward, desiredRotation, Time.deltaTime * _rotateSpeed);
+        }
+
+        public PlayerVisualComp GetPlayerVisualComp()
+        {
+            return _playerVisualComp;
         }
 
         #region InputActions

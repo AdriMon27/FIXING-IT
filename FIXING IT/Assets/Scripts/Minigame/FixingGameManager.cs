@@ -3,9 +3,11 @@ using FixingIt.Customer;
 using FixingIt.Events;
 using FixingIt.Funcs;
 using FixingIt.InputSystem;
+using FixingIt.PlayerGame;
 using FixingIt.RoomObjects.Logic;
 using FixingIt.RoomObjects.SO;
 using ProgramadorCastellano.Events;
+using ProgramadorCastellano.Funcs;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
@@ -71,6 +73,12 @@ namespace FixingIt.Minigame
         private VoidEventChannelSO _outMenuEvent;
         [SerializeField]
         private RoomObjectParentChannelSO _customerWithObjectFixedEvent;
+
+        //[Header("Invoking Func")]
+        //[SerializeField]
+        //private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndex;
+        //[SerializeField]
+        //private IntColorFuncSO _getPlayerColorFunc;
 
         [Header("Setting Func")]
         [SerializeField]
@@ -142,11 +150,21 @@ namespace FixingIt.Minigame
 
                 GameObject playerGO = Instantiate(_playerPrefab, _baseTransformToSpawn);
                 playerGO.transform.position = _playerSpawnPositions[i].position;
+                
                 playerGO.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-                Debug.Log(playerGO.GetComponent<NetworkObject>().OwnerClientId);
-                Debug.Log(NetworkManager.Singleton.LocalClientId);
+
+                //SetPlayerColorClientRpc(playerGO, i);
+                //Debug.Log(playerGO.GetComponent<NetworkObject>().OwnerClientId);
+                //Debug.Log(NetworkManager.Singleton.LocalClientId);
             }
         }
+
+        //[ClientRpc]
+        //private void SetPlayerColorClientRpc(GameObject playerGO, int playerIndex)
+        //{
+        //    PlayerData playerData = _getPlayerDataFromPlayerIndex.RaiseFunc(playerIndex);
+        //    playerGO.GetComponent<PlayerController>().GetPlayerVisualComp().SetPlayerColor(_getPlayerColorFunc.RaiseFunc(playerData.ColorId));
+        //}
 
         private void Update()
         {

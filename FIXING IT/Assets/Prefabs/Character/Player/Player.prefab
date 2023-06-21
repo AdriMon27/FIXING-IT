@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
   _holdingPoint: {fileID: 6896463617640325243}
+  _playerVisualComp: {fileID: 8168842796834749874}
   _animationComp: {fileID: 124067792349763362}
   _audioComp: {fileID: 3111711603696677182}
   _moveSpeed: 5
@@ -144,6 +145,8 @@ MonoBehaviour:
   _countersLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _getColorFromClientIdFunc: {fileID: 11400000, guid: 03ef079b1c75cc4428a41ffdbd92e4a5,
+    type: 2}
 --- !u!114 &4684291896583748327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +434,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1657177632480200261}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8168842796834749874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7467801030477183991, guid: 3ad27d27b1a537748af0b62171d99918,
+    type: 3}
+  m_PrefabInstance: {fileID: 1657177632480200261}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e5d0a63f92a834d9c603b5bae5f9a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7878900124725540597
 PrefabInstance:
   m_ObjectHideFlags: 0

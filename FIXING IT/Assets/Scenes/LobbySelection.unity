@@ -825,6 +825,8 @@ MonoBehaviour:
   _getClientPlayerData: {fileID: 11400000, guid: 6e09f8e98b3c6324d89a318e7125652b,
     type: 2}
   _getPlayerNameFunc: {fileID: 11400000, guid: be154657df18dd7438a4a73e04a41e21, type: 2}
+  _getColorFromClientIdFunc: {fileID: 11400000, guid: 03ef079b1c75cc4428a41ffdbd92e4a5,
+    type: 2}
 --- !u!114 &1945757823
 MonoBehaviour:
   m_ObjectHideFlags: 0

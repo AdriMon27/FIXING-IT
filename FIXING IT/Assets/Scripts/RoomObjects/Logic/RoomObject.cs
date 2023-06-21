@@ -14,7 +14,7 @@ namespace FixingIt.RoomObjects.Logic
         public static Transform StaticInSceneTransform { get; private set; }
 
         [SerializeField] private RoomObjectSO _roomObjectSO;
-        [SerializeField] private int _numberOfUses = 1;
+        [SerializeField] private NetworkVariable<int> _numberOfUses = new NetworkVariable<int>(1);
 
         [Header("Components")]
         [SerializeField] private AudioComponent _roomObjectUsedAudioComp;
@@ -84,9 +84,9 @@ namespace FixingIt.RoomObjects.Logic
 
         public void Use()
         {
-            _numberOfUses--;
+            _numberOfUses.Value--;
 
-            if (_numberOfUses <= 0)
+            if (_numberOfUses.Value <= 0)
             {
                 _roomObjectBrokenAfterUseEvent.RaiseEvent();
 

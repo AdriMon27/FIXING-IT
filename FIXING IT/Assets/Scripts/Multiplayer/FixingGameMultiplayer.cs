@@ -71,8 +71,8 @@ namespace FixingIt.Multiplayer
         private PlayerdataFuncSO _getClientPlayerData;
         [SerializeField]
         private StringFuncSO _getPlayerNameFunc;
-        //[SerializeField]
-        //private SpawnRoomObjectFuncSO _spawnRoomObjectFunc;
+        [SerializeField]
+        private ULongColorFuncSO _getColorFromClientIdFunc;
 
         private void Awake()
         {
@@ -97,7 +97,7 @@ namespace FixingIt.Multiplayer
             _getPlayerColorFunc.ClearOnFuncRaised();
             _getClientPlayerData.ClearOnFuncRaised();
             _getPlayerNameFunc.ClearOnFuncRaised();
-            //_spawnRoomObjectFunc.ClearOnFuncRaised();
+            _getColorFromClientIdFunc.ClearOnFuncRaised();
 
             // set funcs
             _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
@@ -105,7 +105,11 @@ namespace FixingIt.Multiplayer
             _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
             _getClientPlayerData.TrySetOnFuncRaised(GetPlayerData);
             _getPlayerNameFunc.TrySetOnFuncRaised(GetPlayerName);
-            //_spawnRoomObjectFunc.TrySetOnFuncRaised(SpawnRoomObject);
+            _getColorFromClientIdFunc.TrySetOnFuncRaised((clientId) =>
+                {
+                    PlayerData playerData = GetPlayerDataFromClientId(clientId);
+                    return GetPlayerColor(playerData.ColorId);
+                });
         }
 
         private void OnEnable()

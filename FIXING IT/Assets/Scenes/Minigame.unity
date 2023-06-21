@@ -5997,6 +5997,10 @@ MonoBehaviour:
   _outMenuEvent: {fileID: 11400000, guid: de4110a85cc469e43b1ae4e2298f7936, type: 2}
   _customerWithObjectFixedEvent: {fileID: 11400000, guid: b6cc959549e5784418ea36846525a3d6,
     type: 2}
+  _getPlayerDataFromPlayerIndex: {fileID: 11400000, guid: 3111aba2807ef574b9ee43cc45b4e038,
+    type: 2}
+  _getPlayerColorFunc: {fileID: 11400000, guid: b253c255c52ffc54289e2a6c5d3e4a1e,
+    type: 2}
   _getLevelToolRecipeManagerSOFunc: {fileID: 11400000, guid: 3251177692f941642baaa14ca93101bc,
     type: 2}
 --- !u!4 &1583072165
