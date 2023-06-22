@@ -4,6 +4,7 @@ using FixingIt.Funcs;
 using FixingIt.RoomObjects.Logic;
 using FixingIt.RoomObjects.SO;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FixingIt.Counters
@@ -119,6 +120,21 @@ namespace FixingIt.Counters
                 return;
             }
 
+            ReceivePieceServerRpc(roomObjectParent.GetNetworkObject());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ReceivePieceServerRpc(NetworkObjectReference roomObjectParentNORef)
+        {
+            ReceivePieceClientRpc(roomObjectParentNORef);
+        }
+
+        [ClientRpc]
+        private void ReceivePieceClientRpc(NetworkObjectReference roomObjectParentNORef)
+        {
+            roomObjectParentNORef.TryGet(out NetworkObject roomObjectParentNO);
+            IRoomObjectParent roomObjectParent = roomObjectParentNO.GetComponent<IRoomObjectParent>();
+
             // receive piece
             RoomObject pieceToSet = roomObjectParent.GetRoomObject();
 
@@ -132,7 +148,7 @@ namespace FixingIt.Counters
 
             // clear piece from roomObjectParent
             // roomObjectParent.ClearRoomObject() is managed by pieceToSet.Broke
-            pieceToSet.Broke(); 
+            pieceToSet.Broke();
         }
     }
 }
