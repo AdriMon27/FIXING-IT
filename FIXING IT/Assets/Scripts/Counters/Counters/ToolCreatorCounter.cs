@@ -26,7 +26,7 @@ namespace FixingIt.Counters
         [Header("Invoking Func")]
         [SerializeField]
         private ToolRecipeManagerFuncSO _getLevelToolRecipeManagerSOFunc;
-        
+
         private ToolRecipeManagerSO _toolRecipeManagerSO;
         private List<RoomObjectSO> _piecesSO;
 
@@ -63,19 +63,54 @@ namespace FixingIt.Counters
 
         private void TryToCraftTool(IRoomObjectParent roomObjectParent)
         {
+            //RoomObjectSO toolCreated = _toolRecipeManagerSO.TryRecipe(_piecesSO);
+
+            //if (toolCreated == null) {
+            //    ClearPieces();
+            //    _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
+            //}
+            //else {
+            //    RoomObject.SpawnRoomObject(toolCreated, this);
+            //    ClearPieces();
+            //    _audioComp.PlaySound();
+            //    _particleSystem.Play();
+            //}
+
+            TryToCraftToolServerRpc(roomObjectParent.GetNetworkObject());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void TryToCraftToolServerRpc(NetworkObjectReference roomObjectParentNORef)
+        {
+            // the Server checks the recipe just in case a client is cheating
             RoomObjectSO toolCreated = _toolRecipeManagerSO.TryRecipe(_piecesSO);
 
             if (toolCreated == null) {
-                ClearPieces();
-                _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
+                CraftFailedClientRpc(roomObjectParentNORef);
             }
             else {
                 RoomObject.SpawnRoomObject(toolCreated, this);
-                ClearPieces();
-                _audioComp.PlaySound();
-                _particleSystem.Play();
-                //_toolCreatedEvent.RaiseEvent();
+                //int toolCreatedSOIndex = _getRoomObjectSOIndexFunc.RaiseFunc(toolCreated);
+                CraftAchievedClientRpc(roomObjectParentNORef);
             }
+        }
+
+        [ClientRpc]
+        private void CraftFailedClientRpc(NetworkObjectReference roomObjectParentNORef)
+        {
+            roomObjectParentNORef.TryGet(out NetworkObject roomObjectParentNO);
+            IRoomObjectParent roomObjectParent = roomObjectParentNO.GetComponent<IRoomObjectParent>();
+
+            ClearPieces();
+            _confusedRoomObjectParentEvent.RaiseEvent(roomObjectParent);
+        }
+
+        [ClientRpc]
+        private void CraftAchievedClientRpc(NetworkObjectReference roomObjectParentNORef)
+        {
+            ClearPieces();
+            _audioComp.PlaySound();
+            _particleSystem.Play();
         }
 
         private void ClearPieces()
