@@ -1,6 +1,7 @@
 using FixingIt.Customer;
 using FixingIt.Events;
 using FixingIt.RoomObjects.Logic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FixingIt.Counters
@@ -24,6 +25,26 @@ namespace FixingIt.Counters
         {
             if (roomObjectParent == null)
                 return;
+
+            InteractServerRpc(roomObjectParent.GetNetworkObject());
+            //if (HasRoomObject()) {  // customer has left an objectToFix
+            //    TryToGiveObjectToFix(roomObjectParent);
+            //}
+            //else {
+            //    // mirar si tenemos objeto a arreglar asignado
+            //    if (_customerAssigned == null) // we are waiting for next customer
+            //        return;
+
+            //    // intentar entregar objeto arreglado
+            //    TryToReceiveObjectFixed(roomObjectParent);
+            //}
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void InteractServerRpc(NetworkObjectReference roomObjecParentNORef)
+        {
+            roomObjecParentNORef.TryGet(out NetworkObject roomObjectParentNO);
+            IRoomObjectParent roomObjectParent = roomObjectParentNO.GetComponent<IRoomObjectParent>();
 
             if (HasRoomObject()) {  // customer has left an objectToFix
                 TryToGiveObjectToFix(roomObjectParent);
@@ -50,13 +71,13 @@ namespace FixingIt.Counters
             RoomObject roomObject = roomObjectParent.GetRoomObject();
 
             if (roomObject is not ToFixRoomObject) {
-                _confusedRoomObjectParentEvent.RaiseEvent(_customerAssigned);
+                ConfusedClientRpc(_customerAssigned.GetNetworkObject());
                 return;
             }
 
             ToFixRoomObject objectToFix = roomObject as ToFixRoomObject;
             if (!objectToFix.IsFixed) {
-                _confusedRoomObjectParentEvent.RaiseEvent(_customerAssigned);
+                ConfusedClientRpc(_customerAssigned.GetNetworkObject());
                 return;
             }
 
@@ -64,10 +85,30 @@ namespace FixingIt.Counters
             roomObjectParent.GetRoomObject().SetRoomObjectParent(_customerAssigned);
             _customerAssigned.LeaveCounter();
 
-            // send event object given back to customer
-            _customerWithObjectFixedEvent.RaiseEvent(_customerAssigned);
-            
+            NetworkObject customerNO = _customerAssigned.GetNetworkObject();
+
             _customerAssigned = null;
+            
+            // send event object given back to customer
+            CustomerWithObjectFixedClientRpc(customerNO);
+        }
+
+        [ClientRpc]
+        private void ConfusedClientRpc(NetworkObjectReference customerNORef)
+        {
+            customerNORef.TryGet(out NetworkObject customerNO);
+            CustomerController customer = customerNO.GetComponent<CustomerController>();
+
+            _confusedRoomObjectParentEvent.RaiseEvent(customer);
+        }
+
+        [ClientRpc]
+        private void CustomerWithObjectFixedClientRpc(NetworkObjectReference customerNORef)
+        {
+            customerNORef.TryGet(out NetworkObject customerNO);
+            CustomerController customer = customerNO.GetComponent<CustomerController>();
+
+            _customerWithObjectFixedEvent.RaiseEvent(customer);
         }
 
         public void SetCustomerAssigned(CustomerController customerAssigned)

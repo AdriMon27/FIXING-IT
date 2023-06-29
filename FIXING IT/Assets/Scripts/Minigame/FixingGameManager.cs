@@ -335,6 +335,9 @@ namespace FixingIt.Minigame
 
         private void ObjectFixedAndReturned(IRoomObjectParent customerWithObject)
         {
+            if (!IsServer)
+                return;
+
             _numberObjectsFixed.Value++;
         }
         #endregion
