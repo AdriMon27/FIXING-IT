@@ -5962,7 +5962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReaderSO: {fileID: 11400000, guid: 71bb810f025c990489e9f6fecba939bf, type: 2}
-  _levelToolRecipeManagerSO: {fileID: 11400000, guid: d057cefc2a5771840b7e9a0f8a6e7330,
+  _levelToolRecipeManagerSO: {fileID: 11400000, guid: f7ad56d3079be5340b6065b8ac0c1e62,
     type: 2}
   _baseTransformToSpawn: {fileID: 184513022}
   _playerPrefab: {fileID: 6620724926113232095, guid: 80a2170d3be9aa141b845eeffcf509c4,
@@ -5973,7 +5973,7 @@ MonoBehaviour:
   - {fileID: 1938032199}
   - {fileID: 1224072408}
   _waitingToStartTimerMax: 5
-  _gameplayTimerMax: 60
+  _gameplayTimerMax: 120
   _customerSpawnerTimerMax: 10
   _customerPrefab: {fileID: 6781459996236134245, guid: 38d727d4b1ccaf343bab71140712585d,
     type: 3}
@@ -5996,10 +5996,6 @@ MonoBehaviour:
   _inMenuEvent: {fileID: 11400000, guid: c7e7fd062a1f3564aa1846fac8f9cdc5, type: 2}
   _outMenuEvent: {fileID: 11400000, guid: de4110a85cc469e43b1ae4e2298f7936, type: 2}
   _customerWithObjectFixedEvent: {fileID: 11400000, guid: b6cc959549e5784418ea36846525a3d6,
-    type: 2}
-  _getPlayerDataFromPlayerIndex: {fileID: 11400000, guid: 3111aba2807ef574b9ee43cc45b4e038,
-    type: 2}
-  _getPlayerColorFunc: {fileID: 11400000, guid: b253c255c52ffc54289e2a6c5d3e4a1e,
     type: 2}
   _getLevelToolRecipeManagerSOFunc: {fileID: 11400000, guid: 3251177692f941642baaa14ca93101bc,
     type: 2}
