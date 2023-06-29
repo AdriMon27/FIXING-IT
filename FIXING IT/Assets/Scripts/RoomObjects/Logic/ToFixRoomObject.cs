@@ -1,6 +1,11 @@
 using FixingIt.RoomObjects.SO;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
+using FixingIt.Funcs;
+using System.Collections.Generic;
+using FixingIt.Events.Network;
+using System;
 
 namespace FixingIt.RoomObjects.Logic
 {
@@ -8,38 +13,85 @@ namespace FixingIt.RoomObjects.Logic
     {
         [SerializeField] private ToFixRoomObjectVisualComp _toFixRoomObjectVisualComp;
         [SerializeField] private RoomObjectSO[] _toolsToBeFixedSO;
-        private bool[] _toolsUsedSO;
+        private NetworkList<bool> _toolsUsedSO = new NetworkList<bool>();
 
-        public bool IsFixed => _toolsUsedSO.All(valor => valor);
+        //public bool IsFixed => _toolsUsedSO.All(valor => valor);
+        public bool IsFixed => AllToolsUsed();
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private NetworkObjectReferenceEventSO _tableCounterNORefEvent;
+
+        [Header("Invoking Func")]
+        [SerializeField]
+        private RoomObjectSOIntFuncSO _getRoomObjectSOIndexFunc;
+        [SerializeField]
+        private IntRoomObjectSOFuncSO _getRoomObjectSOFromIndexFunc;
 
         protected override void Awake()
         {
             base.Awake();
-            _toolsUsedSO = new bool[_toolsToBeFixedSO.Length];
+            //_toolsUsedSO = new bool[_toolsToBeFixedSO.Length];
         }
 
-        private void Start()
+        public override void OnNetworkSpawn()
         {
-            _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
-        }
+            if (IsServer) { 
+                for (int i = 0; i < _toolsToBeFixedSO.Length; i++) {
+                    _toolsUsedSO.Add(false);
+                }
 
-        //private void FixObject()
-        //{
-        //    // change visual?
-        //    _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
-        //    Debug.Log("FixObject");
-        //}
-
-        public bool TryToFix(RoomObjectSO toolUsed, out bool toolBeenUsed)
-        {
-            toolBeenUsed = false;
-
-            // should be check from outside but just in case
-            if (IsFixed)
-            {
-                Debug.Log("cannot fix a object that is already fixed");
-                return false;
+                //TryToFixClientRpc(false, default);
             }
+            _toolsUsedSO.OnListChanged += UpdateVisual;
+            UpdateVisual(default);
+
+            base.OnNetworkSpawn();
+        }
+
+        private void UpdateVisual(NetworkListEvent<bool> changeEvent)
+        {
+            _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, GetLocalCopyToolsUsed());
+        }
+
+        private List<bool> GetLocalCopyToolsUsed()
+        {
+            List<bool> localToolsUsedSO = new List<bool>();
+            for (int i = 0; i < _toolsUsedSO.Count; i++)
+            {
+                localToolsUsedSO.Add(_toolsUsedSO[i]);
+            }
+
+            string a = name + "localToolsUsed copy: ";
+            foreach (bool localTool in localToolsUsedSO)
+            {
+                a += localTool + ";";
+            }
+
+            Debug.Log(a);
+
+            return localToolsUsedSO;
+        }
+
+        public void TryToFix(RoomObjectSO toolUsed, RoomObject toolGO, NetworkObjectReference tableCounterNORef)
+        {
+            int toolUsedIndex = _getRoomObjectSOIndexFunc.RaiseFunc(toolUsed);
+
+            TryToFixServerRpc(toolUsedIndex, toolGO.NetworkObject,tableCounterNORef);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void TryToFixServerRpc(int roomObjectSOIndex, NetworkObjectReference toolGameObjectNORef, NetworkObjectReference tableCounterNORef)
+        {
+            bool objectFixed = false;
+            bool toolBeenUsed = false;
+
+            if (IsFixed) {
+                Debug.Log("cannot fix a object that is already fixed");
+                return;
+            }
+
+            RoomObjectSO toolUsed = _getRoomObjectSOFromIndexFunc.RaiseFunc(roomObjectSOIndex);
 
             for (int i = 0; i < _toolsToBeFixedSO.Length; i++)
             {
@@ -54,10 +106,34 @@ namespace FixingIt.RoomObjects.Logic
                 }
             }
 
-            _toFixRoomObjectVisualComp.UpdateTFROVisual(_toolsToBeFixedSO, _toolsUsedSO);
+            if (toolBeenUsed) {
+                toolGameObjectNORef.TryGet(out NetworkObject toolGameObjectNO);
+                RoomObject tool = toolGameObjectNO.GetComponent<RoomObject>();
 
-            if (!IsFixed)
-                return false;
+                tool.Use();
+            }
+
+            if (IsFixed) {
+                objectFixed = true;
+            }
+
+            ObjectFixedClientRpc(objectFixed, tableCounterNORef);
+        }
+
+        [ClientRpc]
+        private void ObjectFixedClientRpc(bool objectFixed, NetworkObjectReference tableCounterNORef)
+        {
+            if (objectFixed) {
+                _tableCounterNORefEvent.RaiseEvent(tableCounterNORef);
+            }
+        }
+
+        private bool AllToolsUsed()
+        {
+            foreach (bool tool in _toolsUsedSO) {
+                if (!tool)
+                    return false;
+            }
 
             return true;
         }

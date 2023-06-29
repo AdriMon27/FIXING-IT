@@ -371,6 +371,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4846377229552952068, guid: e490e357aeebc2d4e9220889f0d4d049,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 1172372634974544958, guid: e490e357aeebc2d4e9220889f0d4d049,
         type: 3}
       propertyPath: m_RootOrder
@@ -472,11 +477,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _topPoint: {fileID: 5665866971357682756}
   _objectFixedAudioComp: {fileID: 5155395202847078840}
-  _objectFixingAudioComp: {fileID: 440578762316066194}
   _confusedRoomObjectParentEvent: {fileID: 11400000, guid: 5d6d9d0389336f74cb251236f7aa6afa,
     type: 2}
-  _objectFixedEvent: {fileID: 11400000, guid: 64fc6f6ff00ff834abeb5842ff4caedf, type: 2}
-  _objectFixingEvent: {fileID: 11400000, guid: dd52a4cbeb764d441b582889dabcc284, type: 2}
+  _tableCounterNORefEvent: {fileID: 11400000, guid: dfaf6b54bf780b94e9b15ca685198665,
+    type: 2}
 --- !u!4 &5665866971357682756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 599063778097046452, guid: e490e357aeebc2d4e9220889f0d4d049,

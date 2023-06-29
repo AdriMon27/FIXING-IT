@@ -1,4 +1,5 @@
 using FixingIt.RoomObjects.SO;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace FixingIt.RoomObjects.Logic
             _templateImage.gameObject.SetActive(false);
         }
 
-        public void UpdateTFROVisual(RoomObjectSO[] toolsToBeUsedSO, bool[] toolsUsed)
+        public void UpdateTFROVisual(RoomObjectSO[] toolsToBeUsedSO, List<bool> toolsUsed)
         {
             // Destroy all childs except template
             foreach (Transform child in _imagesContainer)

@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 8965538489847129958}
   - component: {fileID: 1056682529805087505}
   - component: {fileID: -168829402343380501}
+  - component: {fileID: 5962981277872180222}
   m_Layer: 0
   m_Name: Base_ObjectToFix
   m_TagString: Untagged
@@ -284,13 +285,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomObjectSO: {fileID: 0}
-  _numberOfUses: 1
+  _numberOfUses:
+    m_InternalValue: 1
   _roomObjectUsedAudioComp: {fileID: 0}
   _roomObjectBrokenAudioComp: {fileID: 0}
   _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
     type: 2}
+  _tryToSpawnRoomObjectEvent: {fileID: 0}
   _toFixRoomObjectVisualComp: {fileID: 1056682529805087505}
   _toolsToBeFixedSO: []
+  _tableCounterNORefEvent: {fileID: 11400000, guid: dfaf6b54bf780b94e9b15ca685198665,
+    type: 2}
+  _getRoomObjectSOIndexFunc: {fileID: 11400000, guid: 0de914c19c7226d4993b3b34dfb5c4df,
+    type: 2}
+  _getRoomObjectSOFromIndexFunc: {fileID: 11400000, guid: eb9d31e1810b1b44c8d6d45f657001e8,
+    type: 2}
 --- !u!114 &1056682529805087505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +330,18 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &5962981277872180222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560502733478779697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8458e12eeee83c245bbae7d2ffdf98b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4725379433727971187
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6816900614484438840}
   - component: {fileID: 1657356591848193444}
   - component: {fileID: 7521736413938497641}
+  - component: {fileID: 5791704167796367535}
   m_Layer: 0
   m_Name: ScrewdriverTool
   m_TagString: Untagged
@@ -49,11 +50,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomObjectSO: {fileID: 11400000, guid: f1c2f571827afb84cb2244572bc24564, type: 2}
-  _numberOfUses: 3
+  _numberOfUses:
+    m_InternalValue: 3
   _roomObjectUsedAudioComp: {fileID: 4643686484222940824}
   _roomObjectBrokenAudioComp: {fileID: 8902499007569711202}
   _roomObjectBrokenAfterUseEvent: {fileID: 11400000, guid: 573506e2c4892aa4f9d351822c5edde0,
     type: 2}
+  _tryToSpawnRoomObjectEvent: {fileID: 0}
 --- !u!114 &7521736413938497641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +73,18 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &5791704167796367535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3781946027497459326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8458e12eeee83c245bbae7d2ffdf98b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4283878538796351992
 GameObject:
   m_ObjectHideFlags: 0

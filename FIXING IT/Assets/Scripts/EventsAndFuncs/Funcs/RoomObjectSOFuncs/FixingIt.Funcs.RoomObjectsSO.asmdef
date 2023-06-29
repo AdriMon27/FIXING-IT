@@ -1,15 +1,9 @@
 {
-    "name": "FixingIt.RoomObjects.Logic",
-    "rootNamespace": "FixingIt.RoomObjects.Logic",
+    "name": "FixingIt.Funcs.RoomObjectsSO",
+    "rootNamespace": "FixingIt.Funcs.RoomObjectsSO",
     "references": [
-        "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:39a53fcf163849642bf3d091692f6a2c",
-        "GUID:f1d564af88de86f4c96bc66bc695f2c5",
         "GUID:283b35537e61caa4da56ec25fcff0660",
-        "GUID:92d6803695f6c3747bbc87daf403dd6f",
-        "GUID:120f89811edc0054385e8ba53cd4d1e9",
-        "GUID:7fbe4dc1c1c8c264f9102182f298fbff",
-        "GUID:498bc62bc890e874b8bcfe7d48b6e3c4",
         "GUID:a13465e875251c44e8b6dbe34f88ceb5"
     ],
     "includePlatforms": [],

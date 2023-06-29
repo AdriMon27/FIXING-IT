@@ -1,7 +1,10 @@
 using FixingIt.ActorComponents;
 using FixingIt.Events;
+using FixingIt.Events.Network;
 using FixingIt.RoomObjects.Logic;
 using FixingIt.RoomObjects.SO;
+using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FixingIt.Counters
@@ -15,10 +18,34 @@ namespace FixingIt.Counters
         [Header("Broadcasting To")]
         [SerializeField]
         private RoomObjectParentChannelSO _confusedRoomObjectParentEvent;
-        //[SerializeField]
-        //private VoidEventChannelSO _objectFixedEvent;
-        //[SerializeField]
-        //private VoidEventChannelSO _objectFixingEvent;
+
+        [Header("Listening To")]
+        [SerializeField]
+        private NetworkObjectReferenceEventSO _tableCounterNORefEvent;
+
+        private void OnEnable()
+        {
+            _tableCounterNORefEvent.OnEventRaised += IsObjectFixedInThisTableCounter;
+        }
+
+        private void OnDisable()
+        {
+            _tableCounterNORefEvent.OnEventRaised -= IsObjectFixedInThisTableCounter;
+        }
+
+        private void IsObjectFixedInThisTableCounter(NetworkObjectReference tableCounterNORef)
+        {
+            tableCounterNORef.TryGet(out NetworkObject tableCounterNO);
+            TableCounter tableCounter = tableCounterNO.GetComponent<TableCounter>();
+
+            if (tableCounter == null)
+                return;
+
+            if (tableCounter != this)
+                return;
+
+            _objectFixedAudioComp.PlaySound();
+        }
 
         public override void AlternateInteract(IRoomObjectParent roomObjectParent)
         {
@@ -47,19 +74,20 @@ namespace FixingIt.Counters
 
             // check if roomObjectParent.RoomObject is inside necesaryTools to fix object
             ToFixRoomObject toFixRoomObject = (GetRoomObject() as ToFixRoomObject);
-            if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, out bool toolBeenUsed)) {
+            toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, roomObjectParent.GetRoomObject(), GetNetworkObject());
+            //if (toFixRoomObject.TryToFix(roomObjectParent.GetRoomObject().RoomObjectSO, out bool toolBeenUsed)) {
 
-                _objectFixedAudioComp.PlaySound();
-                //_objectFixedEvent.RaiseEvent();
-            }
-            else {
-                //_objectFixingAudioComp.PlaySound();
-                //_objectFixingEvent.RaiseEvent();
-            }
+            //    _objectFixedAudioComp.PlaySound();
+            //    //_objectFixedEvent.RaiseEvent();
+            //}
+            //else {
+            //    //_objectFixingAudioComp.PlaySound();
+            //    //_objectFixingEvent.RaiseEvent();
+            //}
 
-            if (toolBeenUsed) { 
-                roomObjectParent.GetRoomObject().Use();
-            }
+            //if (toolBeenUsed) { 
+            //    roomObjectParent.GetRoomObject().Use();
+            //}
         }
         public override void Interact(IRoomObjectParent roomObjectParent)
         {

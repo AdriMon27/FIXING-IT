@@ -827,6 +827,10 @@ MonoBehaviour:
   _getPlayerNameFunc: {fileID: 11400000, guid: be154657df18dd7438a4a73e04a41e21, type: 2}
   _getColorFromClientIdFunc: {fileID: 11400000, guid: 03ef079b1c75cc4428a41ffdbd92e4a5,
     type: 2}
+  _getRoomObjectSOIndexFunc: {fileID: 11400000, guid: 0de914c19c7226d4993b3b34dfb5c4df,
+    type: 2}
+  _getRoomObjectSOFromIndexFunc: {fileID: 11400000, guid: eb9d31e1810b1b44c8d6d45f657001e8,
+    type: 2}
 --- !u!114 &1945757823
 MonoBehaviour:
   m_ObjectHideFlags: 0
