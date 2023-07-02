@@ -1,119 +1,425 @@
-using System;
+using FixingIt.Events;
+using FixingIt.Funcs;
+using FixingIt.Minigame;
+using FixingIt.PlayerGame;
+using FixingIt.RoomObjects.Logic;
+using FixingIt.RoomObjects.SO;
+using FixingIt.SceneManagement.ScriptableObjects;
+using ProgramadorCastellano.Events;
+using ProgramadorCastellano.Funcs;
+using System.Linq;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class FixingGameMultiplayer : NetworkBehaviour
+namespace FixingIt.Multiplayer
 {
-    [SerializeField] private GameSceneSO _characterSelectionSceneSO;
-
-    private NetworkList<PlayerData> _playerDataNetworkList;
-
-    [Header("Broadcasting To")]
-    [SerializeField]
-    private VoidEventChannelSO _hostStartedEvent;
-    [SerializeField]
-    private StringEventChannelSO _rejectedToServerEvent;
-    [SerializeField]
-    private VoidEventChannelSO _playerDataNetworkListChangedEvent;
-
-    [Header("Listening To")]
-    [SerializeField]
-    private VoidEventChannelSO _lobbyCreatedEvent;
-    [SerializeField]
-    private VoidEventChannelSO _lobbyJoinedEvent;
-
-    [Header("Invoking Func")]
-    [SerializeField]
-    private StringFuncSO _getCurrentSceneNameFunc;
-
-    [Header("Setting Func")]
-    [SerializeField]
-    private IntBoolFuncSO _isPlayerIndexConnected;
-
-    private void Awake()
+    public class FixingGameMultiplayer : NetworkBehaviour
     {
-        _playerDataNetworkList = new NetworkList<PlayerData>();
-        _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
+        private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
 
-        _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
-    }
+        public static FixingGameMultiplayer Instance { get; private set; }
 
-    private void OnEnable()
-    {
-        _lobbyCreatedEvent.OnEventRaised += StartHost;
-        _lobbyJoinedEvent.OnEventRaised += StartClient;
-    }
+        [SerializeField] private GameSceneSO _characterSelectionSceneSO;
+        [SerializeField] private Color[] _playerColorArray;
+        [SerializeField] private RoomObjectsSOListSO _allRoomObjectsSOListSO;
 
-    private void OnDisable()
-    {
-        _lobbyCreatedEvent.OnEventRaised -= StartHost;
-        _lobbyJoinedEvent.OnEventRaised -= StartClient;
-    }
+        private NetworkList<PlayerData> _playerDataNetworkList;
+        private string _playerName;
 
-    private void StartHost()
-    {
-        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
-        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
-        NetworkManager.Singleton.StartHost();
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _hostStartedEvent;
+        [SerializeField]
+        private StringEventChannelSO _rejectedToServerEvent;
+        [SerializeField]
+        private VoidEventChannelSO _playerDataNetworkListChangedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _networkToMainMenuEvent;
+        [SerializeField]
+        private StringEventChannelSO _playerIdDisconnectedEvent;
 
-        // send event
-        _hostStartedEvent.RaiseEvent();
-    }
-    private void StartClient()
-    {
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-        NetworkManager.Singleton.StartClient();
-    }
+        [Header("Listening To")]
+        [SerializeField]
+        private VoidEventChannelSO _lobbyCreatedEvent;
+        [SerializeField]
+        private VoidEventChannelSO _lobbyJoinedEvent;
+        [SerializeField]
+        private IntEventChannelSO _changePlayerColorId;
+        [SerializeField]
+        private VoidEventChannelSO _leaveGameToMainMenuEvent;
+        [SerializeField]
+        private ULongEventChannelSO _kickPlayerEvent;
+        [SerializeField]
+        private StringEventChannelSO _setPlayerNameEvent;
+        [SerializeField]
+        private TryToSpawnRoomObjectChannelSO _tryToSpawnRoomObjectEvent;
 
-    private void OnPlayerDataNetworkListChanged(NetworkListEvent<PlayerData> changeEvent)
-    {
-        _playerDataNetworkListChangedEvent.RaiseEvent();
-    }
+        [Header("Invoking Func")]
+        [SerializeField]
+        private StringFuncSO _getCurrentSceneNameFunc;
 
-    private bool IsPlayerIndexConnected(int playerIndex)
-    {
-        //if (!IsServer)
-            //return false;
+        [Header("Setting Func")]
+        [SerializeField]
+        private IntBoolFuncSO _isPlayerIndexConnected;
+        [SerializeField]
+        private IntPlayerdataFuncSO _getPlayerDataFromPlayerIndex;
+        [SerializeField]
+        private IntColorFuncSO _getPlayerColorFunc;
+        [SerializeField]
+        private PlayerdataFuncSO _getClientPlayerData;
+        [SerializeField]
+        private StringFuncSO _getPlayerNameFunc;
+        [SerializeField]
+        private ULongColorFuncSO _getColorFromClientIdFunc;
+        [SerializeField]
+        private RoomObjectSOIntFuncSO _getRoomObjectSOIndexFunc;
+        [SerializeField]
+        private IntRoomObjectSOFuncSO _getRoomObjectSOFromIndexFunc;
 
-        return playerIndex < _playerDataNetworkList.Count;
-    }
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            // si sobra tiempo, refactorizar a un FuncSO y que el sistema de guardado sea externo
+            _playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, $"PlayerName{Random.Range(100, 1000)}");
 
-    #region NetworkCallbacks
-    private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
-        NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
-    {
-        string rejectedReason = string.Empty;
+            _playerDataNetworkList = new NetworkList<PlayerData>(readPerm: NetworkVariableReadPermission.Everyone);
+            _playerDataNetworkList.OnListChanged += OnPlayerDataNetworkListChanged;
 
-        // server no está en characerselection
-        UnityEngine.SceneManagement.Scene characterSelectionScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_characterSelectionSceneSO.name);
-        string currentSceneName = _getCurrentSceneNameFunc.RaiseFunc();
+            // clear funcs just in case
+            _isPlayerIndexConnected.ClearOnFuncRaised();
+            _getPlayerDataFromPlayerIndex.ClearOnFuncRaised();
+            _getPlayerColorFunc.ClearOnFuncRaised();
+            _getClientPlayerData.ClearOnFuncRaised();
+            _getPlayerNameFunc.ClearOnFuncRaised();
+            _getColorFromClientIdFunc.ClearOnFuncRaised();
+            _getRoomObjectSOIndexFunc.ClearOnFuncRaised();
+            _getRoomObjectSOFromIndexFunc.ClearOnFuncRaised();
 
-        if (characterSelectionScene.name != currentSceneName) {
-            connectionApprovalResponse.Approved = false;
-            connectionApprovalResponse.Reason = "Game has already started!";
-
-            return;
+            // set funcs
+            _isPlayerIndexConnected.TrySetOnFuncRaised(IsPlayerIndexConnected);
+            _getPlayerDataFromPlayerIndex.TrySetOnFuncRaised(GetPlayerDataFromPlayerIndex);
+            _getPlayerColorFunc.TrySetOnFuncRaised(GetPlayerColor);
+            _getClientPlayerData.TrySetOnFuncRaised(GetPlayerData);
+            _getPlayerNameFunc.TrySetOnFuncRaised(GetPlayerName);
+            _getColorFromClientIdFunc.TrySetOnFuncRaised((clientId) =>
+                {
+                    PlayerData playerData = GetPlayerDataFromClientId(clientId);
+                    return GetPlayerColor(playerData.ColorId);
+                });
+            _getRoomObjectSOIndexFunc.TrySetOnFuncRaised(GetRoomObjectSOIndex);
+            _getRoomObjectSOFromIndexFunc.TrySetOnFuncRaised(GetRoomObjectSOFromIndex);
         }
 
-        connectionApprovalResponse.Approved = true;
-    }
+        private void OnEnable()
+        {
+            _lobbyCreatedEvent.OnEventRaised += StartHost;
+            _lobbyJoinedEvent.OnEventRaised += StartClient;
 
-    /// <summary>
-    /// Only subscribed by the host
-    /// Host manages what to do when a client connects
-    /// </summary>
-    /// <param name="clientId">clientId that has connected</param>
-    private void NetworkManager_OnClientConnectedCallback(ulong clientId)
-    {
-        _playerDataNetworkList.Add(new PlayerData() {
-            ClientId = clientId,
-        });
-    }
+            _changePlayerColorId.OnEventRaised += ChangePlayerColor;
 
+            _leaveGameToMainMenuEvent.OnEventRaised += LeaveToMainMenu;
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
-    {
-        _rejectedToServerEvent.RaiseEvent(NetworkManager.Singleton.DisconnectReason);
+            _kickPlayerEvent.OnEventRaised += KickPlayer;
+
+            _setPlayerNameEvent.OnEventRaised += SetPlayerName;
+
+            _tryToSpawnRoomObjectEvent.OnEventRaised += SpawnRoomObject;
+        }
+
+        private void OnDisable()
+        {
+            _lobbyCreatedEvent.OnEventRaised -= StartHost;
+            _lobbyJoinedEvent.OnEventRaised -= StartClient;
+
+            _changePlayerColorId.OnEventRaised -= ChangePlayerColor;
+
+            _leaveGameToMainMenuEvent.OnEventRaised -= LeaveToMainMenu;
+
+            _kickPlayerEvent.OnEventRaised -= KickPlayer;
+
+            _setPlayerNameEvent.OnEventRaised -= SetPlayerName;
+
+            _tryToSpawnRoomObjectEvent.OnEventRaised -= SpawnRoomObject;
+        }
+
+        private void StartHost()
+        {
+            NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
+            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
+            NetworkManager.Singleton.StartHost();
+
+            // send event
+            _hostStartedEvent.RaiseEvent();
+        }
+
+        private void StartClient()
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
+            NetworkManager.Singleton.StartClient();
+        }
+
+        private void OnPlayerDataNetworkListChanged(NetworkListEvent<PlayerData> changeEvent)
+        {
+            _playerDataNetworkListChangedEvent.RaiseEvent();
+        }
+
+        private void LeaveToMainMenu()
+        {
+            NetworkManager.Singleton.Shutdown();
+
+            // send event
+            _networkToMainMenuEvent.RaiseEvent();
+        }
+
+        private void KickPlayer(ulong clientId)
+        {
+            NetworkManager.Singleton.DisconnectClient(clientId);
+            NetworkManager_Server_OnClientDisconnectCallback(clientId); 
+        }
+
+        #region Player Info
+        private bool IsPlayerIndexConnected(int playerIndex)
+        {
+            //if (!IsServer)
+            //return false;
+
+            return playerIndex < _playerDataNetworkList.Count;
+        }
+
+        private PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
+        {
+            return _playerDataNetworkList[playerIndex];
+        }
+
+        private PlayerData GetPlayerData()
+        {
+            return GetPlayerDataFromClientId(NetworkManager.Singleton.LocalClientId);
+        }
+
+        private int GetPlayerDataIndexFromClientId(ulong clientId)
+        {
+            for (int i = 0; i < _playerDataNetworkList.Count; i++) {
+                if (_playerDataNetworkList[i].ClientId == clientId) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private PlayerData GetPlayerDataFromClientId(ulong clientId)
+        {
+            foreach (PlayerData playerData in _playerDataNetworkList) {
+                if (playerData.ClientId == clientId) {
+                    return playerData;
+                }
+            }
+
+            return default;
+        }
+
+        private Color GetPlayerColor(int colorId)
+        {
+            return _playerColorArray[colorId];
+        }
+
+        private void ChangePlayerColor(int colorId)
+        {
+            ChangePlayerColorServerRpc(colorId);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ChangePlayerColorServerRpc(int colorId, ServerRpcParams serverRpcParams = default)
+        {
+            if (!IsColorAvailable(colorId)) {
+                return;
+            }
+
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.ColorId = colorId;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
+
+        private string GetPlayerName()
+        {
+            return _playerName;
+        }
+
+        private void SetPlayerName(string playerName)
+        {
+            // no dejar nombres vacios
+            if (playerName == string.Empty)
+                return;
+
+            _playerName = playerName;
+            // si sobra tiempo, refactorizar a un FuncSO y que el sistema de guardado sea externo
+            PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, playerName);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerNameServerRpc(string playerName, ServerRpcParams serverRpcParams = default)
+        {
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.PlayerName = playerName;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPlayerIdServerRpc(string playerId, ServerRpcParams serverRpcParams = default)
+        {
+            // get playerdata struct. We cannot modify directly the clientId in a NetworkList
+            int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+            PlayerData playerData = _playerDataNetworkList[playerDataIndex];
+
+            // set playerdata struct
+            playerData.PlayerId = playerId;
+            _playerDataNetworkList[playerDataIndex] = playerData;
+        }
+        #endregion
+
+        #region Color
+        private bool IsColorAvailable(int colorId)
+        {
+            foreach (PlayerData playerData in _playerDataNetworkList) {
+                if (playerData.ColorId == colorId) {
+                    // already in use
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private int GetFirstUnusedColorId()
+        {
+            for (int i = 0; i < _playerColorArray.Length; i++) {
+                if (IsColorAvailable(i)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+        #endregion
+
+        #region Minigame
+        // TODO: cambiar por sistema de pooling como extra
+        private void SpawnRoomObject(RoomObjectSO roomObjectSO, NetworkObjectReference roomObjectParentNORef)
+        {
+            SpawnRoomObjectServerRpc(GetRoomObjectSOIndex(roomObjectSO), roomObjectParentNORef);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SpawnRoomObjectServerRpc(int roomObjectSOIndex, NetworkObjectReference roomObjectParentNORef)
+        {
+            GameObject roomObjectGO = Instantiate(GetRoomObjectSOFromIndex(roomObjectSOIndex).RoomObjectPrefab);
+
+            NetworkObject roomObjectNO = roomObjectGO.GetComponent<NetworkObject>();
+            roomObjectNO.Spawn();
+
+            RoomObject roomObject = roomObjectGO.GetComponent<RoomObject>();
+
+            roomObjectParentNORef.TryGet(out NetworkObject roomObjectParentNO);
+            IRoomObjectParent roomObjectParent = roomObjectParentNO.GetComponent<IRoomObjectParent>();
+            roomObject.SetRoomObjectParent(roomObjectParent);
+        }
+
+        private int GetRoomObjectSOIndex(RoomObjectSO roomObjectSO)
+        {
+            return _allRoomObjectsSOListSO.RoomObjectsSO.IndexOf(roomObjectSO);
+        }
+
+        private RoomObjectSO GetRoomObjectSOFromIndex(int index)
+        {
+            return _allRoomObjectsSOListSO.RoomObjectsSO[index];
+        }
+        #endregion
+
+        #region NetworkCallbacks
+        private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
+            NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
+        {
+            string rejectedReason = string.Empty;
+
+            // server no está en characerselection
+            int numberOfActiveScenes = SceneManager.sceneCount;
+            string[] activeSceneNames = new string[numberOfActiveScenes];
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                activeSceneNames[i] = SceneManager.GetSceneAt(i).name;
+            }
+
+            if (!activeSceneNames.Contains(_characterSelectionSceneSO.name))
+            {
+                connectionApprovalResponse.Approved = false;
+                connectionApprovalResponse.Reason = "Game has already started!";
+
+                return;
+            }
+
+            connectionApprovalResponse.Approved = true;
+        }
+
+        /// <summary>
+        /// Only subscribed by the host
+        /// Host manages what to do when a client connects
+        /// </summary>
+        /// <param name="clientId">clientId that has connected</param>
+        private void NetworkManager_OnClientConnectedCallback(ulong clientId)
+        {
+            _playerDataNetworkList.Add(new PlayerData()
+            {
+                ClientId = clientId,
+                ColorId = GetFirstUnusedColorId(),
+                //PlayerName = _playerName,
+            });
+            SetPlayerNameServerRpc(GetPlayerName());
+        }
+
+        private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+        {
+            for (int i = 0; i < _playerDataNetworkList.Count; i++) {
+                PlayerData playerData = _playerDataNetworkList[i];
+                if (playerData.ClientId == clientId) {
+                    // Disconnected
+                    _playerDataNetworkList.RemoveAt(i);
+
+                    string playerId = playerData.PlayerId.ToString();
+                    _playerIdDisconnectedEvent.RaiseEvent(playerId);
+                }
+            }
+        }
+
+        private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
+        {
+            SetPlayerNameServerRpc(GetPlayerName());
+            SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+        }
+
+        private void NetworkManager_Client_OnClientDisconnectCallback(ulong obj)
+        {
+            _rejectedToServerEvent.RaiseEvent(NetworkManager.Singleton.DisconnectReason);
+        }
+        #endregion
     }
-    #endregion
 }

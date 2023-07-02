@@ -1,0 +1,18 @@
+{
+    "name": "FixingIt.Funcs.RoomObjectsSO",
+    "rootNamespace": "FixingIt.Funcs.RoomObjectsSO",
+    "references": [
+        "GUID:39a53fcf163849642bf3d091692f6a2c",
+        "GUID:283b35537e61caa4da56ec25fcff0660",
+        "GUID:a13465e875251c44e8b6dbe34f88ceb5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

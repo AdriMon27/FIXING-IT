@@ -1,42 +1,46 @@
+using ProgramadorCastellano.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIOptionsPanel : MonoBehaviour
+namespace FixingIt.UI.MainMenu
 {
-    [Header("Buttons")]
-    [SerializeField] private Button _screenSettingsButton;
-    [SerializeField] private Button _volumeSettingsButton;
-    [SerializeField] private Button _backButton;
-
-    public GameObject FirstSelected => _screenSettingsButton.gameObject;
-
-    [Header("Broadcasting To")]
-    [SerializeField]
-    private VoidEventChannelSO _screenSettingsPanelEvent;
-    [SerializeField]
-    private VoidEventChannelSO _audioSettingsPanelEvent;
-    [SerializeField]
-    private VoidEventChannelSO _mainMenuPanelEvent;
-
-    private void Start()
+    public class UIOptionsPanel : MonoBehaviour
     {
-        _screenSettingsButton.onClick.AddListener(ScreenSettingsButtonAction);
-        _volumeSettingsButton.onClick.AddListener(AudioSettingsButtonAction);
-        _backButton.onClick.AddListener(BackButtonAction);
-    }
+        [Header("Buttons")]
+        [SerializeField] private Button _screenSettingsButton;
+        [SerializeField] private Button _volumeSettingsButton;
+        [SerializeField] private Button _backButton;
 
-    private void ScreenSettingsButtonAction()
-    {
-        _screenSettingsPanelEvent.RaiseEvent();
-    }
+        public GameObject FirstSelected => _screenSettingsButton.gameObject;
 
-    private void AudioSettingsButtonAction()
-    {
-        _audioSettingsPanelEvent.RaiseEvent();
-    }
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private VoidEventChannelSO _screenSettingsPanelEvent;
+        [SerializeField]
+        private VoidEventChannelSO _audioSettingsPanelEvent;
+        [SerializeField]
+        private VoidEventChannelSO _mainMenuPanelEvent;
 
-    private void BackButtonAction()
-    {
-        _mainMenuPanelEvent.RaiseEvent();
+        private void Start()
+        {
+            _screenSettingsButton.onClick.AddListener(ScreenSettingsButtonAction);
+            _volumeSettingsButton.onClick.AddListener(AudioSettingsButtonAction);
+            _backButton.onClick.AddListener(BackButtonAction);
+        }
+
+        private void ScreenSettingsButtonAction()
+        {
+            _screenSettingsPanelEvent.RaiseEvent();
+        }
+
+        private void AudioSettingsButtonAction()
+        {
+            _audioSettingsPanelEvent.RaiseEvent();
+        }
+
+        private void BackButtonAction()
+        {
+            _mainMenuPanelEvent.RaiseEvent();
+        }
     }
 }

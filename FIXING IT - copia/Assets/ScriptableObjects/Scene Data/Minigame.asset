@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d7c14d69e406f246a680f1cb9866963, type: 3}
   m_Name: Minigame
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FixingIt.SceneManagement.ScriptableObjects:FixingIt.SceneManagement.ScriptableObjects:GameSceneSO
   _description: 
   _sceneReference:
     m_AssetGUID: b0a8e7be63efcf74aacda2d99d945106

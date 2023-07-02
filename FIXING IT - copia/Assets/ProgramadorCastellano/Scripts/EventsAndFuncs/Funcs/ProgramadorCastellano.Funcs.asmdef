@@ -1,0 +1,16 @@
+{
+    "name": "ProgramadorCastellano.Funcs",
+    "rootNamespace": "ProgramadorCastellano.Funcs",
+    "references": [
+        "GUID:39a53fcf163849642bf3d091692f6a2c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

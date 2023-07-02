@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Initialisation.unity
     guid: 90b528606e06d6a45a8ea38b89847737
   - enabled: 1
-    path: Assets/Scenes/PersistentManagers.unity
+    path: Assets/Scenes/LocalPersistentManagers.unity
     guid: 059074697698db74f99fc4a28795f6bf
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity

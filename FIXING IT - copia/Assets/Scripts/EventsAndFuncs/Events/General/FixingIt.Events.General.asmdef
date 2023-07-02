@@ -1,0 +1,22 @@
+{
+    "name": "FixingIt.Events.General",
+    "rootNamespace": "FixingIt.Events",
+    "references": [
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:39a53fcf163849642bf3d091692f6a2c",
+        "GUID:f1d564af88de86f4c96bc66bc695f2c5",
+        "GUID:6f08052231fa06a45900f1a97537e698",
+        "GUID:4c3f49d89436d478ea78315c03159dcc",
+        "GUID:328ff2d8b0875eb42b3365ecba03a0c0",
+        "GUID:e1edb5cad2e682a45bfa8585029397eb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

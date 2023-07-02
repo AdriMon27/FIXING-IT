@@ -1,49 +1,54 @@
+using ProgramadorCastellano.Events;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILobbiesScrollAreaItem : MonoBehaviour
+namespace FixingIt.UI.LobbySelection
 {
-    private Button _lobbyButton;
-
-    [SerializeField] private TextMeshProUGUI _lobbyName;
-    [SerializeField] private TextMeshProUGUI _lobbyNumberOfPeople;
-
-    private Lobby _lobby;
-
-    [Header("Broadcasting To")]
-    [SerializeField]
-    private StringEventChannelSO _joinLobbyByIdEvent;
-
-    private void Awake()
+    public class UILobbiesScrollAreaItem : MonoBehaviour
     {
-        _lobbyButton = GetComponent<Button>();
+        private Button _lobbyButton;
 
-        _lobbyButton.onClick.AddListener(JoinLobbyById);
-    }
+        [SerializeField] private TextMeshProUGUI _lobbyName;
+        [SerializeField] private TextMeshProUGUI _lobbyNumberOfPeople;
 
-    private void JoinLobbyById()
-    {
-        if (_lobby == null) {
-            Debug.LogError("This Item hasn´t got a lobby!!!");
-            return;
+        private Lobby _lobby;
+
+        [Header("Broadcasting To")]
+        [SerializeField]
+        private StringEventChannelSO _joinLobbyByIdEvent;
+
+        private void Awake()
+        {
+            _lobbyButton = GetComponent<Button>();
+
+            _lobbyButton.onClick.AddListener(JoinLobbyById);
         }
 
-        string lobbyId = _lobby.Id;
+        private void JoinLobbyById()
+        {
+            if (_lobby == null)
+            {
+                Debug.LogError("This Item hasn´t got a lobby!!!");
+                return;
+            }
 
-        _joinLobbyByIdEvent.RaiseEvent(lobbyId);
-    }
+            string lobbyId = _lobby.Id;
 
-    /// <summary>
-    /// Function that must be called after creating a UILobbiesScrollAreaItem.
-    /// </summary>
-    /// <param name="lobby">Lobby that the new object will be related to</param>
-    public void SetLobby(Lobby lobby)
-    {
-        _lobby = lobby;
+            _joinLobbyByIdEvent.RaiseEvent(lobbyId);
+        }
 
-        _lobbyName.text = _lobby.Name;
-        _lobbyNumberOfPeople.text = $"{_lobby.Players.Count}/{_lobby.MaxPlayers}";
+        /// <summary>
+        /// Function that must be called after creating a UILobbiesScrollAreaItem.
+        /// </summary>
+        /// <param name="lobby">Lobby that the new object will be related to</param>
+        public void SetLobby(Lobby lobby)
+        {
+            _lobby = lobby;
+
+            _lobbyName.text = _lobby.Name;
+            _lobbyNumberOfPeople.text = $"{_lobby.Players.Count}/{_lobby.MaxPlayers}";
+        }
     }
 }

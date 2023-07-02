@@ -1,53 +1,57 @@
+using ProgramadorCastellano.Events;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputController : MonoBehaviour
+namespace FixingIt.InputSystem
 {
-    [SerializeField] private InputReaderSO _inputReaderSO;
-    [SerializeField, Range(0f, 0.3f)]
-    [Tooltip("0.3f at minimum TweenSpeed (1000) \nInverse Linear relation")]
-    private float _secondsToWaitInTweens = 0.3f;
-
-    // reference to enable it again
-    private EventSystem _currentEventSystem;
-
-    [Header("Listening To")]
-    [SerializeField]
-    private VoidEventChannelSO _onStartedLTSeqEvent;
-    [SerializeField]
-    private GameObjectEventChannelSO _onCompletedLTSeqEvent;
-
-    private void OnEnable()
+    public class InputController : MonoBehaviour
     {
-        _onStartedLTSeqEvent.OnEventRaised += DisableAllInput;
-        _onCompletedLTSeqEvent.OnEventRaised += WaitAndEnableMenuInput;
-    }
+        [SerializeField] private InputReaderSO _inputReaderSO;
+        [SerializeField, Range(0f, 0.3f)]
+        [Tooltip("0.3f at minimum TweenSpeed (1000) \nInverse Linear relation")]
+        private float _secondsToWaitInTweens = 0.3f;
 
-    private void OnDisable()
-    {
-        _onStartedLTSeqEvent.OnEventRaised -= DisableAllInput;
-        _onCompletedLTSeqEvent.OnEventRaised -= WaitAndEnableMenuInput;
-    }
+        // reference to enable it again
+        private EventSystem _currentEventSystem;
 
-    private void DisableAllInput()
-    {
-        _currentEventSystem = EventSystem.current;
+        [Header("Listening To")]
+        [SerializeField]
+        private VoidEventChannelSO _onStartedLTSeqEvent;
+        [SerializeField]
+        private GameObjectEventChannelSO _onCompletedLTSeqEvent;
 
-        _inputReaderSO.DisableAllInput();
-    }
+        private void OnEnable()
+        {
+            _onStartedLTSeqEvent.OnEventRaised += DisableAllInput;
+            _onCompletedLTSeqEvent.OnEventRaised += WaitAndEnableMenuInput;
+        }
 
-    private void WaitAndEnableMenuInput(GameObject newSelectedGO)
-    {
-        StartCoroutine(EnableMenuInput(newSelectedGO));
-    }
+        private void OnDisable()
+        {
+            _onStartedLTSeqEvent.OnEventRaised -= DisableAllInput;
+            _onCompletedLTSeqEvent.OnEventRaised -= WaitAndEnableMenuInput;
+        }
 
-    private IEnumerator EnableMenuInput(GameObject newSelectedGO)
-    {
-        yield return new WaitForSeconds(_secondsToWaitInTweens);  //necessary wait at minimum speed of tweens (1000)
+        private void DisableAllInput()
+        {
+            _currentEventSystem = EventSystem.current;
 
-        _currentEventSystem.SetSelectedGameObject(newSelectedGO);
+            _inputReaderSO.DisableAllInput();
+        }
 
-        _inputReaderSO.EnableMenuInput();
+        private void WaitAndEnableMenuInput(GameObject newSelectedGO)
+        {
+            StartCoroutine(EnableMenuInput(newSelectedGO));
+        }
+
+        private IEnumerator EnableMenuInput(GameObject newSelectedGO)
+        {
+            yield return new WaitForSeconds(_secondsToWaitInTweens);  //necessary wait at minimum speed of tweens (1000)
+
+            _currentEventSystem.SetSelectedGameObject(newSelectedGO);
+
+            _inputReaderSO.EnableMenuInput();
+        }
     }
 }

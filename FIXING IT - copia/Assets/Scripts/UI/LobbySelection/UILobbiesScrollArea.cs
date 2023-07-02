@@ -1,46 +1,55 @@
+using FixingIt.Events;
 using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-public class UILobbiesScrollArea : MonoBehaviour
+namespace FixingIt.UI.LobbySelection
 {
-    [SerializeField] private Transform _lobbyTemplate;
-    [SerializeField] private Transform _lobbyContainer;
-
-    [Header("Listening To")]
-    [SerializeField]
-    private LobbiesChannelSO _lobbiesListedEvent;
-
-    private void Awake()
+    public class UILobbiesScrollArea : MonoBehaviour
     {
-        _lobbyTemplate.gameObject.SetActive(false);
-    }
+        [SerializeField] private Transform _lobbyTemplate;
+        [SerializeField] private Transform _lobbyContainer;
+        [SerializeField] private GameObject _noLobbiesText;
 
-    private void OnEnable()
-    {
-        _lobbiesListedEvent.OnEventRaised += UpdateLobbiesList;
-    }
+        [Header("Listening To")]
+        [SerializeField]
+        private LobbiesChannelSO _lobbiesListedEvent;
 
-    private void OnDisable()
-    {
-        _lobbiesListedEvent.OnEventRaised -= UpdateLobbiesList;
-    }
-
-    private void UpdateLobbiesList(List<Lobby> lobbies)
-    {
-        // Destroy all childs except template
-        foreach (Transform child in _lobbyContainer) {
-            if (child == _lobbyTemplate)
-                continue;
-
-            Destroy(child.gameObject);
+        private void Awake()
+        {
+            _lobbyTemplate.gameObject.SetActive(false);
         }
 
-        // Create a new child for each lobby
-        foreach (Lobby lobby in lobbies) {
-            Transform lobbyItemTransform = Instantiate(_lobbyTemplate, _lobbyContainer);
-            lobbyItemTransform.gameObject.SetActive(true);
-            lobbyItemTransform.GetComponent<UILobbiesScrollAreaItem>().SetLobby(lobby);
+        private void OnEnable()
+        {
+            _lobbiesListedEvent.OnEventRaised += UpdateLobbiesList;
+        }
+
+        private void OnDisable()
+        {
+            _lobbiesListedEvent.OnEventRaised -= UpdateLobbiesList;
+        }
+
+        private void UpdateLobbiesList(List<Lobby> lobbies)
+        {
+            _noLobbiesText.SetActive(lobbies.Count == 0);
+
+            // Destroy all childs except template
+            foreach (Transform child in _lobbyContainer)
+            {
+                if (child == _lobbyTemplate)
+                    continue;
+
+                Destroy(child.gameObject);
+            }
+
+            // Create a new child for each lobby
+            foreach (Lobby lobby in lobbies)
+            {
+                Transform lobbyItemTransform = Instantiate(_lobbyTemplate, _lobbyContainer);
+                lobbyItemTransform.gameObject.SetActive(true);
+                lobbyItemTransform.GetComponent<UILobbiesScrollAreaItem>().SetLobby(lobby);
+            }
         }
     }
 }

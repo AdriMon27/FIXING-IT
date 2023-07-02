@@ -1,15 +1,36 @@
+using FixingIt.GameLobby;
+using FixingIt.Multiplayer;
+using FixingIt.SceneManagement.Logic;
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Code made to clean unnecesary managers in MainMenu
-/// </summary>
-public class MainMenuCleanUp : MonoBehaviour
+namespace FixingIt.MainMenu
 {
-    private void Awake()
+    public class MainMenuCleanUp : MonoBehaviour
     {
-        if (NetworkManager.Singleton != null) {
-            Destroy(NetworkManager.Singleton.gameObject);
+        // Code made to clean unnecesary network managers in MainMenu
+        // All of them are loaded again at LobbySelection
+        private void Awake()
+        {
+            if (NetworkManager.Singleton != null)
+            {
+                Destroy(NetworkManager.Singleton.gameObject);
+            }
+
+            if (NetworkSceneLoader.Instance != null)
+            {
+                Destroy(NetworkSceneLoader.Instance.gameObject);
+            }
+
+            if (LobbyManager.Instance != null)
+            {
+                Destroy(LobbyManager.Instance.gameObject);
+            }
+
+            if (FixingGameMultiplayer.Instance != null)
+            {
+                Destroy(FixingGameMultiplayer.Instance.gameObject);
+            }
         }
     }
 }
