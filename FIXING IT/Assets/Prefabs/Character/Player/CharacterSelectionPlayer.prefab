@@ -452,8 +452,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278648576
+  m_fontColor: {r: 0, g: 1, b: 0.02256751, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -566,12 +566,12 @@ PrefabInstance:
     - target: {fileID: 4415197628786435240, guid: 383770e5e92e56144af4e5b54a50f1df,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0.32
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4415197628786435240, guid: 383770e5e92e56144af4e5b54a50f1df,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0.32
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4415197628786435240, guid: 383770e5e92e56144af4e5b54a50f1df,
         type: 3}
@@ -647,7 +647,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9aa4348290784b2468144a97eb15d8d7,
+      objectReference: {fileID: 21300000, guid: 251b72db5747f7449bcb5049c3bf2614,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
