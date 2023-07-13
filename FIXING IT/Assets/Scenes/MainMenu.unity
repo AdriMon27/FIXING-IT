@@ -385,6 +385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfeb8ffd39cb43e478a69d39f896bdef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _networkScenes:
+  - {fileID: 11400000, guid: 4363647b31354c04ab2b46d86fc95b7b, type: 2}
+  - {fileID: 11400000, guid: 964b7db7013102e49a768ae6985acc6f, type: 2}
 --- !u!4 &1034296254
 Transform:
   m_ObjectHideFlags: 0
