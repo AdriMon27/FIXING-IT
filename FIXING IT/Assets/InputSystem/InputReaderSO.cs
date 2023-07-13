@@ -118,6 +118,11 @@ namespace FixingIt.InputSystem
                 MenuNavigationEvent.Invoke(context.ReadValue<Vector2>());
             }
         }
+
+        public void OnClick(InputAction.CallbackContext context)
+        {
+            //throw new System.NotImplementedException();
+        }
         #endregion
     }
 }
