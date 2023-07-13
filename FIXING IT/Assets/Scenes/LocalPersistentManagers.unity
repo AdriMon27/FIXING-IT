@@ -412,11 +412,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1383658236765035280, guid: 3c91faea7f1c1374ab1bb1b826600037,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e9cbfa6c3b1999469cbe0c136f2c7a8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -528,8 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainAudioMixerSO: {fileID: 11400000, guid: 44c32598fb6ada349bda9d3d5d44914d, type: 2}
-  _sfxClipsSO: {fileID: 11400000, guid: 1211b559a4deb284d8658d9653875bc8, type: 2}
-  _sceneLoadedEvent: {fileID: 11400000, guid: 89677e0ba0d3f73458af243467382bd0, type: 2}
+  _sfxClipsSO: {fileID: 11400000, guid: 634e8ae387f05d44a9bd9b02cfa938d3, type: 2}
   _generalNormalVolumeChannel: {fileID: 11400000, guid: aa43522ad35dd8546b466f192f229fb8,
     type: 2}
   _musicNormalVolumeChannel: {fileID: 11400000, guid: 3cfa4584f08af024c87669751bbfd31d,

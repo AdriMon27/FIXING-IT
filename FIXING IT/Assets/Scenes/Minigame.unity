@@ -5965,7 +5965,7 @@ MonoBehaviour:
   _levelToolRecipeManagerSO: {fileID: 11400000, guid: f7ad56d3079be5340b6065b8ac0c1e62,
     type: 2}
   _baseTransformToSpawn: {fileID: 184513022}
-  _playerPrefab: {fileID: 6620724926113232095, guid: 80a2170d3be9aa141b845eeffcf509c4,
+  _playerPrefab: {fileID: 6141247627739932942, guid: 80a2170d3be9aa141b845eeffcf509c4,
     type: 3}
   _playerSpawnPositions:
   - {fileID: 1256011486}
@@ -5975,7 +5975,7 @@ MonoBehaviour:
   _waitingToStartTimerMax: 5
   _gameplayTimerMax: 120
   _customerSpawnerTimerMax: 10
-  _customerPrefab: {fileID: 6781459996236134245, guid: 38d727d4b1ccaf343bab71140712585d,
+  _customerPrefab: {fileID: 681203846229131383, guid: 38d727d4b1ccaf343bab71140712585d,
     type: 3}
   _customerStartPosition: {fileID: 690797976}
   _customerCounters:

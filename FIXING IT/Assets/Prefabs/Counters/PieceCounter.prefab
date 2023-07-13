@@ -44,7 +44,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5756242860221109785, guid: 3c91faea7f1c1374ab1bb1b826600037,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 23088ec9efd02c34e8d5175fa293f8d3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ce143ec6e1e2e0a488005d9eaeac6e5f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -150,6 +150,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4846377229552952068, guid: e490e357aeebc2d4e9220889f0d4d049,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 1172372634974544958, guid: e490e357aeebc2d4e9220889f0d4d049,
         type: 3}
       propertyPath: m_RootOrder
@@ -261,8 +266,6 @@ MonoBehaviour:
   _roomObjectSO: {fileID: 11400000, guid: 9afe81ad3f8c3a6459df64e0c3ad2712, type: 2}
   _pieceCounterVisualComp: {fileID: 8493201752336090268}
   _audioComp: {fileID: 102947161546041074}
-  _pieceCounterUsedEvent: {fileID: 11400000, guid: d218b9946f7397e44869266212c1c67f,
-    type: 2}
 --- !u!1001 &6836967143096766232
 PrefabInstance:
   m_ObjectHideFlags: 0
