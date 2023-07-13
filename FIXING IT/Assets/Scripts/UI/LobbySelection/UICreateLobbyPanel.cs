@@ -32,6 +32,9 @@ namespace FixingIt.UI.LobbySelection
             string lobbyName = _lobbyNameInputField.text;
             bool isPrivate = _lobbyPrivateToggle.isOn;
 
+            if (lobbyName == string.Empty)
+                lobbyName = "DefaultName";
+
             _createLobbyChannel.RaiseEvent(lobbyName, isPrivate);
         }
 

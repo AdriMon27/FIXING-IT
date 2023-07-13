@@ -20,7 +20,7 @@ namespace FixingIt.SceneManagement.Logic
         {
             _managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive).Completed += LoadMainMenu;
 
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void LoadMainMenu(AsyncOperationHandle<SceneInstance> obj)
