@@ -6,16 +6,17 @@ namespace FixingIt.UI.Minigame
 {
     public class UIManualItem : MonoBehaviour
     {
+        [SerializeField] Sprite _emptyPNG;
         [SerializeField] Image _toolImage;
         [SerializeField] Image[] _piecesImages;
 
         public void InitManualItem(ToolRecipeSO toolRecipeSO)
         {
             // clear all images
-            _toolImage.sprite = null;
+            _toolImage.sprite = _emptyPNG;
 
             foreach (Image image in _piecesImages) {
-                image.sprite = null;
+                image.sprite = _emptyPNG;
             }
 
             // set all images

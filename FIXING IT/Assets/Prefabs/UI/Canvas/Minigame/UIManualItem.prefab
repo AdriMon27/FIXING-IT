@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba9298dd75670044bfed14f45764e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _emptyPNG: {fileID: 21300000, guid: a547b9e85fe7f4d489ac2491ca47f421, type: 3}
   _toolImage: {fileID: 1124221749091986985}
   _piecesImages:
   - {fileID: 5103913361977145522}

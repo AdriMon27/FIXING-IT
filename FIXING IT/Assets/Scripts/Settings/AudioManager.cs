@@ -62,6 +62,20 @@ namespace FixingIt.Settings
             _roomObjectBrokenAfterUseEvent.OnEventRaised -= PlayRoomObjectBrokenSound;
         }
 
+        private void Start()
+        {
+            float normalMaster = PlayerPrefs.GetFloat(GENERAL_VOLUME, 0.8f);
+            float normalMusic = PlayerPrefs.GetFloat(MUSIC_VOLUME, 0.8f);
+            float normalSFX = PlayerPrefs.GetFloat(SFX_VOLUME, 0.8f);
+            NormalizeVolume(ref normalMaster);
+            NormalizeVolume(ref normalMusic);
+            NormalizeVolume(ref normalSFX);
+
+            SetGeneralVolume(normalMaster);
+            SetMusicVolume(normalMusic);
+            SetSFXVolume(normalSFX);
+        }
+
         private AudioNormalVolumes GetAllNormalVolumes()
         {
             float general, music, sfx;
@@ -81,18 +95,21 @@ namespace FixingIt.Settings
         {
             float volume = DeNormalizedVolume(normalizedVolume);
             _mainAudioMixerSO.Mixer.SetFloat(GENERAL_VOLUME, volume);
+            PlayerPrefs.SetFloat(GENERAL_VOLUME, volume);
         }
 
         private void SetMusicVolume(float normalizedVolume)
         {
             float volume = DeNormalizedVolume(normalizedVolume);
             _mainAudioMixerSO.Mixer.SetFloat(MUSIC_VOLUME, volume);
+            PlayerPrefs.SetFloat(MUSIC_VOLUME, volume);
         }
 
         private void SetSFXVolume(float normalizedVolume)
         {
             float volume = DeNormalizedVolume(normalizedVolume);
             _mainAudioMixerSO.Mixer.SetFloat(SFX_VOLUME, volume);
+            PlayerPrefs.SetFloat(SFX_VOLUME, volume);
         }
         #endregion
 
