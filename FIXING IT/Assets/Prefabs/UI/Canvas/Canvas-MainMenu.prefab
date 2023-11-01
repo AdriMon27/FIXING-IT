@@ -190,7 +190,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -429, y: 0}
-  m_SizeDelta: {x: 500, y: 816.08}
+  m_SizeDelta: {x: 500, y: 626.08}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &6960873803486855674
 MonoBehaviour:
@@ -590,8 +590,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -65}
+  m_SizeDelta: {x: 0, y: -270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4592340431628229550
 CanvasRenderer:
@@ -798,8 +798,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -65}
+  m_SizeDelta: {x: 0, y: -270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4592340431776634691
 CanvasRenderer:
@@ -933,7 +933,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -429, y: 0}
-  m_SizeDelta: {x: 500, y: 816.08}
+  m_SizeDelta: {x: 500, y: 611.68}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &4592340431985065246
 MonoBehaviour:
@@ -1584,7 +1584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4592340433246506275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3224,7 +3224,7 @@ PrefabInstance:
     - target: {fileID: 9199597611198124698, guid: 53e5693de3168a44782019a8d6aa0493,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -556.31323
+      value: -413.81323
       objectReference: {fileID: 0}
     - target: {fileID: 9199597611198124698, guid: 53e5693de3168a44782019a8d6aa0493,
         type: 3}
@@ -3380,7 +3380,7 @@ PrefabInstance:
     - target: {fileID: 8484456443505719394, guid: 5cb874a2ed4acc44bb87572f509b5533,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -198.27325
+      value: -150.77325
       objectReference: {fileID: 0}
     - target: {fileID: 8484456443505719394, guid: 5cb874a2ed4acc44bb87572f509b5533,
         type: 3}

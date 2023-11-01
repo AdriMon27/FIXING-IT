@@ -2,6 +2,7 @@ using FixingIt.InputSystem;
 using ProgramadorCastellano.Events;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace FixingIt.UI.MainMenu
 {
@@ -310,7 +311,7 @@ namespace FixingIt.UI.MainMenu
             sequence.append(
                 LeanTween.move(
                     rectTransform,
-                    Vector2.zero,
+                    new Vector2(0f, -65f),
                     CalculateTime(rectTransform.rect.height + _offset)
                 )
                 .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_screenSettingsPanel.FirstSelected))
@@ -355,7 +356,7 @@ namespace FixingIt.UI.MainMenu
             sequence.append(
                 LeanTween.move(
                     rectTransform,
-                    Vector2.zero,
+                    new Vector2(0f, -65f),
                     CalculateTime(rectTransform.rect.height + _offset)
                 )
                 .setOnComplete(() => _onCompletedLTSeqEvent.RaiseEvent(_audioSettingsPanel.FirstSelected))
