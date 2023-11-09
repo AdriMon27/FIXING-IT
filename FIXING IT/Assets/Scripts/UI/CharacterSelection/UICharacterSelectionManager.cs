@@ -55,7 +55,7 @@ namespace FixingIt.UI.CharacterSelection
             _readyButton.onClick.AddListener(ReadyButtonAction);
             _mainMenuButton.onClick.AddListener(MainMenuButtonAction);
 
-            _readyText.text = NOT_READY;
+            _readyText.text = READY;
 
             HideLeaveToMainMenuPopup();
             SetLobbyText();
