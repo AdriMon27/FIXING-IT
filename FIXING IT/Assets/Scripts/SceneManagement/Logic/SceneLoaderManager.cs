@@ -88,10 +88,17 @@ namespace FixingIt.SceneManagement.Logic
         private void LoadNewScene()
         {
             // load scene
-            var loadingOperationHandle = _sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
-            loadingOperationHandle.Completed += OnNewSceneLoaded;
+            Debug.Log($"Loading scene: {_sceneToLoad.name}");
 
-            _isCurrentSceneNetwork = false;
+            try {
+                var loadingOperationHandle = _sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
+                loadingOperationHandle.Completed += OnNewSceneLoaded;
+                _isCurrentSceneNetwork = false;
+            }
+            catch (Exception e){
+                Debug.LogError(e);
+            }
+
         }
 
         private void OnNewSceneLoaded(AsyncOperationHandle<SceneInstance> obj)
@@ -104,6 +111,7 @@ namespace FixingIt.SceneManagement.Logic
             //LightProbes.TetrahedralizeAsync(); //not necessary
 
             // send event
+            Debug.Log($"Loaded Scene: {_currentSceneLoaded.name}");
             _sceneLoadedEvent.RaiseEvent();
         }
         #endregion
